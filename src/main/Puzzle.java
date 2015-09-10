@@ -61,11 +61,67 @@ public class Puzzle
 			cells[c.pos.x][c.pos.y] = c.value;
 		}
 	}
-	public boolean check()
+	/*
+	 * @returns true if all the rows pass the checks.
+	 */
+	public boolean checkRows()
 	{
+		boolean passed = true;
+		ArrayList<Integer> rowValues = new ArrayList<>();
+		for(int x = 0; x < (unitWidth * unitHeight); x++)
+		{
+			for(int y = 0; y < (unitWidth * unitHeight); y++ )
+			{
+				rowValues.add(cells[x][y]);
+			}
+			if(!Validators.checkRow(rowValues))
+			{
+				passed = false;
+			}
+		}
+		return passed;
 		
-		//If we reach here the instance is valid.
-		return true;
 	}
+	/*
+	 * @returns true if all the columns pass the checks.
+	 */
+	public boolean checkColumns()
+	{
+		boolean passed = true;
+		ArrayList<Integer> columnValues = new ArrayList<>();
+		for(int y = 0; y < (unitWidth * unitHeight); y++)
+		{
+			for(int x = 0; x < (unitWidth * unitHeight); x++ )
+			{
+				columnValues.add(cells[x][y]);
+			}
+			if(!Validators.checkRow(columnValues))
+			{
+				passed = false;
+			}
+		}
+		return passed;
+		
+	}
+	public boolean checkSections()
+	{
+		boolean passed = true;
+		ArrayList<Integer> section = new ArrayList<>();
+		int dimension = unitHeight * unitWidth;
+		
+		
+		for(int width = 0; width < unitWidth - 1; width++)
+		{
+			for(int height = 0; height < unitHeight - 1; height++)
+			{
+				section.add(cells[width][height]);
+			}
+			
+		}
+		
+		
+		return passed;
+	}
+	
 	
 }
