@@ -110,13 +110,21 @@ public class Puzzle
 		int dimension = unitHeight * unitWidth;
 		
 		
-		for(int width = 0; width < unitWidth - 1; width++)
+		//Inefficient as hell...
+		for(int width = 0; width < dimension; width = width + unitWidth)
 		{
-			for(int height = 0; height < unitHeight - 1; height++)
+			for(int height = 0; height < dimension; height = height + unitHeight)
 			{
-				section.add(cells[width][height]);
+				section = new ArrayList<>();
+				for(int innerWidth = 0; innerWidth < unitWidth; innerWidth++)
+				{
+					for(int innerHeight = 0; innerHeight < unitHeight; innerHeight++)
+					{
+						section.add(cells[width+innerWidth][height+innerHeight]);
+					}
+				}
+				//passed = Validators.checkSection(section);
 			}
-			
 		}
 		
 		
