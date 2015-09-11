@@ -34,15 +34,14 @@ public class FileData {
 			String nextLine = in.readLine();
 
 			while(nextLine != null) {
-				//System.out.println(nextLine);
 
-				// matches a comment format
+				// COMMENTS
 				if (nextLine.matches("^c(\\s+).*")){
 					String[] comment = nextLine.split("^c(\\s+)"); // removes the "c" when added to the comment array
 					comments.add(comment[1]);
 				}
 
-				// first two numbers are the height and width
+				// DIMENSIONS
 				else if (nextLine.matches("^[1-9]$")){
 					if (width == 0) {
 						width = new Integer(nextLine);
@@ -54,7 +53,7 @@ public class FileData {
 					}
 				}
 
-				// matches the pattern 
+				// PUZZLE DATA
 				else if (nextLine.matches("^[1-9\\s]+$")){
 
 					String[] arrayOfIntegers = nextLine.split("\\s"); // splits the string of digits by each space
@@ -72,7 +71,9 @@ public class FileData {
 				}
 				nextLine = in.readLine();
 			}
-			in.close();
+			
+			in.close(); // close the stream
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("File was not found!");
 			e.printStackTrace();

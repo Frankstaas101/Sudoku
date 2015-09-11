@@ -2,8 +2,8 @@ c This is a test comment
 
 -- The first two numbers that are by them selves on a line will be considered the WIDTH and the HEIGHT 
 3
-3
--- The program will only account for the first (WIDTH x HIEGHT) numbers after that to be apart of the puzzle, everything else is ignored after that unless its a comment.
+2
+-- The program will only account for the first (WIDTH x HIEGHT)^2 numbers after that to be apart of the puzzle, everything else is ignored after that unless its a comment.
 
 1 2 3 4 
 5 6 7 8 
