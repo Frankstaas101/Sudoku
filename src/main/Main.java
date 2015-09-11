@@ -7,11 +7,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		FileData fd = new FileData();
-		fd.readFile(new File("/Users/frank/Desktop/Repositories/Sudoku/src/main/test.txt"));
+		fd.readFile(new File("src/main/test.txt"));
 		
 		// Proving comments are being placed into the array
-		for (String s : fd.comments){
-			System.out.println("Comment: " + s);
-		}
+		fd.printDimensions();
+		fd.printComments();
+		fd.printPuzzle();
 	}
 }
