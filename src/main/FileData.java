@@ -10,21 +10,26 @@ import java.util.HashMap;
 
 public class FileData {
 
-	protected int width = 0;
-	protected int height = 0;
-	protected int dimension = 0;
-	protected double maxCells = 0;
-	protected int cellLocation = 0; // possibly make this a dimension?
+	protected int width = 0; // width of each big square
+	protected int height = 0; // height of each big square
+	protected int dimension = 0; // the dimensions of the puzzle width * height
+	protected double maxCells = 0; // maximum amount of cells base off the dimensions of the puzzle
+	protected int cellLocation = 0; // location of the cell (0 - maxCells)
 	protected ArrayList<String> comments = new ArrayList<String>();
 	protected HashMap<Integer, Integer> puzzle = new HashMap<Integer, Integer>();
 
-	public FileData() {
+	public FileData() { }
 
-	}
-
-	public void readFile(File name){
+	/**
+	 * Reads the file and parses all the data with regular expressions
+	 * and string splits to store it all into the protected variables
+	 * for later use.
+	 * @param file the text file containing the information about the Suduko puzzle.
+	 */
+	public void readFile(File file){
+		
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(name));
+			BufferedReader in = new BufferedReader(new FileReader(file));
 
 			String nextLine = in.readLine();
 
@@ -67,13 +72,14 @@ public class FileData {
 				}
 				nextLine = in.readLine();
 			}
+			in.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File was not found!");
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("There was a problem with reading the file!");
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	/**
