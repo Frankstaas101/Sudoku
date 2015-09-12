@@ -1,14 +1,20 @@
 package main;
 
-public class Cell {
+import main.Position;
+
+/*
+ * A cell has a value and a position
+ */
+public class Cell 
+{
+	protected int value;
+	protected Position pos;
 	
-	private int row; // the row the number is in
-	private int column; // the column the number is in
-	private int box; // the box the number is in
-	
-	public Cell(int row, int column, int box){
-		this.row = row;
-		this.column = column;
-		this.box = box;
+	public Cell(int value, Position pos)
+	{
+		this.value = value;
+		this.pos = pos;
 	}
+	
+	//no setters and getters since we have package access.
 }
