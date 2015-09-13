@@ -97,7 +97,7 @@ public class Puzzle_TESTING
 		{
 			for(int j = 0; j < dimension; j++)  // every cell in that column
 			{
-				System.out.print(cells.get((j * dimension) + i).value + " ");
+				//System.out.print(cells.get((j * dimension) + i).value + " ");
 				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); // if there is a duplicate value it will be over written
 			}
 			if (!(colCheckingHash.size() == dimension)) { // if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
