@@ -7,11 +7,23 @@ public class Main {
 
 	public static void main(String[] args) {
 		FileData fd = new FileData();
-		fd.readFile(new File("src/main/test.txt"));
+		
+		try {
+			fd.readFile(new File("src/main/test.txt"));
+			fd.printDimensions();
+			fd.printComments();
+			fd.printPuzzle();
+			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}
 		
 		// Proving comments are being placed into the array
-		fd.printDimensions();
-		fd.printComments();
-		fd.printPuzzle();
+		
+		
+	
 	}
 }

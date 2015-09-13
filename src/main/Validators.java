@@ -6,6 +6,7 @@ public class Validators {
 	
 	public static boolean checkRow(ArrayList<Integer> row){
 		//TODO: Logic code for validation of the row here
+		
 		return true; // if the check is successful
 	}
 	
