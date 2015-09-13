@@ -14,6 +14,7 @@ public class Main {
 			fd.printComments();
 			fd.printPuzzle();
 			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+			puzzle.check();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

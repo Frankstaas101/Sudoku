@@ -5,10 +5,10 @@ c This is a test comment
 2
 -- The program will only account for the first (WIDTH x HIEGHT)^2 numbers after that to be apart of the puzzle, everything else is ignored after that unless its a comment.
 
+3 2 1 4
 0 2 1 0
-0 1 3 0
 2 3 0 1
-0 0 1 0
+1 2 3 0
 
 -- this is all ignored in the file read (change the dimensions between 2 2 and 3 3 to see the difference)
 8 9
