@@ -23,8 +23,7 @@ public class BruteSolver
 			return cells;
 		}
 		cells = increment(0, cells);
-		
-		
+
 		return cells;
 	}
 	

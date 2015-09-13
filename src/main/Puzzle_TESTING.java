@@ -40,7 +40,7 @@ public class Puzzle_TESTING
 			int cellValue = puzzle.get(i);
 			cells.add(new Cell(cellValue, i));
 			if(cellValue == 0)
-				unAssignedCells.add(new Cell(i, cellValue));
+				unAssignedCells.add(new Cell(cellValue, i));
 		}
 
 		for (int j = 1; j <= dimension; j ++) {
