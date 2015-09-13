@@ -23,6 +23,7 @@ public class Puzzle_TESTING
 	protected int dimension;
 
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
+	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();		//All the unassigned cells
 
 	/*
 	 * An instance receives a width and a height.
@@ -36,7 +37,10 @@ public class Puzzle_TESTING
 		this.dimension = width * height;
 
 		for (int i = 0; i < Math.pow(dimension, 2); i++) {
-			cells.add(new Cell(puzzle.get(i), i));
+			int cellValue = puzzle.get(i);
+			cells.add(new Cell(cellValue, i));
+			if(cellValue == 0)
+				unAssignedCells.add(new Cell(i, cellValue));
 		}
 
 		for (int j = 1; j <= dimension; j ++) {
@@ -108,5 +112,17 @@ public class Puzzle_TESTING
 		}
 
 		return passed;
+	}
+	/*
+	 * Set the desired Cell values.
+	 */
+	public void setValues(ArrayList<Cell> cs)
+	{
+		//Iterate through all the cells
+		for(Cell c: cs)
+		{
+			//Change the value of the cells we want.
+			cells.get(c.pos).value = c.value;
+		}
 	}
 }
