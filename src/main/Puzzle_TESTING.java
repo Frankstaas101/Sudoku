@@ -71,7 +71,7 @@ public class Puzzle_TESTING
 	 */
 	public boolean check()
 	{
-		boolean passed = true;
+		boolean passed = true; 
 		HashMap<Integer, Integer> rowCheckingHash = new HashMap<Integer, Integer>(); 
 		HashMap<Integer, Integer> colCheckingHash = new HashMap<Integer, Integer>(); 
 
@@ -96,17 +96,17 @@ public class Puzzle_TESTING
 		for(int i = 0; i < dimension; i++)  // Every column
 		{
 			for(int j = 0; j < dimension; j++)  // every cell in that column
-			{
-				//System.out.print(cells.get((j * dimension) + i).value + " ");
-				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); // if there is a duplicate value it will be over written
+			{	// if there is a duplicate value in the column it will be over written
+				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); 
 			}
-			if (!(colCheckingHash.size() == dimension)) { // if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
+			// If the colCheckingHash does not contains the same amount of numbers as the dimension of the puzzle then
+			// a value has been over written because it was a duplicate thus making the table invalid.
+			if (!(colCheckingHash.size() == dimension)) {  
 				System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
 				passed = false;
 			}
 			colCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
 		}
-
 		return passed;
 	}
 }
