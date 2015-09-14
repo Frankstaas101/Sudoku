@@ -18,13 +18,14 @@ public class Main {
 			{
 				//Set the unAssignedCells
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells));
-				puzzle.check();
+				//puzzle.printPuzzle();
+				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
 			}
+			System.out.println("Solved!");
+			puzzle.printPuzzle();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.toString());
-			e.printStackTrace();
+			System.err.println("File Reader Error or no solution found!");
 		}
 		
 		// Proving comments are being placed into the array

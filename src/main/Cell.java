@@ -16,5 +16,10 @@ public class Cell
 		this.pos = pos;
 	}
 	
+	public String toString()
+	{
+		return "" + value;
+	}
+	
 	//no setters and getters since we have package access.
 }
