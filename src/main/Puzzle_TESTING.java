@@ -81,7 +81,7 @@ public class Puzzle_TESTING
 		HashMap<Integer, Integer> colCheckingHash = new HashMap<Integer, Integer>(); 
 
 		// Row checking
-		System.out.println();
+		//System.out.println();
 		int rowCount = 0;
 		for(int i = 0; i < Math.pow(dimension, 2); i++)  // for every cell in the puzzle
 		{

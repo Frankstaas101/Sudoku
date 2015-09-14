@@ -7,6 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		FileData fd = new FileData();
+		double count = 0;
 		
 		try {
 			fd.readFile(new File("src/main/test.txt"));
@@ -18,9 +19,11 @@ public class Main {
 			{
 				//Set the unAssignedCells
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells));
-				//puzzle.printPuzzle();
+				//if(count % 1000000000 == 0)
+					//puzzle.printPuzzle();
 				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
 			}
+			System.out.println();
 			System.out.println("Solved!");
 			puzzle.printPuzzle();
 
