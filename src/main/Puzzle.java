@@ -58,7 +58,7 @@ public class Puzzle
 	{
 		for(Cell c: assignedCells)
 		{
-			cells[c.pos.x][c.pos.y] = c.value;
+			//cells[c.pos.x][c.pos.y] = c.value;
 		}
 	}
 	/*
@@ -103,6 +103,7 @@ public class Puzzle
 		return passed;
 		
 	}
+	
 	public boolean checkSections()
 	{
 		boolean passed = true;
@@ -126,8 +127,6 @@ public class Puzzle
 				//passed = Validators.checkSection(section);
 			}
 		}
-		
-		
 		return passed;
 	}
 	

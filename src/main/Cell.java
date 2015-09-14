@@ -8,12 +8,17 @@ import main.Position;
 public class Cell 
 {
 	protected int value;
-	protected Position pos;
+	protected int pos;
 	
-	public Cell(int value, Position pos)
+	public Cell(int value, int pos)
 	{
 		this.value = value;
 		this.pos = pos;
+	}
+	
+	public String toString()
+	{
+		return "" + value;
 	}
 	
 	//no setters and getters since we have package access.

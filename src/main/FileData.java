@@ -25,9 +25,10 @@ public class FileData {
 	 * and string splits to store it all into the protected variables
 	 * for later use.
 	 * @param file the text file containing the information about the Suduko puzzle.
+	 * @throws Exception 
 	 */
-	public void readFile(File file){
-		
+	public void readFile(File file) throws Exception{
+
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
 
@@ -54,26 +55,43 @@ public class FileData {
 				}
 
 				// PUZZLE DATA
-				else if (nextLine.matches("^[1-9\\s]+$")){
+				else if (nextLine.matches("^[\\d\\s]+$") || nextLine.matches("^[\\s\\d]+$")){
 
-					String[] arrayOfIntegers = nextLine.split("\\s"); // splits the string of digits by each space
+					String trimmedLine = nextLine.trim(); // removes leading and trailing whitespace
+					String[] arrayOfIntegers = trimmedLine.split("\\s"); // splits the string of digits by each space
 
 					for (String s: arrayOfIntegers) // go though the array of integers
 					{ 
 						if (cellLocation < maxCells) { // counts from 0 to max number of cells - 1
+
 							Integer value = new Integer(s); // cast the string to an integer with the Integer Object constructor
-
-							puzzle.put(cellLocation, value);  // put the key and the location in the map
-
+							if (!(value <= dimension) || (value < 0)) { // if the value falls out of the range of the expect values of the puzzles dimensions
+								puzzle.put(cellLocation,  0 );  // put the key and the location in the map
+								System.out.println("A value falls out of the required range for a puzzle of this size: "
+										+ "\n\t'" + value + "' was converted to '0'. Please change this value if you wish it to be another value.");
+							} 
+							else {
+								puzzle.put(cellLocation,  value );  // put the key and the location in the map
+							}
 							cellLocation++;
+						}
+					}
+					
+					if (puzzle.size() != maxCells) { // if the read in values don't reach the end assume the rest are blank or 0's
+						for (int i = puzzle.size(); i < maxCells; i++) {
+							puzzle.put(i, 0); // fill in the remaining slots for the puzzle as 0 values;
 						}
 					}
 				}
 				nextLine = in.readLine();
+				if (nextLine == null && (puzzle.size() < maxCells)) {
+					System.out.println("Not enough values");
+					return;
+				}
 			}
-			
+
 			in.close(); // close the stream
-			
+
 		} catch (FileNotFoundException e) {
 			System.out.println("File was not found!");
 			e.printStackTrace();
@@ -82,15 +100,15 @@ public class FileData {
 			e.printStackTrace();
 		} 
 	}
-	
+
 	/**
 	 * Prints the dimensions from the file for testing
 	 */
 	public void printDimensions(){
-		System.out.println("Width: " + width + ", Height:" + height);
+		System.out.println("\nWidth: " + width + ", Height:" + height);
 		System.out.println("Dimension: " + dimension + "x" + dimension);
 	}
-	
+
 	/**
 	 * Prints all the comments in the order they were place into the array for testing
 	 */
@@ -102,27 +120,26 @@ public class FileData {
 
 	/**
 	 *  Prints out the puzzle from the puzzle Hash Map for testing
+	 * @throws Exception 
 	 */
-	public void printPuzzle() {
-		printDashedHorizontalLine();
+	public void printPuzzle() throws Exception {
+		System.out.println();
+		printDashedHorizontalLine(); // prints the top line of the puzzle
 		System.out.println();
 		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 
 
-			if (i % width == 0) 
-			{
+			if (i % width == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
 				System.out.print("| " + puzzle.get(i) + " ");
 			} 
-			else 
-			{
+			else {
 				System.out.print(puzzle.get(i) + " ");
-				if ((i + 1) % dimension == 0) {
+				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
 					System.out.print("|\n");
-					if ((i + 1) % (dimension * height) == 0) {
-						printDashedHorizontalLine();
+					if ((i + 1) % (dimension * height) == 0) { // if the count is the dimension * height
+						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
 						System.out.println();
 					}
 				}
-
 			}
 		}
 		System.out.println();

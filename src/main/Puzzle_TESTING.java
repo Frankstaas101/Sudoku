@@ -1,5 +1,6 @@
 package main;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import main.Cell;
 import main.Position;
@@ -14,112 +15,152 @@ public class Puzzle_TESTING
 	 * 
 	 * Once the instance is created, we note the locations of the empty values.
 	 */
-	protected int[][] cells;
+
+	protected ArrayList<Cell> cells;
 	//May not be needed..
 	protected int unitHeight;
 	protected int unitWidth;
+	protected int dimension;
+
+	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
+	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();		//All the unassigned Cells
 
 	/*
 	 * An instance receives a width and a height.
 	 */
-	public Puzzle_TESTING(int width, int height)
+	public Puzzle_TESTING(int width, int height, HashMap<Integer, Integer> puzzle) throws Exception
 	{
-		//Total dimensions are (w*h)^2
-		cells = new int[width*height][width*height];
-		unitHeight = height;
-		unitWidth = width;	
-	}
-	/*
-	 * Returns a list of all locations of unassigned values.
-	 * We only run this once, we store the this in the driver.
-	 */
-	public ArrayList<Position> getUnAssignedValues()
-	{
-		int totalSize = unitWidth * unitHeight;
-		ArrayList<Position> unAssignedCells = new ArrayList<>();
-		for(int x = 0; x < totalSize; x++)
-		{
-			for(int y = 0; y < totalSize; y++)
-			{
-				if(cells[x][y] == 0)
-				{
-					unAssignedCells.add(new Position(x, y));
-				}
+		//Total dimension of the puzzle is [(WIDTH * HEIGHT) ^ 2]
+		this.cells = new ArrayList<Cell>();
+		this.unitHeight = height;
+		this.unitWidth = width;
+		this.dimension = width * height;
 
+		for (int i = 0; i < Math.pow(dimension, 2); i++) {
+			int cellValue = puzzle.get(i);
+			cells.add(new Cell(cellValue, i));
+			//we found an unassigned cell, add it to the collection of unAssignedCells
+			if(cellValue == 0)
+				unAssignedCells.add(new Cell(1, i));
+		}
+
+		for (int j = 1; j <= dimension; j ++) {
+			int count = 0;
+			for (Cell c : cells) {
+				if (c.value == j) {
+					count++; // counts how many times that number shows up in the puzzle
+				}
+				if (count > dimension) {
+					System.out.println("There are too many " + j + "s in this puzzle. Impossible to solve!");
+					return;
+				}
+			}
+			for (int i = 1; i <= dimension - count; i ++) {
+				missingNumbers.add(j);
 			}
 		}
-		return unAssignedCells;
-	}
 
-	/*
-	 * Set the unassigned cells to the specified values.
-	 */
-	public void setUnAssignedValues(ArrayList<Cell> assignedCells)
-	{
-		for(Cell c: assignedCells)
-		{
-			cells[c.pos.x][c.pos.y] = c.value;
+		// prints out the missing numbers
+		int count = 0;
+		for (Integer num: missingNumbers){
+			count++;
+			if (count % 15 == 0)
+				System.out.print(num + ",\n");
+			else 
+				System.out.print(num + ", ");
 		}
 	}
+
 	/*
 	 * @returns true if all the rows pass the checks.
 	 */
-	public boolean checkRows()
+	public boolean check()
 	{
-		boolean passed = true;
-		ArrayList<Integer> rowValues = new ArrayList<>();
-		for(int x = 0; x < (unitWidth * unitHeight); x++)
+		boolean passed = true; 
+		HashMap<Integer, Integer> rowCheckingHash = new HashMap<Integer, Integer>(); 
+		HashMap<Integer, Integer> colCheckingHash = new HashMap<Integer, Integer>(); 
+
+		// Row checking
+		//System.out.println();
+		int rowCount = 0;
+		for(int i = 0; i < Math.pow(dimension, 2); i++)  // for every cell in the puzzle
 		{
-			for(int y = 0; y < (unitWidth * unitHeight); y++ )
-			{
-				rowValues.add(cells[x][y]);
-			}
-			if(!Validators.checkRow(rowValues))
-			{
-				passed = false;
+			// Row Checking
+			rowCheckingHash.put(cells.get(i).value, cells.get(i).pos); // if there is a duplicate value it will be over written
+			if ((i+1) % dimension == 0) { // when ((i + 1) mod dimenion) is 0 this means when its the next row
+				rowCount++;
+				if (!(rowCheckingHash.size() == dimension)) { // if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
+					//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in row "+ rowCount);
+					passed = false;
+				}
+				rowCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
 			}
 		}
-		return passed;
 
+		// Column Checking
+		for(int i = 0; i < dimension; i++)  // Every column
+		{
+			for(int j = 0; j < dimension; j++)  // every cell in that column
+			{	// if there is a duplicate value in the column it will be over written
+				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); 
+			}
+			// If the colCheckingHash does not contains the same amount of numbers as the dimension of the puzzle then
+			// a value has been over written because it was a duplicate thus making the table invalid.
+			if (!(colCheckingHash.size() == dimension)) {  
+				//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
+				passed = false;
+			}
+			colCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
+		}
+		return passed;
 	}
 	/*
-	 * @returns true if all the columns pass the checks.
+	 * Set the desired Cell values.
 	 */
-	public boolean checkColumns()
+	public void setValues(ArrayList<Cell> cs)
 	{
-		boolean passed = true;
-		ArrayList<Integer> columnValues = new ArrayList<>();
-		for(int y = 0; y < (unitWidth * unitHeight); y++)
+		//Iterate through all the new values
+		for(Cell c: cs)
 		{
-			for(int x = 0; x < (unitWidth * unitHeight); x++ )
-			{
-				columnValues.add(cells[x][y]);
-			}
-			if(!Validators.checkRow(columnValues))
-			{
-				passed = false;
+			//Change the value of the cells we want.
+			cells.get(c.pos).value = c.value;
+		}
+	}
+	
+	public void printPuzzle() throws Exception {
+		System.out.println();
+		printDashedHorizontalLine(); // prints the top line of the puzzle
+		System.out.println();
+		for (int i = 0; i < cells.size(); i++) { // 0 to maxCells - 1 
+
+			if (i % unitWidth == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
+				System.out.print("| " + cells.get(i) + " ");
+			} 
+			else {
+				System.out.print(cells.get(i) + " ");
+				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
+					System.out.print("|\n");
+					if ((i + 1) % (dimension * unitHeight) == 0) { // if the count is the dimension * height
+						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
+						System.out.println();
+					}
+				}
 			}
 		}
-		return passed;
-
+		System.out.println();
 	}
-	public boolean checkSections()
-	{
-		boolean passed = true;
-		ArrayList<Integer> section = new ArrayList<>();
-		int dimension = unitHeight * unitWidth; // 3 x 2
-
-		// this only gets the first section
-		for(int width = 0; width <= unitWidth; width++) // Columns
-		{ 
-			for(int height = 0; height <= unitHeight; height++)// Rows
-			{
-				section.add(cells[width][height]);
+	private void printDashedHorizontalLine(){
+		for (int j = 0; j < dimension; j++) {
+			if ( j != 0){
+				if (j % unitWidth == 0) 
+				{
+					System.out.print("  ");System.out.print(" -");
+				} else {
+					System.out.print(" -");
+				}
+			} else {
+				System.out.print("  -");
 			}
 		}
-
-		return passed;
 	}
-
-
 }
