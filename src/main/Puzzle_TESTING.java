@@ -1,5 +1,6 @@
 package main;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import main.Cell;
@@ -91,29 +92,60 @@ public class Puzzle_TESTING
 				rowCount++;
 				if (!(rowCheckingHash.size() == dimension)) { // if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
 					//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in row "+ rowCount);
-					passed = false;
+					return false;
 				}
 				rowCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
 			}
 		}
 
 		// Column Checking
-		for(int i = 0; i < dimension; i++)  // Every column
+		for (int i = 0; i < dimension; i++) // Every column
 		{
-			for(int j = 0; j < dimension; j++)  // every cell in that column
-			{	// if there is a duplicate value in the column it will be over written
-				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); 
+			for (int j = 0; j < dimension; j++) // every cell in that column
+			{ // if there is a duplicate value in the column it will be over
+				// written
+				colCheckingHash.put(cells.get((j * dimension) + i).value,
+						cells.get((j * dimension) + i).pos);
 			}
-			// If the colCheckingHash does not contains the same amount of numbers as the dimension of the puzzle then
-			// a value has been over written because it was a duplicate thus making the table invalid.
-			if (!(colCheckingHash.size() == dimension)) {  
-				//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
-				passed = false;
+			// If the colCheckingHash does not contains the same amount of
+			// numbers as the dimension of the puzzle then
+			// a value has been over written because it was a duplicate thus
+			// making the table invalid.
+			if (!(colCheckingHash.size() == dimension)) {
+				// System.out.println("Puzzle has a duplicate value at cell position "
+				// + cells.get(i).pos + " with a value of " + cells.get(i).value
+				// + " in column "+ i);
+				return false;
 			}
-			colCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
+			colCheckingHash = new HashMap<Integer, Integer>(); // new hash map
+																// for every row
 		}
-		return passed;
+
+		HashMap<Integer, Integer> boxCheckingHash = new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				boxCheckingHash.put(cells.get((i / unitWidth) * unitWidth + j/ unitWidth).value,
+								    cells.get(i * unitHeight % dimension + j% unitHeight).pos);
+			}
+			if (!(boxCheckingHash.size() == dimension)) {
+				// System.out.println("Puzzle has a duplicate value at cell position "
+				// + cells.get(i).pos + " with a value of " + cells.get(i).value +
+				// " in column "+ i);
+				return false;
+			}
+			
+			boxCheckingHash = new HashMap<Integer, Integer>(); // new hash map for
+			// every row
+		}
+		// If the colCheckingHash does not contains the same amount of numbers
+		// as the dimension of the puzzle then
+		// a value has been over written because it was a duplicate thus making
+		// the table invalid.
+	
+		return true;
 	}
+
 	/*
 	 * Set the desired Cell values.
 	 */
