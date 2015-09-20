@@ -7,9 +7,9 @@ import java.util.ArrayList;
  */
 public class BruteSolver 
 {
+	
 	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells, int dimension) throws Exception
 	{
-		//When we first get the unAssignedCells, they will be all 0s.
 		cells = increment(0, cells, dimension);
 
 		return cells;
@@ -31,6 +31,20 @@ public class BruteSolver
 			return cells;
 	
 
+	}
+	/*
+	 * Method to initialize all "0" place holders from the input to 1
+	 * 
+	 * @param cells: ArrayList<Cell> of all unassigned cells.
+	 * @return: ArrayList<Cell> with all Cell's values set to 1.
+	 */
+	public static ArrayList<Cell> initializeValues(ArrayList<Cell> cells)
+	{
+		for(Cell c : cells)
+		{
+			c.value = 1;
+		}
+		return cells;
 	}
 	/*
 	public static void combination(Object[]  elements, int K){

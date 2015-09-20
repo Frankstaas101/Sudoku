@@ -18,6 +18,8 @@ public class Main {
 			fd.printComments();
 			fd.printPuzzle();
 			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+			//We need to set the "0" placeholders to "1"
+			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
 			while(puzzle.check() == false)
 			{
 				//Set the unAssignedCells
