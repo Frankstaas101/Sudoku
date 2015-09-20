@@ -7,22 +7,22 @@ import java.util.ArrayList;
  */
 public class BruteSolver 
 {
-	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells) throws Exception
+	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells, int dimension) throws Exception
 	{
 		//When we first get the unAssignedCells, they will be all 0s.
-		cells = increment(0, cells);
+		cells = increment(0, cells, dimension);
 
 		return cells;
 	}
 	
-	private static ArrayList<Cell> increment(int cellNo, ArrayList<Cell> cells) throws Exception
+	private static ArrayList<Cell> increment(int cellNo, ArrayList<Cell> cells, int dimension) throws Exception
 	{
 		//We've incremented all we can, we'de get an outOfBounds exception if this were to run.
 			Cell cell = cells.get(cellNo);
-			if(cell.value == 9)
+			if(cell.value == dimension)
 			{
 				cell.value = 1;
-				increment(cellNo + 1, cells);
+				increment(cellNo + 1, cells, dimension);
 			}
 			else
 			{
