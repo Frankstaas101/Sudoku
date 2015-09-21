@@ -93,12 +93,36 @@ public class FileData {
 			in.close(); // close the stream
 
 		} catch (FileNotFoundException e) {
-			System.out.println("File was not found!");
+			System.err.println("File was not found!");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("There was a problem with reading the file!");
+			System.err.println("There was a problem with reading the file!");
 			e.printStackTrace();
 		} 
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public HashMap<Integer, Integer> getPuzzle() {
+		return puzzle;
+	}
+
+	public void setPuzzle(HashMap<Integer, Integer> puzzle) {
+		this.puzzle = puzzle;
 	}
 
 	/**

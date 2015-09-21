@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 
+
 public class Main {
 	// CHECK FOR MORE THEN THE DIMENSION AMMOUNT OF EACH NUMBER 
 
@@ -18,18 +19,30 @@ public class Main {
 			fd.printComments();
 			fd.printPuzzle();
 			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+<<<<<<< Updated upstream
 			//We need to set the "0" placeholders to "1"
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
+=======
+			System.out.println("\n\nLoading...");
+>>>>>>> Stashed changes
 			while(puzzle.check() == false)
 			{
 				//Set the unAssignedCells
+
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));
+<<<<<<< Updated upstream
 				/*
 				if(count++ % 10000000 == 0)
 				{
 					System.out.println("Tried " + count + " combinations");
 				}
 				*/
+=======
+
+				//if(count % 1000000000 == 0)
+					//puzzle.printPuzzle();
+				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
+>>>>>>> Stashed changes
 			}
 			//We are done - stop the timer.
 			timer.stop();

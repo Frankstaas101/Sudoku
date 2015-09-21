@@ -7,7 +7,7 @@ import main.Position;
 /*
  * This class represents an instance of a Sudoku puzzle.
  */
-public class Puzzle 
+public class Puzzle_OLD 
 {
 	/*
 	 * A instance is represented by a 2D array of values.
@@ -22,7 +22,7 @@ public class Puzzle
 	/*
 	 * An instance receives a width and a height.
 	 */
-	public Puzzle(int width, int height)
+	public Puzzle_OLD(int width, int height)
 	{
 		//Total dimensions are (w*h)^2
 		cells = new int[width*height][width*height];

@@ -64,7 +64,7 @@ public class Puzzle_TESTING
 		int count = 0;
 		for (Integer num: missingNumbers){
 			count++;
-			if (count % 15 == 0)
+			if (count % 15 == 0) // every 15 numbers make a new line
 				System.out.print(num + ",\n");
 			else 
 				System.out.print(num + ", ");
@@ -80,40 +80,48 @@ public class Puzzle_TESTING
 		HashMap<Integer, Integer> rowCheckingHash = new HashMap<Integer, Integer>(); 
 		HashMap<Integer, Integer> colCheckingHash = new HashMap<Integer, Integer>(); 
 
-		// Row checking
-		//System.out.println();
+		// ROW CHECKING
 		int rowCount = 0;
-		for(int i = 0; i < Math.pow(dimension, 2); i++)  // for every cell in the puzzle
-		{
-			// Row Checking
-			rowCheckingHash.put(cells.get(i).value, cells.get(i).pos); // if there is a duplicate value it will be over written
-			if ((i+1) % dimension == 0) { // when ((i + 1) mod dimenion) is 0 this means when its the next row
+		for(int i = 0; i < Math.pow(dimension, 2); i++) {
+			
+			// if there is a duplicate value it will be over written
+			rowCheckingHash.put(cells.get(i).value, cells.get(i).pos);
+			
+			// when ((i + 1) mod dimenion) is 0 this means when its the next row
+			if ((i+1) % dimension == 0) { 
 				rowCount++;
-				if (!(rowCheckingHash.size() == dimension)) { // if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
-					//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in row "+ rowCount);
+				
+				// if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
+				if (!(rowCheckingHash.size() == dimension)) { 
+					// System.out.println("Puzzle has a duplicate value at cell position " 
+					//+ cells.get(i).pos + " with a value of " + cells.get(i).value +  " in row "+ rowCount);
 					passed = false;
 				}
 				rowCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
 			}
 		}
 
-		// Column Checking
-		for(int i = 0; i < dimension; i++)  // Every column
-		{
-			for(int j = 0; j < dimension; j++)  // every cell in that column
-			{	// if there is a duplicate value in the column it will be over written
+		// COLUMN CHECKING
+		for(int i = 0; i < dimension; i++) {
+			
+			// Each cell in the column
+			for(int j = 0; j < dimension; j++) {	
+				// if there is a duplicate value in the column it will be over written
 				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); 
 			}
 			// If the colCheckingHash does not contains the same amount of numbers as the dimension of the puzzle then
 			// a value has been over written because it was a duplicate thus making the table invalid.
 			if (!(colCheckingHash.size() == dimension)) {  
-				//System.out.println("Puzzle has a duplicate value at cell position " + cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
+				// System.out.println("Puzzle has a duplicate value at cell position " 
+				//+ cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
 				passed = false;
 			}
-			colCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
+			// reset the hash map to check the next column
+			colCheckingHash = new HashMap<Integer, Integer>(); 
 		}
 		return passed;
 	}
+	
 	/*
 	 * Set the desired Cell values.
 	 */
