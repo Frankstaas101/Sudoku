@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		FileData fd = new FileData();
-		double count = 0;
+		//double count = 1;
 		
 		try {
 			//Start the timer so we may see the time required to solve the puzzle.
@@ -24,9 +24,12 @@ public class Main {
 			{
 				//Set the unAssignedCells
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));
-				//if(count % 1000000000 == 0)
-					//puzzle.printPuzzle();
-				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
+				/*
+				if(count++ % 10000000 == 0)
+				{
+					System.out.println("Tried " + count + " combinations");
+				}
+				*/
 			}
 			//We are done - stop the timer.
 			timer.stop();
