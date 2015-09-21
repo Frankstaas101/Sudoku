@@ -15,9 +15,10 @@ public class Puzzle_TESTING
 	 * 
 	 * Once the instance is created, we note the locations of the empty values.
 	 */
-
+	
+	//List of all the values in the Puzzle.
 	protected ArrayList<Cell> cells;
-	//May not be needed..
+	
 	protected int unitHeight;
 	protected int unitWidth;
 	protected int dimension;
@@ -27,6 +28,10 @@ public class Puzzle_TESTING
 
 	/*
 	 * An instance receives a width and a height.
+	 * 
+	 * @param width the unit width of a Sudoku "box"
+	 * @param height the unit height of a Sudoku "box"
+	 * @param puzzle Map of all the raw values of the Puzzle read from the file.
 	 */
 	public Puzzle_TESTING(int width, int height, HashMap<Integer, Integer> puzzle) throws Exception
 	{
@@ -124,6 +129,8 @@ public class Puzzle_TESTING
 	
 	/*
 	 * Set the desired Cell values.
+	 * 
+	 * @param cs the List of Cells which we want to set in the puzzle.
 	 */
 	public void setValues(ArrayList<Cell> cs)
 	{
@@ -157,6 +164,10 @@ public class Puzzle_TESTING
 		}
 		System.out.println();
 	}
+	
+	/*
+	 * Print a correctly formatted dashed horizontal line to the console.
+	 */
 	private void printDashedHorizontalLine(){
 		for (int j = 0; j < dimension; j++) {
 			if ( j != 0){

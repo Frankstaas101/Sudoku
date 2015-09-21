@@ -7,28 +7,42 @@ import java.util.ArrayList;
  */
 public class BruteSolver 
 {
-	
+	/*
+	 * Increment the values in a list of Cells.
+	 * 
+	 * @param cells the List of Cells to be incremented.
+	 * @param dimension the upper limit what each Cell will increment to.
+	 */
 	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells, int dimension) throws Exception
 	{
+		//The actual recursive method call.
+		//Note that we always want to try to increment the first cell.
 		cells = increment(0, cells, dimension);
 
 		return cells;
 	}
-	
+	/*
+	 * Recursive method to increment Cell values given a List of Cells
+	 * 
+	 * @param cellNo the Cell number to attempt to increment first.
+	 * @param cells the List of Cells to increment.
+	 * @param dimension the upper limit to increment to, also the number of digits in a puzzle's row or column.
+	 */
 	private static ArrayList<Cell> increment(int cellNo, ArrayList<Cell> cells, int dimension) throws Exception
 	{
-		//We've incremented all we can, we'de get an outOfBounds exception if this were to run.
-			Cell cell = cells.get(cellNo);
-			if(cell.value == dimension)
-			{
-				cell.value = 1;
-				increment(cellNo + 1, cells, dimension);
-			}
-			else
-			{
-				cell.value += 1;
-			}
-			return cells;
+		//When the below line throws an OutOfBounds exception, we have tried all the possible values.
+		Cell cell = cells.get(cellNo);
+		if(cell.value == dimension)
+		{	
+			cell.value = 1;		//If the Cell's value has reached its upper limit, reset it to 1.
+			increment(cellNo + 1, cells, dimension);		//Then try to increment the next one.
+		}
+		else
+		{
+			//Increment a Cell's value.
+			cell.value += 1;
+		}
+		return cells;
 	
 
 	}

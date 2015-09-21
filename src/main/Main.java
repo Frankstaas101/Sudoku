@@ -5,30 +5,30 @@ import java.io.File;
 
 public class Main {
 	// CHECK FOR MORE THEN THE DIMENSION AMMOUNT OF EACH NUMBER 
-
+	
+	/*
+	 * Execute this method to read a puzzle from file and attempt to solve it. 
+	 * Note that the program requires a properly formatted file called "test.txt" in the source directory of this package.
+	 * 
+	 * This method will read the file, print the puzzle, and then attempt to solve it.
+	 */
 	public static void main(String[] args) {
 		FileData fd = new FileData();
 		//double count = 1;
 		
 		try {
-			//Start the timer so we may see the time required to solve the puzzle.
-			Timer timer = new Timer();
+			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
 			timer.start();
-			fd.readFile(new File("src/main/test.txt"));
-			fd.printDimensions();
-			fd.printComments();
-			fd.printPuzzle();
+			fd.readFile(new File("src/main/test.txt"));		//Read the file.
+			fd.printDimensions();		//Print the dimensions of the puzzle.
+			fd.printComments();			//Print the comments of the file.
+			fd.printPuzzle();			//Print the puzzle read from the file.
 			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
-			
-			
-			//We need to set the "0" placeholders to "1"
-			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
+			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);			//We need to set the "0" place holders to "1"
 			System.out.println("\n\nLoading...");
 			while(puzzle.check() == false)
 			{
-				//Set the unAssignedCells
-
-				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));
+				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));	//Increment the unassigned Cells.
 
 				/*
 				if(count++ % 10000000 == 0)
@@ -53,11 +53,6 @@ public class Main {
 
 		} catch (Exception e) {
 			System.err.println("File Reader Error or no solution found!");
-		}
-		
-		// Proving comments are being placed into the array
-		
-		
-	
+		}	
 	}
 }

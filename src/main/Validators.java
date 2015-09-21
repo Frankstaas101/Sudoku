@@ -2,6 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
+/*
+ * NOT NEEDED?
+ */
 public class Validators {
 	
 	public static boolean checkRow(ArrayList<Integer> row){
