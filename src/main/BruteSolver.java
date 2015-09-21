@@ -18,6 +18,12 @@ public class BruteSolver
 		//The actual recursive method call.
 		//Note that we always want to try to increment the first cell.
 		cells = increment(0, cells, dimension);
+		
+		for(Cell c: cells)
+		{
+			System.out.print(c.toString() + " ");
+		}
+		System.out.println();
 
 		return cells;
 	}
