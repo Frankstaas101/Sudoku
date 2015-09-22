@@ -10,7 +10,8 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
-		String[] files = {"p1.txt", "p4.txt", "p3.txt", "p2.txt"};
+		//String[] files = {"p1.txt", "p4.txt", "p3.txt", "p2.txt"};
+		String[] files = {"test.txt"};
 		
 		
 		for(int i = 0; i < files.length ;i++ )
