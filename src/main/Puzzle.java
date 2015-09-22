@@ -22,7 +22,8 @@ public class Puzzle
 	protected int maxCells;
 
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
-	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();		//All the unassigned Cells
+	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();			 //All the unassigned Cells
+	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	 //List of all the indexes in each section.	
 
 	/*
 	 * An instance receives a width and a height.
@@ -72,6 +73,30 @@ public class Puzzle
 				System.out.print(num + ",\n");
 			else 
 				System.out.print(num + ", ");
+		}
+	}
+	
+	/*
+	 * Find the indexes of the Sections.
+	 */
+	public void findSections()
+	{		
+		ArrayList<Integer> section;
+		for(int bigWidth = 0; bigWidth < dimension; bigWidth = bigWidth + width)
+		{
+			for(int bigHeight = 0; bigHeight < dimension; bigHeight = bigHeight + height)
+			{
+				section = new ArrayList<Integer>();		//Start a new section
+				for(int innerWidth = 0; innerWidth < width; innerWidth++)
+				{
+					for(int innerHeight = 0; innerHeight < height; innerHeight++)
+					{
+						section.add((bigHeight+innerHeight) * dimension + (bigWidth+innerWidth));		//Add the index in the section to the section
+					}
+				}
+				sections.add(section);		//Add the section to the list of sections.
+			}
+
 		}
 	}
 	

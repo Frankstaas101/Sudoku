@@ -30,7 +30,7 @@ public class Main {
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
 			
 			System.out.println("\n\nLoading...");
-			while(Functions.validate(fd.puzzle, fd.height, fd.width) == false)
+			while(Functions.validate(fd.puzzle, puzzle.sections, fd.height, fd.width) == false)
 			{
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));//Increment the unassigned Cells.
 			}
@@ -44,9 +44,9 @@ public class Main {
 			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.err.println("File Reader Error or no solution found!");
-			return;
+			break;
 		}
 		
 		}

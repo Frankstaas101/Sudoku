@@ -28,9 +28,9 @@ public class Functions {
 
 
 	// enter in a completed puzzle
-	public static boolean validate(ArrayList<Integer> puzzle, int height, int width){
+	public static boolean validate(ArrayList<Integer> puzzle, ArrayList<ArrayList<Integer>> sections, int height, int width){
 
-		int dimension = height * width; // get dimension of the puzzle for calcualtions
+		int dimension = height * width; // get dimension of the puzzle for calculations
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
 		boolean valid = true;
 		// Split the puzzle up into pieces and validate
@@ -40,7 +40,8 @@ public class Functions {
 			checkList.add(puzzle.get(i));
 			if ((i+1)  % dimension == 0) { // this check happens every "dimension" values
 				if (hasDuplicate(checkList)) {
-					valid = false; // break out as soon as a false value is found
+					//valid = false; // break out as soon as a false value is found
+					return false;
 				}
 				checkList.clear(); // clears the list if not false to be used again
 			}
@@ -54,7 +55,8 @@ public class Functions {
 				}
 			}
 			if (hasDuplicate(checkList)) {
-				valid =  false; // break out as soon as a false value is found
+				//valid =  false; // break out as soon as a false value is found
+				return false;
 			}
 			checkList.clear(); // clears the list
 		}
@@ -64,6 +66,24 @@ public class Functions {
 //		 12 13 14 15
 		//Sections
 		
+		//Check all the sections
+		
+		for(ArrayList<Integer> section: sections)
+		{
+			ArrayList<Integer> sectionValues = new ArrayList<>();
+			for(Integer i: section)
+			{
+				sectionValues.add(i);
+			}
+			if(hasDuplicate(sectionValues))
+			{
+				//valid = false;
+				return false;
+			}
+		}
+		
+		
+		/* LEGACY CODE BELOW!
 		int location = 0;
 		for(int i = 0; i < dimension; i++){
 		
@@ -89,7 +109,8 @@ public class Functions {
 			checkList.clear(); // clears the list
 		}
 
-
+		*/
 		return valid;
+		
 	}
 }
