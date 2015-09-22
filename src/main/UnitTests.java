@@ -131,7 +131,8 @@ public class UnitTests {
     public void testBoxCheckingSuccess() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku.txt");
+		File file = new File("src/tests/PerfectSudok"
+				+ "u");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
