@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,9 +17,20 @@ public class FileData {
 	protected double maxCells = 0; // maximum amount of cells base off the dimensions of the puzzle
 	protected int cellLocation = 0; // location of the cell (0 - maxCells)
 	protected ArrayList<String> comments = new ArrayList<String>();
-	protected HashMap<Integer, Integer> puzzle = new HashMap<Integer, Integer>();
+	protected ArrayList<Integer> puzzle = new ArrayList<Integer>();
 
-	public FileData() { }
+	public FileData() { 
+//			System.out.println("Input file name: ");
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//			try {
+//				String input = reader.readLine();
+//				//readFile(new File(input));
+//				reader.close();
+//			} catch (IOException e) {
+//				System.err.println("Input read error.");
+//				
+//			}
+	}
 
 	/**
 	 * Reads the file and parses all the data with regular expressions
@@ -27,7 +39,7 @@ public class FileData {
 	 * @param file the text file containing the information about the Suduko puzzle.
 	 * @throws Exception 
 	 */
-	public void readFile(File file) throws Exception{
+	public void readFile(File file) {
 
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -66,28 +78,26 @@ public class FileData {
 
 							Integer value = new Integer(s); // cast the string to an integer with the Integer Object constructor
 							if (!(value <= dimension) || (value < 0)) { // if the value falls out of the range of the expect values of the puzzles dimensions
-								puzzle.put(cellLocation,  0 );  // put the key and the location in the map
+								puzzle.add(0);  // put the key and the location in the map
 								System.out.println("A value falls out of the required range for a puzzle of this size: "
 										+ "\n\t'" + value + "' was converted to '0'. Please change this value if you wish it to be another value.");
 							} 
 							else {
-								puzzle.put(cellLocation,  value );  // put the key and the location in the map
+								puzzle.add(value);  // put the key and the location in the map
 							}
 							cellLocation++;
 						}
 					}
-					
-					if (puzzle.size() != maxCells) { // if the read in values don't reach the end assume the rest are blank or 0's
-						for (int i = puzzle.size(); i < maxCells; i++) {
-							puzzle.put(i, 0); // fill in the remaining slots for the puzzle as 0 values;
-						}
-					}
 				}
+
 				nextLine = in.readLine();
 				if (nextLine == null && (puzzle.size() < maxCells)) {
-					System.out.println("Not enough values");
-					return;
-				}
+					for (int i = puzzle.size(); i < maxCells; i++) {
+						puzzle.add(0); // fill in the remaining slots for the puzzle as 0 values;
+					}
+					System.out.println("Not enough values, assuming you wanted the rest were blank.");
+					//return;
+				} 
 			}
 
 			in.close(); // close the stream
@@ -95,10 +105,21 @@ public class FileData {
 		} catch (FileNotFoundException e) {
 			System.err.println("File was not found!");
 			e.printStackTrace();
+			return;
 		} catch (IOException e) {
 			System.err.println("There was a problem with reading the file!");
 			e.printStackTrace();
+			return;
 		} 
+	}
+	
+	/**
+	 * Prints all the comments in the order they were place into the array for testing
+	 */
+	public void printComments(){
+		for (String s : comments){
+			System.out.println("Comment: " + s);
+		}
 	}
 
 	public int getWidth() {
@@ -117,73 +138,11 @@ public class FileData {
 		this.height = height;
 	}
 
-	public HashMap<Integer, Integer> getPuzzle() {
+	public ArrayList<Integer> getPuzzle() {
 		return puzzle;
 	}
 
-	public void setPuzzle(HashMap<Integer, Integer> puzzle) {
+	public void setPuzzle(ArrayList<Integer> puzzle) {
 		this.puzzle = puzzle;
-	}
-
-	/**
-	 * Prints the dimensions from the file for testing
-	 */
-	public void printDimensions(){
-		System.out.println("\nWidth: " + width + ", Height:" + height);
-		System.out.println("Dimension: " + dimension + "x" + dimension);
-	}
-
-	/**
-	 * Prints all the comments in the order they were place into the array for testing
-	 */
-	public void printComments(){
-		for (String s : comments){
-			System.out.println("Comment: " + s);
-		}
-	}
-
-	/**
-	 *  Prints out the puzzle from the puzzle Hash Map for testing
-	 * @throws Exception 
-	 */
-	public void printPuzzle() throws Exception {
-		System.out.println();
-		printDashedHorizontalLine(); // prints the top line of the puzzle
-		System.out.println();
-		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 
-
-			if (i % width == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
-				System.out.print("| " + puzzle.get(i) + " ");
-			} 
-			else {
-				System.out.print(puzzle.get(i) + " ");
-				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
-					System.out.print("|\n");
-					if ((i + 1) % (dimension * height) == 0) { // if the count is the dimension * height
-						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
-						System.out.println();
-					}
-				}
-			}
-		}
-		System.out.println();
-	}
-
-	/**
-	 * Prints a dashed horizontal line based on the dimension and width of the puzzle
-	 */
-	private void printDashedHorizontalLine(){
-		for (int j = 0; j < dimension; j++) {
-			if ( j != 0){
-				if (j % width == 0) 
-				{
-					System.out.print("  ");System.out.print(" -");
-				} else {
-					System.out.print(" -");
-				}
-			} else {
-				System.out.print("  -");
-			}
-		}
 	}
 }

@@ -70,6 +70,11 @@ public class BruteSolver
 		}
 		return cells;
 	}
+	
+//	public ArrayList<Integer> findValues(ArrayList<Integer> missingValues) {
+//		if (Validators.)
+//	}
+	
 	/*
 	public static void combination(Object[]  elements, int K){
 		 
