@@ -14,17 +14,23 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
+		String[] files = {"p1.txt", "p2.txt", "p3.txt", "p4.txt"};
+		
+		for(int i = 0; i < files.length ;i++ )
+		{
 		FileData fd = new FileData();
 		//double count = 1;
 		
 		try {
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
 			timer.start();
-			fd.readFile(new File("src/main/test.txt"));		//Read the file.
+			fd.readFile(new File("src/main/" + files[i]));		//Read the file.
 			fd.printComments();			//Print the comments of the file.
 			
 			
 			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+			puzzle.printDimensions();
+			
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
 			System.out.println("\n\nLoading...");
 			while(Functions.validate(fd.getPuzzle(), fd.getHeight(), fd.getWidth()) == false)
@@ -55,6 +61,9 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("File Reader Error or no solution found!");
-		}	
+			return;
+		}
+		
+		}
 	}
 }
