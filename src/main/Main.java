@@ -14,6 +14,9 @@ public class Main {
 		
 		for(int i = 0; i < files.length ;i++ )
 		{
+		System.out.println("---------------------------------------------------");
+		System.out.println("Starting solving of: " + files[i]);
+		System.out.println();
 		FileData fd = new FileData();
 		//double count = 1;
 		
@@ -30,7 +33,7 @@ public class Main {
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
 			
 			System.out.println("\n\nLoading...");
-			while(Functions.validate(fd.puzzle, puzzle.sections, fd.height, fd.width) == false)
+			while(Functions.validate(puzzle.cells, puzzle.sections, fd.height, fd.width) == false)
 			{
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));//Increment the unassigned Cells.
 			}

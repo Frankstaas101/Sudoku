@@ -74,6 +74,8 @@ public class Puzzle
 			else 
 				System.out.print(num + ", ");
 		}
+		
+		findSections();  //find all the section indexes in the puzzle.
 	}
 	
 	/*

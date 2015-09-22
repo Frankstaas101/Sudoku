@@ -28,7 +28,7 @@ public class Functions {
 
 
 	// enter in a completed puzzle
-	public static boolean validate(ArrayList<Integer> puzzle, ArrayList<ArrayList<Integer>> sections, int height, int width){
+	public static boolean validate(ArrayList<Cell> puzzle, ArrayList<ArrayList<Integer>> sections, int height, int width){
 
 		int dimension = height * width; // get dimension of the puzzle for calculations
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -37,7 +37,7 @@ public class Functions {
 
 		// Rows - starts at 1 counts to dimension breaks the arrays by rows
 		for(int i = 0; i < puzzle.size(); i++) { // iterates though ever value in the puzzle
-			checkList.add(puzzle.get(i));
+			checkList.add(puzzle.get(i).value);
 			if ((i+1)  % dimension == 0) { // this check happens every "dimension" values
 				if (hasDuplicate(checkList)) {
 					//valid = false; // break out as soon as a false value is found
@@ -51,7 +51,7 @@ public class Functions {
 		for (int colNum = 0; colNum < dimension; colNum++) { // does this dimension times
 			for(int i = 0; i < puzzle.size(); i++) { // iterate through whole puzzle
 				if ((i + colNum)  % dimension == 0) { // next row
-					checkList.add(puzzle.get(i));	// adds the first value of the next row
+					checkList.add(puzzle.get(i).value);	// adds the first value of the next row
 				}
 			}
 			if (hasDuplicate(checkList)) {
@@ -73,7 +73,7 @@ public class Functions {
 			ArrayList<Integer> sectionValues = new ArrayList<>();
 			for(Integer i: section)
 			{
-				sectionValues.add(i);
+				sectionValues.add(puzzle.get(i).value);
 			}
 			if(hasDuplicate(sectionValues))
 			{
