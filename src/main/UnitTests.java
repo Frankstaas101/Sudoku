@@ -213,7 +213,6 @@ public class UnitTests {
 		//comments are the same
 		//height is equal
 		//width is equal
-		//puzzle is read in correctly
 		
 	}
 

@@ -26,7 +26,7 @@ public class Main {
 		try {
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
 			timer.start();
-			fd.readFile(new File("src/main/" + files[i]));		//Read the file.
+			fd.readFile(new File("src/tests/" + files[i]));		//Read the file.
 			fd.printComments();			//Print the comments of the file.
 			
 			Puzzle puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
