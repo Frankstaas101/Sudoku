@@ -1,14 +1,11 @@
 package main;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import main.Cell;
-import main.Position;
 
 /*
  * This class represents an instance of a Sudoku puzzle.
  */
-public class Puzzle_TESTING 
+public class Puzzle 
 {
 	/*
 	 * A instance is represented by a 2D array of values.
@@ -34,7 +31,7 @@ public class Puzzle_TESTING
 	 * @param height the unit height of a Sudoku "box"
 	 * @param puzzle Map of all the raw values of the Puzzle read from the file.
 	 */
-	public Puzzle_TESTING(int width, int height, ArrayList<Integer> puzzle) throws Exception
+	public Puzzle(int width, int height, ArrayList<Integer> puzzle) throws Exception
 	{
 		//Total dimension of the puzzle is [(WIDTH * HEIGHT) ^ 2]
 		this.cells = new ArrayList<Cell>();

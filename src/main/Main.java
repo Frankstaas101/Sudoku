@@ -1,7 +1,6 @@
 package main;
 
 import java.io.File;
-import java.util.ArrayList;
 
 
 public class Main {
@@ -28,7 +27,7 @@ public class Main {
 			fd.printComments();			//Print the comments of the file.
 			
 			
-			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+			Puzzle puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
 			puzzle.printDimensions();
 			
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
