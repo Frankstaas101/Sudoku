@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,9 +17,20 @@ public class FileData {
 	protected double maxCells = 0; // maximum amount of cells base off the dimensions of the puzzle
 	protected int cellLocation = 0; // location of the cell (0 - maxCells)
 	protected ArrayList<String> comments = new ArrayList<String>();
-	protected HashMap<Integer, Integer> puzzle = new HashMap<Integer, Integer>();
+	protected ArrayList<Integer> puzzle = new ArrayList<Integer>();
 
-	public FileData() { }
+	public FileData() { 
+//			System.out.println("Input file name: ");
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//			try {
+//				String input = reader.readLine();
+//				//readFile(new File(input));
+//				reader.close();
+//			} catch (IOException e) {
+//				System.err.println("Input read error.");
+//				
+//			}
+	}
 
 	/**
 	 * Reads the file and parses all the data with regular expressions
@@ -27,7 +39,7 @@ public class FileData {
 	 * @param file the text file containing the information about the Suduko puzzle.
 	 * @throws Exception 
 	 */
-	public void readFile(File file) throws Exception{
+	public void readFile(File file) {
 
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -66,28 +78,27 @@ public class FileData {
 
 							Integer value = new Integer(s); // cast the string to an integer with the Integer Object constructor
 							if (!(value <= dimension) || (value < 0)) { // if the value falls out of the range of the expect values of the puzzles dimensions
-								puzzle.put(cellLocation,  0 );  // put the key and the location in the map
+								puzzle.add(0);  // put the key and the location in the map
 								System.out.println("A value falls out of the required range for a puzzle of this size: "
 										+ "\n\t'" + value + "' was converted to '0'. Please change this value if you wish it to be another value.");
 							} 
 							else {
-								puzzle.put(cellLocation,  value );  // put the key and the location in the map
+								puzzle.add(value);  // put the key and the location in the map
 							}
 							cellLocation++;
 						}
 					}
-					
-					if (puzzle.size() != maxCells) { // if the read in values don't reach the end assume the rest are blank or 0's
-						for (int i = puzzle.size(); i < maxCells; i++) {
-							puzzle.put(i, 0); // fill in the remaining slots for the puzzle as 0 values;
-						}
-					}
+
 				}
+
 				nextLine = in.readLine();
 				if (nextLine == null && (puzzle.size() < maxCells)) {
-					System.out.println("Not enough values");
-					return;
-				}
+					for (int i = puzzle.size(); i < maxCells; i++) {
+						puzzle.add(0); // fill in the remaining slots for the puzzle as 0 values;
+					}
+					System.out.println("Not enough values, assuming you wanted the rest were blank.");
+					//return;
+				} 
 			}
 
 			in.close(); // close the stream
@@ -95,9 +106,11 @@ public class FileData {
 		} catch (FileNotFoundException e) {
 			System.err.println("File was not found!");
 			e.printStackTrace();
+			return;
 		} catch (IOException e) {
 			System.err.println("There was a problem with reading the file!");
 			e.printStackTrace();
+			return;
 		} 
 	}
 
@@ -117,11 +130,11 @@ public class FileData {
 		this.height = height;
 	}
 
-	public HashMap<Integer, Integer> getPuzzle() {
+	public ArrayList<Integer> getPuzzle() {
 		return puzzle;
 	}
 
-	public void setPuzzle(HashMap<Integer, Integer> puzzle) {
+	public void setPuzzle(ArrayList<Integer> puzzle) {
 		this.puzzle = puzzle;
 	}
 

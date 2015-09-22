@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -23,35 +24,38 @@ public class Main {
 			fd.printDimensions();		//Print the dimensions of the puzzle.
 			fd.printComments();			//Print the comments of the file.
 			fd.printPuzzle();			//Print the puzzle read from the file.
-			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
-			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);			//We need to set the "0" place holders to "1"
-			System.out.println("\n\nLoading...");
-			while(puzzle.check() == false)
-			{
-				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));	//Increment the unassigned Cells.
-
-				/*
-				if(count++ % 10000000 == 0)
-				{
-					System.out.println("Tried " + count + " combinations");
-				}
-				*/
-
-
-				//if(count % 1000000000 == 0)
-					//puzzle.printPuzzle();
-				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
-
-			}
-			//We are done - stop the timer.
-			timer.stop();
-			System.out.println();
-			System.out.println("Solved!");
-			puzzle.printPuzzle();
-			//Get and print the time elapsed to solve the puzzle. Divide by 1000 to get seconds.
-			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
+			Functions.validate(fd.getPuzzle(), fd.getHeight(), fd.getWidth());
+			
+//			Puzzle_TESTING puzzle = new Puzzle_TESTING(fd.width, fd.height, fd.puzzle);
+//			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
+//			System.out.println("\n\nLoading...");
+//			while(puzzle.check() == false)
+//			{
+//				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));//Increment the unassigned Cells.
+//
+//				/*
+//				if(count++ % 10000000 == 0)
+//				{
+//					System.out.println("Tried " + count + " combinations");
+//				}
+//				*/
+//
+//
+//				//if(count % 1000000000 == 0)
+//					//puzzle.printPuzzle();
+//				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
+//
+//			}
+//			//We are done - stop the timer.
+//			timer.stop();
+//			System.out.println();
+//			System.out.println("Solved!");
+//			puzzle.printPuzzle();
+//			//Get and print the time elapsed to solve the puzzle. Divide by 1000 to get seconds.
+//			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("File Reader Error or no solution found!");
 		}	
 	}

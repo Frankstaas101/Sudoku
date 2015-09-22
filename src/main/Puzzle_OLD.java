@@ -74,7 +74,7 @@ public class Puzzle_OLD
 			{
 				rowValues.add(cells[x][y]);
 			}
-			if(!Validators.checkRow(rowValues))
+			if(!Functions.hasDuplicate(rowValues))
 			{
 				passed = false;
 			}
@@ -95,7 +95,7 @@ public class Puzzle_OLD
 			{
 				columnValues.add(cells[x][y]);
 			}
-			if(!Validators.checkRow(columnValues))
+			if(!Functions.hasDuplicate(columnValues))
 			{
 				passed = false;
 			}

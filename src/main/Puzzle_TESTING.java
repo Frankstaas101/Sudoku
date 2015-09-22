@@ -33,7 +33,7 @@ public class Puzzle_TESTING
 	 * @param height the unit height of a Sudoku "box"
 	 * @param puzzle Map of all the raw values of the Puzzle read from the file.
 	 */
-	public Puzzle_TESTING(int width, int height, HashMap<Integer, Integer> puzzle) throws Exception
+	public Puzzle_TESTING(int width, int height, ArrayList<Integer> puzzle) throws Exception
 	{
 		//Total dimension of the puzzle is [(WIDTH * HEIGHT) ^ 2]
 		this.cells = new ArrayList<Cell>();
