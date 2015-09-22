@@ -19,9 +19,10 @@ public class Puzzle_TESTING
 	//List of all the values in the Puzzle.
 	protected ArrayList<Cell> cells;
 	
-	protected int unitHeight;
-	protected int unitWidth;
+	protected int height;
+	protected int width;
 	protected int dimension;
+	protected int maxCells;
 
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
 	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();		//All the unassigned Cells
@@ -37,9 +38,10 @@ public class Puzzle_TESTING
 	{
 		//Total dimension of the puzzle is [(WIDTH * HEIGHT) ^ 2]
 		this.cells = new ArrayList<Cell>();
-		this.unitHeight = height;
-		this.unitWidth = width;
+		this.height = height;
+		this.width = width;
 		this.dimension = width * height;
+		this.maxCells = dimension * dimension;
 
 		for (int i = 0; i < Math.pow(dimension, 2); i++) {
 			int cellValue = puzzle.get(i);
@@ -75,57 +77,6 @@ public class Puzzle_TESTING
 				System.out.print(num + ", ");
 		}
 	}
-
-	/*
-	 * @returns true if all the rows pass the checks.
-	 */
-	public boolean check()
-	{
-		boolean passed = true; 
-		HashMap<Integer, Integer> rowCheckingHash = new HashMap<Integer, Integer>(); 
-		HashMap<Integer, Integer> colCheckingHash = new HashMap<Integer, Integer>(); 
-
-		// ROW CHECKING
-		int rowCount = 0;
-		for(int i = 0; i < Math.pow(dimension, 2); i++) {
-			
-			// if there is a duplicate value it will be over written
-			rowCheckingHash.put(cells.get(i).value, cells.get(i).pos);
-			
-			// when ((i + 1) mod dimenion) is 0 this means when its the next row
-			if ((i+1) % dimension == 0) { 
-				rowCount++;
-				
-				// if the hashmap does not contain 'dimension' values then there is a duplicate in that row.
-				if (!(rowCheckingHash.size() == dimension)) { 
-					// System.out.println("Puzzle has a duplicate value at cell position " 
-					//+ cells.get(i).pos + " with a value of " + cells.get(i).value +  " in row "+ rowCount);
-					passed = false;
-				}
-				rowCheckingHash = new HashMap<Integer, Integer>(); // new hash map for every row
-			}
-		}
-
-		// COLUMN CHECKING
-		for(int i = 0; i < dimension; i++) {
-			
-			// Each cell in the column
-			for(int j = 0; j < dimension; j++) {	
-				// if there is a duplicate value in the column it will be over written
-				colCheckingHash.put(cells.get((j * dimension) + i).value, cells.get((j * dimension) + i).pos); 
-			}
-			// If the colCheckingHash does not contains the same amount of numbers as the dimension of the puzzle then
-			// a value has been over written because it was a duplicate thus making the table invalid.
-			if (!(colCheckingHash.size() == dimension)) {  
-				// System.out.println("Puzzle has a duplicate value at cell position " 
-				//+ cells.get(i).pos + " with a value of " + cells.get(i).value +  " in column "+ i);
-				passed = false;
-			}
-			// reset the hash map to check the next column
-			colCheckingHash = new HashMap<Integer, Integer>(); 
-		}
-		return passed;
-	}
 	
 	/*
 	 * Set the desired Cell values.
@@ -141,21 +92,33 @@ public class Puzzle_TESTING
 			cells.get(c.pos).value = c.value;
 		}
 	}
-	
+
+	/**
+	 * Prints the dimensions from the file for testing
+	 */
+	public void printDimensions(){
+		System.out.println("\nWidth: " + width + ", Height:" + height);
+		System.out.println("Dimension: " + dimension + "x" + dimension);
+	}
+
+	/**
+	 *  Prints out the puzzle from the puzzle Hash Map for testing
+	 * @throws Exception 
+	 */
 	public void printPuzzle() throws Exception {
 		System.out.println();
 		printDashedHorizontalLine(); // prints the top line of the puzzle
 		System.out.println();
-		for (int i = 0; i < cells.size(); i++) { // 0 to maxCells - 1 
+		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 
 
-			if (i % unitWidth == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
-				System.out.print("| " + cells.get(i) + " ");
+			if (i % width == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
+				System.out.print("| " + cells.get(i).value + " ");
 			} 
 			else {
-				System.out.print(cells.get(i) + " ");
+				System.out.print(cells.get(i).value + " ");
 				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
 					System.out.print("|\n");
-					if ((i + 1) % (dimension * unitHeight) == 0) { // if the count is the dimension * height
+					if ((i + 1) % (dimension * height) == 0) { // if the count is the dimension * height
 						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
 						System.out.println();
 					}
@@ -164,14 +127,14 @@ public class Puzzle_TESTING
 		}
 		System.out.println();
 	}
-	
-	/*
-	 * Print a correctly formatted dashed horizontal line to the console.
+
+	/**
+	 * Prints a dashed horizontal line based on the dimension and width of the puzzle
 	 */
 	private void printDashedHorizontalLine(){
 		for (int j = 0; j < dimension; j++) {
 			if ( j != 0){
-				if (j % unitWidth == 0) 
+				if (j % width == 0) 
 				{
 					System.out.print("  ");System.out.print(" -");
 				} else {

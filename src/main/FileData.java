@@ -88,7 +88,6 @@ public class FileData {
 							cellLocation++;
 						}
 					}
-
 				}
 
 				nextLine = in.readLine();
@@ -113,6 +112,15 @@ public class FileData {
 			return;
 		} 
 	}
+	
+	/**
+	 * Prints all the comments in the order they were place into the array for testing
+	 */
+	public void printComments(){
+		for (String s : comments){
+			System.out.println("Comment: " + s);
+		}
+	}
 
 	public int getWidth() {
 		return width;
@@ -136,67 +144,5 @@ public class FileData {
 
 	public void setPuzzle(ArrayList<Integer> puzzle) {
 		this.puzzle = puzzle;
-	}
-
-	/**
-	 * Prints the dimensions from the file for testing
-	 */
-	public void printDimensions(){
-		System.out.println("\nWidth: " + width + ", Height:" + height);
-		System.out.println("Dimension: " + dimension + "x" + dimension);
-	}
-
-	/**
-	 * Prints all the comments in the order they were place into the array for testing
-	 */
-	public void printComments(){
-		for (String s : comments){
-			System.out.println("Comment: " + s);
-		}
-	}
-
-	/**
-	 *  Prints out the puzzle from the puzzle Hash Map for testing
-	 * @throws Exception 
-	 */
-	public void printPuzzle() throws Exception {
-		System.out.println();
-		printDashedHorizontalLine(); // prints the top line of the puzzle
-		System.out.println();
-		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 
-
-			if (i % width == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
-				System.out.print("| " + puzzle.get(i) + " ");
-			} 
-			else {
-				System.out.print(puzzle.get(i) + " ");
-				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
-					System.out.print("|\n");
-					if ((i + 1) % (dimension * height) == 0) { // if the count is the dimension * height
-						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
-						System.out.println();
-					}
-				}
-			}
-		}
-		System.out.println();
-	}
-
-	/**
-	 * Prints a dashed horizontal line based on the dimension and width of the puzzle
-	 */
-	private void printDashedHorizontalLine(){
-		for (int j = 0; j < dimension; j++) {
-			if ( j != 0){
-				if (j % width == 0) 
-				{
-					System.out.print("  ");System.out.print(" -");
-				} else {
-					System.out.print(" -");
-				}
-			} else {
-				System.out.print("  -");
-			}
-		}
 	}
 }
