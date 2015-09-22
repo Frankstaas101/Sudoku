@@ -13,13 +13,20 @@ public class BruteSolver
 	 * @param cells the List of Cells to be incremented.
 	 * @param dimension the upper limit what each Cell will increment to.
 	 */
-	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells, int dimension) throws Exception
+	public static ArrayList<Cell> assignValues(ArrayList<Cell> cells, int dimension)
 	{
 		//The actual recursive method call.
 		//Note that we always want to try to increment the first cell.
 		
+		try
+		{
+			cells = increment(0, cells, dimension);
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
 		
-		cells = increment(0, cells, dimension);
 		/*
 		for(Cell c: cells)
 		{
@@ -40,7 +47,7 @@ public class BruteSolver
 	 */
 	private static ArrayList<Cell> increment(int cellNo, ArrayList<Cell> cells, int dimension) throws Exception
 	{
-		//When the below line throws an OutOfBounds exception, we have tried all the possible values.
+		//When the below line throws an IndexOutOfBounds exception, we have tried all the possible values.
 		Cell cell = cells.get(cellNo);
 		if(cell.value == dimension)
 		{	

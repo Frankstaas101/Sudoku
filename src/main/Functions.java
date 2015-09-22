@@ -40,8 +40,8 @@ public class Functions {
 			checkList.add(puzzle.get(i).value);
 			if ((i+1)  % dimension == 0) { // this check happens every "dimension" values
 				if (hasDuplicate(checkList)) {
-					//valid = false; // break out as soon as a false value is found
-					return false;
+					//valid = false; 
+					return false;		// break out as soon as a false value is found
 				}
 				checkList.clear(); // clears the list if not false to be used again
 			}
@@ -55,8 +55,8 @@ public class Functions {
 				}
 			}
 			if (hasDuplicate(checkList)) {
-				//valid =  false; // break out as soon as a false value is found
-				return false;
+				//valid =  false; 
+				return false;		// break out as soon as a false value is found
 			}
 			checkList.clear(); // clears the list
 		}
@@ -66,16 +66,15 @@ public class Functions {
 //		 12 13 14 15
 		//Sections
 		
-		//Check all the sections
-		
+		//Check all the sections		
 		for(ArrayList<Integer> section: sections)
 		{
-			ArrayList<Integer> sectionValues = new ArrayList<>();
-			for(Integer i: section)
+			ArrayList<Integer> sectionValues = new ArrayList<>();		//Create a new List of values for each section.
+			for(Integer i: section)		//Iterate through all the indexes in each section.
 			{
-				sectionValues.add(puzzle.get(i).value);
+				sectionValues.add(puzzle.get(i).value);		//Get the value at the given index and add it to the section.
 			}
-			if(hasDuplicate(sectionValues))
+			if(hasDuplicate(sectionValues))		//Test the section values.
 			{
 				//valid = false;
 				return false;

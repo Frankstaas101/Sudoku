@@ -10,7 +10,8 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
-		String[] files = {"p1.txt", "p2.txt", "p3.txt", "p4.txt"};
+		String[] files = {"p1.txt", "p4.txt", "p3.txt", "p2.txt"};
+		
 		
 		for(int i = 0; i < files.length ;i++ )
 		{
@@ -35,7 +36,7 @@ public class Main {
 			System.out.println("\n\nLoading...");
 			while(Functions.validate(puzzle.cells, puzzle.sections, fd.height, fd.width) == false)
 			{
-				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));//Increment the unassigned Cells.
+				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));	//Increment the unassigned Cells.
 			}
 			
 			//We are done - stop the timer.
@@ -46,12 +47,17 @@ public class Main {
 			//Get and print the time elapsed to solve the puzzle. Divide by 1000 to get seconds.
 			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
 
-		} catch (Exception e) {
+		} 
+		catch (NullPointerException e)
+		{
+			System.out.println("Sudoku has no solution!");
+		}
+		catch (Exception e) 
+		{
 			//e.printStackTrace();
-			System.err.println("File Reader Error or no solution found!");
-			break;
+			System.out.println("File Reader Error! Please check file names!");
 		}
 		
-		}
+	}
 	}
 }
