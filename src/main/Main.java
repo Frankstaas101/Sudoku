@@ -13,13 +13,17 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
+		String[] files = {"p1.txt", "p2.txt", "p3.txt", "p4.txt"};
+		
+		for(int i = 0; i < files.length ;i++ )
+		{
 		FileData fd = new FileData();
 		//double count = 1;
 		
 		try {
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
 			timer.start();
-			fd.readFile(new File("src/main/test.txt"));		//Read the file.
+			fd.readFile(new File("src/main/" + files[i]));		//Read the file.
 			fd.printDimensions();		//Print the dimensions of the puzzle.
 			fd.printComments();			//Print the comments of the file.
 			fd.printPuzzle();			//Print the puzzle read from the file.
@@ -53,6 +57,9 @@ public class Main {
 
 		} catch (Exception e) {
 			System.err.println("File Reader Error or no solution found!");
-		}	
+			return;
+		}
+		
+		}
 	}
 }
