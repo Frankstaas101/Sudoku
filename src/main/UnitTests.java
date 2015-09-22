@@ -198,6 +198,24 @@ public class UnitTests {
         assertEquals(false, Functions.validate(puzzle.cells, puzzle.sections, height, width ));
 	
 	}
+	
+	@Test
+	public void testFileReader()
+	{
+		FileData fd = new FileData();
+		File file = new File("src/tests/test.txt");
+		fd.readFile(file);
+		
+		assertEquals(3, fd.width);
+		assertEquals(3, fd.height);
+		assertEquals(9, fd.dimension);
+		assertEquals("This is a test comment", fd.comments.toString());
+		//comments are the same
+		//height is equal
+		//width is equal
+		//puzzle is read in correctly
+		
+	}
 
 	
 }
