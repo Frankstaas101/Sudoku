@@ -210,7 +210,8 @@ public class UnitTests {
 		assertEquals(3, fd.width);
 		assertEquals(3, fd.height);
 		assertEquals(9, fd.dimension);
-		assertEquals("This is a test comment", fd.comments.toString());
+		//System.out.println(fd.comments.toString());
+		assertEquals("[This is a test comment]", fd.comments.toString());
 		//comments are the same
 		//height is equal
 		//width is equal
