@@ -17,7 +17,7 @@ public class UnitTests {
     public void testRowCheckingSuccess() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku");
+		File file = new File("src/tests/PerfectSudoku.txt");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
@@ -39,7 +39,7 @@ public class UnitTests {
     public void testRowCheckingFailure() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/RowsFail");
+		File file = new File("src/tests/RowsFail.txt");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
@@ -61,7 +61,7 @@ public class UnitTests {
     public void testColCheckingFailure() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/ColFail");
+		File file = new File("src/tests/ColFail.txt");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
@@ -83,7 +83,7 @@ public class UnitTests {
     public void testColCheckingSuccess() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku");
+		File file = new File("src/tests/PerfectSudoku.txt");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
@@ -131,8 +131,7 @@ public class UnitTests {
     public void testBoxCheckingSuccess() {
         
 		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudok"
-				+ "u");
+		File file = new File("src/tests/PerfectSudoku.txt");
 		fd.readFile(file);
 		
 		int dimension = fd.dimension;
