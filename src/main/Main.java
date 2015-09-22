@@ -2,10 +2,7 @@ package main;
 
 import java.io.File;
 
-
 public class Main {
-	// CHECK FOR MORE THEN THE DIMENSION AMMOUNT OF EACH NUMBER 
-	
 	/*
 	 * Execute this method to read a puzzle from file and attempt to solve it. 
 	 * Note that the program requires a properly formatted file called "test.txt" in the source directory of this package.
@@ -26,29 +23,18 @@ public class Main {
 			fd.readFile(new File("src/main/" + files[i]));		//Read the file.
 			fd.printComments();			//Print the comments of the file.
 			
-			
 			Puzzle puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
+			puzzle.printPuzzle();
 			puzzle.printDimensions();
 			
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
+			
 			System.out.println("\n\nLoading...");
-			while(Functions.validate(fd.getPuzzle(), fd.getHeight(), fd.getWidth()) == false)
+			while(Functions.validate(fd.puzzle, fd.height, fd.width) == false)
 			{
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));//Increment the unassigned Cells.
-//
-//				/*
-//				if(count++ % 10000000 == 0)
-//				{
-//					System.out.println("Tried " + count + " combinations");
-//				}
-//				*/
-//
-//
-//				//if(count % 1000000000 == 0)
-//					//puzzle.printPuzzle();
-//				//puzzle.setValues(BruteSolver.assignValues(puzzle.missingNumbers));
-//
 			}
+			
 			//We are done - stop the timer.
 			timer.stop();
 			System.out.println();

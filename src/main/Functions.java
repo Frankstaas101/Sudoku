@@ -58,11 +58,20 @@ public class Functions {
 			}
 			checkList.clear(); // clears the list
 		}
-		
+//		 0  1  2  3
+//		 4  5  6  7
+//		 8  9  10 11
+//		 12 13 14 15
 		//Sections
+		
+		int location = 0;
 		for(int i = 0; i < dimension; i++){
+		
 			System.out.println("Section: " + i);
-			int location = i * width;
+			 
+				//location = i * width * ((dimension * height) * w1);
+			
+			
 			for (int h = 0; h < height; h++){
 				for (int w = 0; w < width; w++){
 					System.out.println(location + ", ");
@@ -76,6 +85,7 @@ public class Functions {
 			if (hasDuplicate(checkList)) {
 				valid = false; // break out as soon as a false value is found
 			}
+			
 			checkList.clear(); // clears the list
 		}
 
