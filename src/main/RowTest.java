@@ -24,7 +24,8 @@ public class RowTest {
     public void testRowChecking() {
         
 		FileData fd = new FileData();
-		fd.readFile(new File("PerfectSudoku"));
+		File file = new File("PerfectSudoku");
+		fd.readFile(file);
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -45,7 +46,8 @@ public class RowTest {
     public void testColChecking() {
         
 		FileData fd = new FileData();
-		fd.readFile(new File("PerfectSudoku"));
+		File file = new File("PerfectSudoku");
+		fd.readFile(file);
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -66,8 +68,8 @@ public class RowTest {
     public void testBoxChecking() {
         
 		FileData fd = new FileData();
-		//fd.readFile(new File("PerfectSudoku.txt"));
-		fd.readFile(new File("boxesFail.txt"));
+		File file = new File("boxesFail.txt");
+		fd.readFile(file);
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
