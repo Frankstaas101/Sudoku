@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class FileData {
@@ -14,20 +15,31 @@ public class FileData {
 	protected int dimension = 0; // the dimensions of the puzzle width * height
 	protected double maxCells = 0; // maximum amount of cells base off the dimensions of the puzzle
 	protected int cellLocation = 0; // location of the cell (0 - maxCells)
-	protected ArrayList<String> comments = new ArrayList<String>();
-	protected ArrayList<Integer> puzzle = new ArrayList<Integer>();
+	protected ArrayList<String> comments = new ArrayList<String>(); // all the comments in the text file
+	protected ArrayList<Integer> puzzle = new ArrayList<Integer>(); // all the values in the puzzle
+	protected String fileName; // name of the file we are reading from
 
+	/**
+	 * Once the constructor is called it will as the user for a file name in the
+	 * "src/tests/" directory.
+	 */
 	public FileData() { 
-//			System.out.println("Input file name: ");
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//			try {
-//				String input = reader.readLine();
-//				//readFile(new File(input));
-//				reader.close();
-//			} catch (IOException e) {
-//				System.err.println("Input read error.");
-//				
-//			}
+		getInput();
+	}
+
+	public void getInput(){
+		System.out.println("Input file name: ");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			fileName = reader.readLine(); // reads the user input from the console
+			readFile(new File("src/tests/" + fileName));
+
+			reader.close();// data parsing
+		} catch (Exception e) {
+			System.err.println(e.getLocalizedMessage());
+			getInput();
+		}
+
 	}
 
 	/**
@@ -37,18 +49,25 @@ public class FileData {
 	 * @param file the text file containing the information about the Suduko puzzle.
 	 * @throws Exception 
 	 */
-	public void readFile(File file) {
+	public void readFile(File file)   {
 
 		try {
+			// new buffered reader for reading in whole lines
 			BufferedReader in = new BufferedReader(new FileReader(file));
 
+			// set the next line to the next line in the reader
 			String nextLine = in.readLine();
 
+			// while the next line exists
 			while(nextLine != null) {
 
 				// COMMENTS
 				if (nextLine.matches("^c(\\s+).*")){
-					String[] comment = nextLine.split("^c(\\s+)"); // removes the "c" when added to the comment array
+
+					// removes the "c" when added to the comment array
+					String[] comment = nextLine.split("^c(\\s+)"); 
+
+					// add the comment to the comment array
 					comments.add(comment[1]);
 				}
 
@@ -66,21 +85,15 @@ public class FileData {
 
 				// PUZZLE DATA
 				else if (nextLine.matches("^[\\d\\s]+$") || nextLine.matches("^[\\s\\d]+$")){
-
-					String trimmedLine = nextLine.trim(); // removes leading and trailing whitespace
-					String[] arrayOfIntegers = trimmedLine.split("\\s"); // splits the string of digits by each space
-
-					for (String s: arrayOfIntegers) // go though the array of integers
-					{ 
-						if (cellLocation < maxCells) { // counts from 0 to max number of cells - 1
-
-							Integer value = new Integer(s); // cast the string to an integer with the Integer Object constructor
-							if (!(value <= dimension) || (value < 0)) { // if the value falls out of the range of the expect values of the puzzles dimensions
-								puzzle.add(0);  // put the key and the location in the map
-								System.out.println("A value falls out of the required range for a puzzle of this size: "
-										+ "\n\t'" + value + "' was converted to '0'. Please change this value if you wish it to be another value.");
-							} 
-							else {
+					String trimmedLine = nextLine.trim(); 					// removes leading/trailing whitespace
+					String[] arrayOfIntegers = trimmedLine.split("\\s"); 	// splits string by space
+					for (String s: arrayOfIntegers){ 						 
+						if (cellLocation < maxCells) { 						 
+							Integer value = new Integer(s); 				// convert string to int
+							if (!(value <= dimension) || (value < 0)) { 	// when value falls out of expected range
+								ErrorText.OUT_OF_RANGE.printTextToConsole();
+								return; 
+							} else {
 								puzzle.add(value);  // put the key and the location in the map
 							}
 							cellLocation++;
@@ -88,36 +101,43 @@ public class FileData {
 					}
 				}
 
+				else if (nextLine.matches("^[\\d\\s\\w]+$") || nextLine.matches("^[\\s\\d\\w]+$")){
+					ErrorText.INVALID_VALUE.printTextToConsole();;
+					return;
+				}
+
+
 				nextLine = in.readLine();
 				if (nextLine == null && (puzzle.size() < maxCells)) {
 					for (int i = puzzle.size(); i < maxCells; i++) {
 						puzzle.add(0); // fill in the remaining slots for the puzzle as 0 values;
 					}
 					System.out.println("Not enough values, assuming you wanted the rest were blank.");
-					//return;
 				} 
 			}
-
 			in.close(); // close the stream
 
-		} catch (FileNotFoundException e) {
-			System.err.println("File was not found!");
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			System.err.println("There was a problem with reading the file!");
-			e.printStackTrace();
-			return;
+		}   catch (IOException e) {
+			System.err.println(e.getLocalizedMessage());
+			getInput();
 		} 
 	}
-	
+
 	/**
 	 * Prints all the comments in the order they were place into the array for testing
 	 */
 	public void printComments(){
-		for (String s : comments){
-			System.out.println("Comment: " + s);
+		System.out.println("\n- COMMENTS -");
+		if (comments.size() != 0) {
+			int count = 1;
+			for (String s : comments){
+				System.out.println(count + ".\t" + s);
+				count++;
+			}
+		} else {
+			System.out.println("No Comments");
 		}
+		System.out.println();
 	}
 
 	public int getWidth() {

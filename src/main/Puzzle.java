@@ -64,17 +64,6 @@ public class Puzzle
 				missingNumbers.add(j);
 			}
 		}
-
-		// prints out the missing numbers
-		int count = 0;
-		for (Integer num: missingNumbers){
-			count++;
-			if (count % 15 == 0) // every 15 numbers make a new line
-				System.out.print(num + ",\n");
-			else 
-				System.out.print(num + ", ");
-		}
-		
 		findSections();  //find all the section indexes in the puzzle.
 	}
 	
@@ -116,21 +105,41 @@ public class Puzzle
 			cells.get(c.pos).value = c.value;
 		}
 	}
+	
+	/**
+	 * Prints the missing values of the puzzle
+	 */
+	public void printMissingNumbers(){
+		System.out.println("- MISSING VALUES -");
+		// prints out the missing numbers
+		int count = 0;
+		for (Integer num: missingNumbers){
+			count++;
+			if (count % 15 == 0) // every 15 numbers make a new line
+				System.out.print(num + ",\n");
+			else 
+				System.out.print(num + ", ");
+		}
+		System.out.println();
+	}
 
 	/**
 	 * Prints the dimensions from the file for testing
 	 */
 	public void printDimensions(){
-		System.out.println("\nWidth: " + width + ", Height:" + height);
-		System.out.println("Dimension: " + dimension + "x" + dimension);
+		System.out.println("- DIMENSIONS -");
+		System.out.println("Width: " + width + ", Height:" + height);
+		System.out.println("Dimension: " + dimension + "x" + dimension + "\n");
 	}
 
 	/**
 	 *  Prints out the puzzle from the puzzle Hash Map for testing
 	 * @throws Exception 
 	 */
-	public void printPuzzle() throws Exception {
-		System.out.println();
+	public void printPuzzle(boolean showTitle) throws Exception {
+		if (showTitle) {
+			System.out.println("- PUZZLE -");
+		}
 		printDashedHorizontalLine(); // prints the top line of the puzzle
 		System.out.println();
 		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 

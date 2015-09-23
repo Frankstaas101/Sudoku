@@ -10,32 +10,25 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
-		//String[] files = {"p4.txt"};//, "p4.txt", "p3.txt", "p2.txt"};
-		
-		String[] files = {"test.txt"};
-		
-		
-		for(int i = 0; i < files.length ;i++ )
-		{
-		System.out.println("---------------------------------------------------");
-		System.out.println("Starting solving of: " + files[i]);
-		System.out.println();
-		FileData fd = new FileData();
-		//double count = 1;
 		
 		try {
+			FileData fd = new FileData();
+			fd.printComments();			//Print the comments of the file.
+		
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
 			timer.start();
-			fd.readFile(new File("src/tests/" + files[i]));		//Read the file.
-			fd.printComments();			//Print the comments of the file.
 			
 			Puzzle puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
-			puzzle.printPuzzle();
+			puzzle.printPuzzle(true);
 			puzzle.printDimensions();
+			puzzle.printMissingNumbers();
 			
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
 			
-			System.out.println("\n\nLoading...");
+			System.out.println("---------------------------------------------------");
+			System.out.println("Attempting to solve: " + fd.fileName + "\n");
+			System.out.println("Solving...");
+			
 			while(Functions.validate(puzzle.cells, puzzle.sections, fd.height, fd.width) == false)
 			{
 				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));	//Increment the unassigned Cells.
@@ -44,22 +37,18 @@ public class Main {
 			//We are done - stop the timer.
 			timer.stop();
 			System.out.println();
-			System.out.println("Solved!");
-			puzzle.printPuzzle();
+			System.out.println("- SOLVED PUZZLE -");
+			puzzle.printPuzzle(false);
 			//Get and print the time elapsed to solve the puzzle. Divide by 1000 to get seconds.
 			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
 
-		} 
-		catch (NullPointerException e)
-		{
-			System.out.println("Sudoku has no solution!");
+		} catch (NullPointerException e) {
+			System.out.println(ErrorText.NO_SOLUTION.getText());
+		} catch (IndexOutOfBoundsException e)  {
+			System.err.println(ErrorText.OUT_OF_RANGE.getText());
+		} catch (Exception e)  {
+			System.err.println(e.getLocalizedMessage());
+			//"File Reader Error! Please check file names!");
 		}
-		catch (Exception e) 
-		{
-			//e.printStackTrace();
-			System.out.println("File Reader Error! Please check file names!");
-		}
-		
-	}
 	}
 }
