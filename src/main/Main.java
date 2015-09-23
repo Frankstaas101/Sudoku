@@ -13,6 +13,7 @@ public class Main {
 		
 		try {
 			FileData fd = new FileData();
+			fd.getInput();
 			fd.printComments();			//Print the comments of the file.
 		
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.

@@ -1,5 +1,5 @@
 c This is a test comment
-c This one annoying to solve with (our attempt at) brute force...although its a "beginner" puzzle.
+c This one annoying to solve with (our attempt at) brute force...although its a 'beginner' puzzle.
 
 c The first two numbers that are by them selves on a line will be considered the WIDTH and the HEIGHT 
 3

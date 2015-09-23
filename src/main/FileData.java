@@ -24,7 +24,7 @@ public class FileData {
 	 * "src/tests/" directory.
 	 */
 	public FileData() { 
-		getInput();
+		
 	}
 
 	public void getInput(){
