@@ -13,6 +13,7 @@ public class Main {
 		
 		try {
 			FileData fd = new FileData();
+			fd.getInput();
 			fd.printComments();			//Print the comments of the file.
 		
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
@@ -39,8 +40,8 @@ public class Main {
 			System.out.println();
 			System.out.println("- SOLVED PUZZLE -");
 			puzzle.printPuzzle(false);
-			//Get and print the time elapsed to solve the puzzle. Divide by 1000 to get seconds.
-			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() / 1000 + " seconds!");
+			//Get and print the time elapsed to solve the puzzle.
+			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
 
 		} catch (NullPointerException e) {
 			System.out.println(ErrorText.NO_SOLUTION.getText());

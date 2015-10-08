@@ -227,8 +227,11 @@ public class UnitTests {
 		assertEquals(3, fd.width);
 		assertEquals(3, fd.height);
 		assertEquals(9, fd.dimension);
-		//System.out.println(fd.comments.toString());
-		assertEquals("[This is a test comment]", fd.comments.toString());
+		System.out.println(fd.comments.toString());
+		assertEquals("[This is a test comment,"
+				+ " This one annoying to solve with (our attempt at) brute force...although its a 'beginner' puzzle.,"
+				+ " The first two numbers that are by them selves on a line will be considered the WIDTH and the HEIGHT ]",
+				fd.comments.toString());
 		//comments are the same
 		//height is equal
 		//width is equal
@@ -239,7 +242,7 @@ public class UnitTests {
 	 * and handles the end of incrementing properly.
 	 */
 	@Test
-	public void test() {
+	public void testAllPossibleAssignments() {
 		ArrayList<Cell> testCells = new ArrayList<Cell>();		
 		testCells.add(new Cell(0, 0));		//Make some test cells.
 		testCells.add(new Cell(0, 0));
