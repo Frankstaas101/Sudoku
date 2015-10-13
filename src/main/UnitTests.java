@@ -2,25 +2,20 @@ package main;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.junit.Test;
 
-
-
 public class UnitTests {
 	
-
 	/*
 	 * Test that rows without duplicates are correctly accepted.
 	 */
 	@Test
-    public void testRowCheckingSuccess() {
+    public void testRowCheckingSuccess() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -31,20 +26,17 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
         assertEquals(true, Functions.checkRow(checkList, dimension, puzzle.cells ));
-
     }
+	
 	/*
 	 * Test that rows with duplicates are correctly rejected.
 	 */
 	@Test
-    public void testRowCheckingFailure() {
+    public void testRowCheckingFailure() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/RowsFail.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/RowsFail.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -55,20 +47,17 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
         assertEquals(false, Functions.checkRow(checkList, dimension, puzzle.cells ));
-
     }
+	
 	/*
 	 * Assert that puzzles with duplicates in the columns are correctly rejected.
 	 */
 	@Test
-    public void testColCheckingFailure() {
+    public void testColCheckingFailure() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/ColFail.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/ColFail.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -88,11 +77,10 @@ public class UnitTests {
 	 * Assert that correct columns are accepted.
 	 */
 	@Test
-    public void testColCheckingSuccess() {
+    public void testColCheckingSuccess() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -112,11 +100,10 @@ public class UnitTests {
 	 * Assert that boxes with duplicates are rejected properly.
 	 */
 	@Test
-    public void testBoxCheckingFailure() {
+    public void testBoxCheckingFailure() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/boxesFail.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/boxesFail.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -140,11 +127,10 @@ public class UnitTests {
 	 * Assert that box checking correctly accepts correct boxes.
 	 */
 	@Test
-    public void testBoxCheckingSuccess() {
+    public void testBoxCheckingSuccess() throws Exception {
         
-		FileData fd = new FileData();
-		File file = new File("src/tests/PerfectSudoku.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		fd.readFile();
 		
 		int dimension = fd.dimension;
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
@@ -168,12 +154,10 @@ public class UnitTests {
 	 * Asser that a correct puzzle passes.
 	 */
 	@Test
-	public void testPuzzleSuccess()
+	public void testPuzzleSuccess() throws Exception
 	{
-		FileData fd = new FileData();
-		File file = new File("src/tests/puzzleSuccess.txt");
-		
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleSuccess.txt");
+		fd.readFile();
 		
 		int height = fd.height;
 		int width = fd.width;
@@ -193,12 +177,10 @@ public class UnitTests {
 	 * Assert that an incorrect puzzle fails.
 	 */
 	@Test
-	public void testPuzzleFailure()
+	public void testPuzzleFailure() throws Exception
 	{
-		FileData fd = new FileData();
-		File file = new File("src/tests/puzzleFail.txt");
-		
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleFail.txt");
+		fd.readFile();
 		
 		int height = fd.height;
 		int width = fd.width;
@@ -218,20 +200,17 @@ public class UnitTests {
 	 * Test that the file reader handles the puzzle, dimension, and comments properly.
 	 */
 	@Test
-	public void testFileReader()
+	public void testFileReader() throws Exception
 	{
-		FileData fd = new FileData();
-		File file = new File("src/tests/test.txt");
-		fd.readFile(file);
+		SudokuFileReader fd = new SudokuFileReader("src/tests/test.txt");
+		fd.readFile();
 		
 		assertEquals(3, fd.width);
 		assertEquals(3, fd.height);
 		assertEquals(9, fd.dimension);
 		System.out.println(fd.comments.toString());
-		assertEquals("[This is a test comment,"
-				+ " This one annoying to solve with (our attempt at) brute force...although its a 'beginner' puzzle.,"
-				+ " The first two numbers that are by them selves on a line will be considered the WIDTH and the HEIGHT ]",
-				fd.comments.toString());
+		assertEquals("This is a test comment",
+				fd.comments.get(0).toString());
 		//comments are the same
 		//height is equal
 		//width is equal

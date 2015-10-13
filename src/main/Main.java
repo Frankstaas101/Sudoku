@@ -12,8 +12,9 @@ public class Main {
 	public static void main(String[] args) {
 		
 		try {
-			FileData fd = new FileData();
-			fd.getInput();
+			String filePath = "src/tests/p4.txt";
+			SudokuFileReader fd = new SudokuFileReader(filePath);
+			
 			fd.printComments();			//Print the comments of the file.
 		
 			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
@@ -27,7 +28,7 @@ public class Main {
 			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
 			
 			System.out.println("---------------------------------------------------");
-			System.out.println("Attempting to solve: " + fd.fileName + "\n");
+			System.out.println("Attempting to solve: " + fd.filePath + "\n");
 			System.out.println("Solving...");
 			
 			while(Functions.validate(puzzle.cells, puzzle.sections, fd.height, fd.width) == false)
@@ -45,11 +46,10 @@ public class Main {
 
 		} catch (NullPointerException e) {
 			System.out.println(ErrorText.NO_SOLUTION.getText());
-		} catch (IndexOutOfBoundsException e)  {
-			System.err.println(ErrorText.OUT_OF_RANGE.getText());
-		} catch (Exception e)  {
+		}  catch (SudokuFileReadException e)  {
 			System.err.println(e.getLocalizedMessage());
-			//"File Reader Error! Please check file names!");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
