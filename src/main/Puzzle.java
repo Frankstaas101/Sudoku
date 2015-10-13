@@ -1,5 +1,8 @@
 package main;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import main.Cell;
 
 /*
@@ -12,17 +15,21 @@ public class Puzzle
 	 * 
 	 * Once the instance is created, we note the locations of the empty values.
 	 */
-	
-	//List of all the values in the Puzzle.
-	protected ArrayList<Cell> cells;
-	
+
+	// Hashmap of cell locations and values
+	// Dimension is organized by row then column
+	// Integer is the value that is inside that unique cell
+	protected int[][] cells; 
+
 	protected int height;
 	protected int width;
 	protected int dimension;
 	protected int maxCells;
 
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
-	protected ArrayList<Cell> unAssignedCells = new ArrayList<>();			 //All the unassigned Cells
+
+	// All of the unassigned cell locations
+	protected ArrayList<Dimension> unAssignedCells;			 //All the unassigned Cells
 	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	 //List of all the indexes in each section.	
 
 	/*
@@ -32,21 +39,32 @@ public class Puzzle
 	 * @param height the unit height of a Sudoku "box"
 	 * @param puzzle Map of all the raw values of the Puzzle read from the file.
 	 */
-	public Puzzle(int width, int height, ArrayList<Integer> puzzle) throws Exception
+	public Puzzle(int width, int height, int[][] puzzle) throws Exception
 	{
-		//Total dimension of the puzzle is [(WIDTH * HEIGHT) ^ 2]
-		this.cells = new ArrayList<Cell>();
+		// Total amount of cells in the puzzle is dimension*dimension
+		this.cells = new int[dimension][dimension];
+
+		// Variable array list of unassigned cells
+		this.unAssignedCells = new ArrayList<Dimension>();
+		
+		// Store and calculate puzzle variables
 		this.height = height;
 		this.width = width;
 		this.dimension = width * height;
 		this.maxCells = dimension * dimension;
 
-		for (int i = 0; i < Math.pow(dimension, 2); i++) {
-			int cellValue = puzzle.get(i);
-			cells.add(new Cell(cellValue, i));
-			//we found an unassigned cell, add it to the collection of unAssignedCells
-			if(cellValue == 0)
-				unAssignedCells.add(new Cell(1, i));
+		// Iterate though each value in the puzzle
+		for (int row = 0; row < dimension; row++) {
+			for (int col = 0; col < dimension; col++) {
+				
+				// We found an unassigned cell, add it to the collection of unAssignedCells
+				if(cells[row][col] == 0) {
+					
+					// Unassigned Cells row and column location stored
+					// in a Dimension(Row, Column) 
+					unAssignedCells.add(new Dimension(row,col));
+				}
+			}
 		}
 
 		for (int j = 1; j <= dimension; j ++) {
@@ -66,7 +84,7 @@ public class Puzzle
 		}
 		findSections();  //find all the section indexes in the puzzle.
 	}
-	
+
 	/*
 	 * Find the indexes of the Sections.
 	 */
@@ -87,10 +105,9 @@ public class Puzzle
 				}
 				sections.add(section);		//Add the section to the list of sections.
 			}
-
 		}
 	}
-	
+
 	/*
 	 * Set the desired Cell values.
 	 * 
@@ -105,7 +122,7 @@ public class Puzzle
 			cells.get(c.pos).value = c.value;
 		}
 	}
-	
+
 	/**
 	 * Prints the missing values of the puzzle
 	 */

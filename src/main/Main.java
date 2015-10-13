@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 
 public class Main {
+	
 	/*
 	 * Execute this method to read a puzzle from file and attempt to solve it. 
 	 * Note that the program requires a properly formatted file called "test.txt" in the source directory of this package.
@@ -10,46 +11,71 @@ public class Main {
 	 * This method will read the file, print the puzzle, and then attempt to solve it.
 	 */
 	public static void main(String[] args) {
+		 
+		// Initialize a new timer
+		Timer timer = new Timer();
 		
 		try {
+			
+			// set the file path of the file being read
 			String filePath = "src/tests/p4.txt";
-			SudokuFileReader fd = new SudokuFileReader(filePath);
+			SudokuFileReader sfr = new SudokuFileReader(filePath);
 			
-			fd.printComments();			//Print the comments of the file.
-		
-			Timer timer = new Timer();	//Start the timer so we may see the time required to solve the puzzle.
-			timer.start();
+			//Print the comments of the file.
+			sfr.printComments();			
 			
-			Puzzle puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
+			// Extract all of the data from the SudukoFileReader and build a puzzle
+			Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
+			
+			// Print Puzzle data for clarity
 			puzzle.printPuzzle(true);
 			puzzle.printDimensions();
 			puzzle.printMissingNumbers();
 			
-			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);//We need to set the "0" place holders to "1"
+			// Start the time as it solves the puzzle
+			timer.start(); 
 			
-			System.out.println("---------------------------------------------------");
-			System.out.println("Attempting to solve: " + fd.filePath + "\n");
-			System.out.println("Solving...");
+			//We need to set the "0" place holders to "1"
+			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
 			
-			while(Functions.validate(puzzle.cells, puzzle.sections, fd.height, fd.width) == false)
+			// Print and show the user that the puzzle is being solved
+			loadingDisplay(sfr.filePath);
+			
+			// Check whether or not the puzzle is valid and if not assign new values
+			while(Functions.validate(puzzle.cells, puzzle.sections, sfr.height, sfr.width) == false)
 			{
-				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, fd.dimension));	//Increment the unassigned Cells.
+				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, sfr.dimension));
 			}
 			
 			//We are done - stop the timer.
 			timer.stop();
-			System.out.println();
-			System.out.println("- SOLVED PUZZLE -");
+			
+			// If the puzzle was solved display that it was solved
+			System.out.println("\n- SOLVED PUZZLE -");
+			
+			// Print the solved version of the puzzle
 			puzzle.printPuzzle(false);
-			//Get and print the time elapsed to solve the puzzle.
+			
+			// Retrieve and print the time that it took to solve the puzzle.
 			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
 
-		} catch (NullPointerException e) {
-			System.out.println(ErrorText.NO_SOLUTION.getText());
-		}  catch (SudokuFileReadException e)  {
+		} catch (NullPointerException e) { 
+			// if there is no solution
+			System.out.println("The puzzle has no solution.");
+			timer.stop();
+		}  catch (SudokuFileReadException e)  { 
+			// if there is a problem with the format of the file
 			System.err.println(e.getLocalizedMessage());
 		} catch (Exception e) {
+			// if some other exceptions occur
 			e.printStackTrace();
 		}
+	}
+	
+	// The display that is shown when the puzzle is being solved and loaded
+	public static void loadingDisplay(String filePath) {
+		System.out.println("---------------------------------------------------");
+		System.out.println("Attempting to solve: " + filePath + "\n");
+		System.out.println("Solving...");
 	}
 }

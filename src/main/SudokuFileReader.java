@@ -18,7 +18,7 @@ public class SudokuFileReader {
 
 	// COLLECTIONS
 	protected ArrayList<String> comments; 	// all the comments in the text file
-	protected ArrayList<Integer> puzzle;	// all the values in the puzzle
+	protected int[][] puzzle;	// all the values in the puzzle
 
 	/**
 	 * Called with a file name to establish a new SudokuFileReader object
@@ -29,7 +29,6 @@ public class SudokuFileReader {
 		this.width = 0;								// initialize
 		this.height = 0;							// initialize
 		this.comments = new ArrayList<String>(); 	// initialize
-		this.puzzle = new ArrayList<Integer>(); 	// initialize
 		this.filePath = filePath.trim();			// set the file name
 		this.readFile(); 							// read the file
 	}
@@ -93,6 +92,7 @@ public class SudokuFileReader {
 						height = new Integer(nextLine.trim());
 						dimension = width * height;
 						maxCells = Math.pow((dimension), 2);
+						puzzle = new int[dimension][dimension];
 					} 
 				}
 
@@ -107,6 +107,9 @@ public class SudokuFileReader {
 				 */
 				else if (nextLine.matches("^[\\d\\s]+$") || nextLine.matches("^[\\s\\d]+$")){
 
+					int rowCount = 0;
+					int colCount = 0;
+					
 					String trimmedLine = nextLine.trim(); 
 					String[] arrayOfIntegers = trimmedLine.split("\\s+");
 
@@ -120,8 +123,14 @@ public class SudokuFileReader {
 								in.close();  // close the stream
 								throw new SudokuFileReadException("A value falls out of the"
 										+ " require range of this puzzle.", filePath);
-							} else { puzzle.add(value);  }
-
+							} else { 
+								puzzle[rowCount][colCount] = value; 
+								rowCount++;
+								if (rowCount == dimension) {
+									rowCount = 0;
+									colCount++;
+								}
+							}
 							cellCount++; 
 						}
 					}
@@ -145,7 +154,7 @@ public class SudokuFileReader {
 				// Go to the next line in the file
 				nextLine = in.readLine();
 
-				if (nextLine == null && (puzzle.size() < maxCells)) {
+				if (nextLine == null && (cellCount < maxCells)) {
 					in.close();  // close the stream
 					throw new SudokuFileReadException( "The puzzle file does not contain "
 							+ "enough values for the given dimensions.", filePath);
@@ -212,11 +221,11 @@ public class SudokuFileReader {
 		this.height = height;
 	}
 
-	public ArrayList<Integer> getPuzzle() {
+	public int[][] getPuzzle() {
 		return puzzle;
 	}
 
-	public void setPuzzle(ArrayList<Integer> puzzle) {
+	public void setPuzzle(int[][] puzzle) {
 		this.puzzle = puzzle;
 	}
 }
