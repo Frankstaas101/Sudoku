@@ -3,34 +3,26 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.Cell;
-
-/*
+/**
  * This class represents an instance of a Sudoku puzzle.
  */
 public class Puzzle 
 {
-	/*
-	 * A instance is represented by a 2D array of values.
-	 * 
-	 * Once the instance is created, we note the locations of the empty values.
-	 */
-
-	// Hashmap of cell locations and values
-	// Dimension is organized by row then column
-	// Integer is the value that is inside that unique cell
-	protected int[][] cells; 
-
+	// The Sudoku puzzle's important variables
 	protected int height;
 	protected int width;
 	protected int dimension;
 	protected int maxCells;
 
-	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>(); // <NUMBER, COUNT>
+	// 2D Array of cells, where the cells location is
+	// cells[row number][column number] (starting from 0)
+	protected int[][] cells;
 
 	// All of the unassigned cell locations
-	protected ArrayList<Dimension> unAssignedCells;			 //All the unassigned Cells
-	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	 //List of all the indexes in each section.	
+	protected ArrayList<Dimension> unAssignedCells;	 
+
+	//List of all the indexes in each section.
+	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	
 
 	/*
 	 * An instance receives a width and a height.
@@ -42,11 +34,11 @@ public class Puzzle
 	public Puzzle(int width, int height, int[][] puzzle) throws Exception
 	{
 		// Total amount of cells in the puzzle is dimension*dimension
-		this.cells = new int[dimension][dimension];
+		this.cells = puzzle;
 
 		// Variable array list of unassigned cells
 		this.unAssignedCells = new ArrayList<Dimension>();
-		
+
 		// Store and calculate puzzle variables
 		this.height = height;
 		this.width = width;
@@ -56,10 +48,10 @@ public class Puzzle
 		// Iterate though each value in the puzzle
 		for (int row = 0; row < dimension; row++) {
 			for (int col = 0; col < dimension; col++) {
-				
+
 				// We found an unassigned cell, add it to the collection of unAssignedCells
 				if(cells[row][col] == 0) {
-					
+
 					// Unassigned Cells row and column location stored
 					// in a Dimension(Row, Column) 
 					unAssignedCells.add(new Dimension(row,col));
@@ -67,21 +59,6 @@ public class Puzzle
 			}
 		}
 
-		for (int j = 1; j <= dimension; j ++) {
-			int count = 0;
-			for (Cell c : cells) {
-				if (c.value == j) {
-					count++; // counts how many times that number shows up in the puzzle
-				}
-				if (count > dimension) {
-					System.out.println("There are too many " + j + "s in this puzzle. Impossible to solve!");
-					return;
-				}
-			}
-			for (int i = 1; i <= dimension - count; i ++) {
-				missingNumbers.add(j);
-			}
-		}
 		findSections();  //find all the section indexes in the puzzle.
 	}
 
@@ -113,32 +90,15 @@ public class Puzzle
 	 * 
 	 * @param cs the List of Cells which we want to set in the puzzle.
 	 */
-	public void setValues(ArrayList<Cell> cs)
-	{
-		//Iterate through all the new values
-		for(Cell c: cs)
-		{
-			//Change the value of the cells we want.
-			cells.get(c.pos).value = c.value;
-		}
-	}
-
-	/**
-	 * Prints the missing values of the puzzle
-	 */
-	public void printMissingNumbers(){
-		System.out.println("- MISSING VALUES -");
-		// prints out the missing numbers
-		int count = 0;
-		for (Integer num: missingNumbers){
-			count++;
-			if (count % 15 == 0) // every 15 numbers make a new line
-				System.out.print(num + ",\n");
-			else 
-				System.out.print(num + ", ");
-		}
-		System.out.println();
-	}
+	//	public void setValues(ArrayList<Cell> cs)
+	//	{
+	//		//Iterate through all the new values
+	//		for(Cell c: cs)
+	//		{
+	//			//Change the value of the cells we want.
+	//			cells.get(c.pos).value = c.value;
+	//		}
+	//	}
 
 	/**
 	 * Prints the dimensions from the file for testing
@@ -159,20 +119,19 @@ public class Puzzle
 		}
 		printDashedHorizontalLine(); // prints the top line of the puzzle
 		System.out.println();
-		for (int i = 0; i < maxCells; i++) { // 0 to maxCells - 1 
+		for (int r = 0; r < dimension; r++) { // row 0 - dimension
 
-			if (i % width == 0) { // prints a vertical line for each number that is Width number of numbers in from the left
-				System.out.print("| " + cells.get(i).value + " ");
-			} 
-			else {
-				System.out.print(cells.get(i).value + " ");
-				if ((i + 1) % dimension == 0) { // if the count is at the dimension(max columns) make a new line
-					System.out.print("|\n");
-					if ((i + 1) % (dimension * height) == 0) { // if the count is the dimension * height
-						printDashedHorizontalLine(); // ex: so 4 * 2 = 8, count is at 8 so make a new horizontal line
-						System.out.println();
-					}
+			for (int c = 0; c < dimension; c++) { // column 0 - dimension
+				if (c % height == 0)
+					System.out.print("| " + cells[r][c] + " ");
+				else {
+					System.out.print(cells[r][c] + " ");
 				}
+			}
+			System.out.print("|\n");
+			if ((r + 1) % width == 0){
+				printDashedHorizontalLine();
+				System.out.println(); 
 			}
 		}
 		System.out.println();

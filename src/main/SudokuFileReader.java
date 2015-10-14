@@ -20,17 +20,62 @@ public class SudokuFileReader {
 	protected ArrayList<String> comments; 	// all the comments in the text file
 	protected int[][] puzzle;	// all the values in the puzzle
 
+	// Array list of missing numbers used to weight the values we add to the cells
+	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>();
+
 	/**
 	 * Called with a file name to establish a new SudokuFileReader object
 	 * @param file the text file containing the information about the Sudoku puzzle.
 	 * @throws Exception file read error
 	 */
 	public SudokuFileReader(String filePath) throws Exception { 
-		this.width = 0;								// initialize
-		this.height = 0;							// initialize
 		this.comments = new ArrayList<String>(); 	// initialize
 		this.filePath = filePath.trim();			// set the file name
 		this.readFile(); 							// read the file
+		this.validateNumberCount();					// validates the puzzle
+	}
+
+	/**
+	 * This method validates that there are no numbers
+	 * that exceed the maximum amount of times they can 
+	 * exist in the puzzle. This maximum amount is determined 
+	 * by the dimension of the puzzle (width x height).
+	 * @throws Exception 
+	 */
+	private void validateNumberCount() throws Exception {
+
+		// Initialize the array with dimension amount of locations
+		ArrayList<Integer> valueCounter = new ArrayList<Integer>();
+		for (int d = 0; d <= dimension; d++ ){
+			valueCounter.add(0);
+		}
+
+		// Iterates through each value in the puzzle
+		for (int row = 0; row < dimension; row++) {
+			for (int col = 0; col < dimension; col++) {
+
+				// set the value to the value in the cell at [row][column]
+				int index = puzzle[row][col];
+
+				// set the index as the value and increment at that index by 1
+				valueCounter.set(index , valueCounter.get(index) + 1);
+
+				// if the value at the index is greater then the dimension
+				// throw an exception
+				if (valueCounter.get(index) > dimension && index != 0) {
+					throw new SudokuFileReadException("There are too many " + index 
+							+ "s in this puzzle. Impossible to solve!", filePath);
+				}
+			}
+		}
+		
+		for (int i = 1; i <= dimension; i++) { //1-9
+			// run the amount of times i shows up in the array
+			for (int j = 0; j < dimension - valueCounter.get(i); j++){
+				missingNumbers.add(i);
+			}
+		}
+
 	}
 
 	/**
@@ -62,6 +107,11 @@ public class SudokuFileReader {
 	 */
 	protected void readFile() throws Exception   {
 		try {
+
+			// initialize height and width
+			this.width = 0;								
+			this.height = 0;
+
 			// Initialize buffered reader and grab the first line in the file
 			BufferedReader in = new BufferedReader(new FileReader(new File(this.filePath)));
 			String nextLine = in.readLine();
@@ -109,7 +159,7 @@ public class SudokuFileReader {
 
 					int rowCount = 0;
 					int colCount = 0;
-					
+
 					String trimmedLine = nextLine.trim(); 
 					String[] arrayOfIntegers = trimmedLine.split("\\s+");
 
@@ -125,10 +175,10 @@ public class SudokuFileReader {
 										+ " require range of this puzzle.", filePath);
 							} else { 
 								puzzle[rowCount][colCount] = value; 
-								rowCount++;
-								if (rowCount == dimension) {
-									rowCount = 0;
-									colCount++;
+								colCount++;
+								if (colCount == dimension-1) {
+									colCount = 0;
+									rowCount++;
 								}
 							}
 							cellCount++; 
@@ -198,6 +248,23 @@ public class SudokuFileReader {
 		} else {
 			// If no comments exists print N/A
 			System.out.println("N/A"); 
+		}
+		System.out.println();
+	}
+	
+	/**
+	 * Prints the missing values of the puzzle
+	 */
+	public void printMissingNumbers(){
+		System.out.println("- MISSING VALUES -");
+		// prints out the missing numbers
+		int count = 0;
+		for (Integer num: missingNumbers){
+			count++;
+			if (count % 15 == 0) // every 15 numbers make a new line
+				System.out.print(num + ",\n");
+			else 
+				System.out.print(num + ", ");
 		}
 		System.out.println();
 	}

@@ -23,6 +23,7 @@ public class Main {
 			
 			//Print the comments of the file.
 			sfr.printComments();			
+			sfr.printMissingNumbers();
 			
 			// Extract all of the data from the SudukoFileReader and build a puzzle
 			Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
@@ -30,22 +31,22 @@ public class Main {
 			// Print Puzzle data for clarity
 			puzzle.printPuzzle(true);
 			puzzle.printDimensions();
-			puzzle.printMissingNumbers();
+			
 			
 			// Start the time as it solves the puzzle
 			timer.start(); 
 			
 			//We need to set the "0" place holders to "1"
-			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
-			
-			// Print and show the user that the puzzle is being solved
-			loadingDisplay(sfr.filePath);
-			
-			// Check whether or not the puzzle is valid and if not assign new values
-			while(Functions.validate(puzzle.cells, puzzle.sections, sfr.height, sfr.width) == false)
-			{
-				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, sfr.dimension));
-			}
+//			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
+//			
+//			// Print and show the user that the puzzle is being solved
+//			loadingDisplay(sfr.filePath);
+//			
+//			// Check whether or not the puzzle is valid and if not assign new values
+//			while(Functions.validate(puzzle.cells, puzzle.sections, sfr.height, sfr.width) == false)
+//			{
+//				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, sfr.dimension));
+//			}
 			
 			//We are done - stop the timer.
 			timer.stop();
