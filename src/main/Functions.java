@@ -28,7 +28,6 @@ public class Functions {
 		if (checkingSet.size() != list.size()) {
 			hasDuplicate = true;
 		}
-
 		return hasDuplicate;
 	}
 
