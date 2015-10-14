@@ -33,55 +33,67 @@ public class Functions {
 
 
 	// enter in a completed puzzle
-	public static boolean validate(ArrayList<Cell> puzzle, ArrayList<ArrayList<Integer>> sections, int height, int width){
+	public static boolean validate(int[][] cells, ArrayList<ArrayList<Integer>> sections, int height, int width){
 
 		int dimension = height * width; // get dimension of the puzzle for calculations
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
 		//boolean valid = true;
 		// Split the puzzle up into pieces and validate
 
-		if(checkRow(checkList, dimension, puzzle) &&
-				checkCol(checkList, dimension, puzzle) &&
-				checkBoxes(checkList, dimension, puzzle, sections))
+		if(checkRow(checkList, dimension, cells) &&
+				checkCol(checkList, dimension, cells)) // &&
+				//checkBoxes(checkList, dimension, cells, sections))
 			return true;
 		return false;
 	}
 
 
-	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, ArrayList<Cell> puzzle)
+	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, int[][] cells)
 	{
-		// Rows - starts at 1 counts to dimension breaks the arrays by rows
-		for(int i = 0; i < puzzle.size(); i++) { // iterates though ever value in the puzzle
-			checkList.add(puzzle.get(i).value);
-			if ((i+1)  % dimension == 0) { // this check happens every "dimension" values
-				if (hasDuplicate(checkList)) {
-					//valid = false; 
-					return false;		// break out as soon as a false value is found
+		Boolean passed = true;
+		ArrayList<Integer> failedRow = new ArrayList<Integer>();
+		
+		for(int row = 0; row < dimension; row++) { // iterates though every row
+			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
+				checkList.add(cells[row][col]);
+				if(checkList.size() == dimension)
+				{
+					if(hasDuplicate(checkList))
+					{
+						failedRow.add(row);
+						passed = false;
+					}
+				checkList.clear();
 				}
-				checkList.clear(); // clears the list if not false to be used again
 			}
 		}
-		return true;
+		
+		return passed;
 
 	}
 
 
-	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, ArrayList<Cell> puzzle)
+	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, int[][] cells)
 	{
+		Boolean passed = true;
+		ArrayList<Integer> failedCol = new ArrayList<Integer>();
 		// Column
-		for (int colNum = 0; colNum < dimension; colNum++) { // does this dimension times
-			for(int i = 0; i < puzzle.size(); i++) { // iterate through whole puzzle
-				if ((i + colNum)  % dimension == 0) { // next row
-					checkList.add(puzzle.get(i).value);	// adds the first value of the next row
+		for (int col = 0; col < dimension; col++) { // iterate through the columns
+			for(int row = 0; row < dimension; row++) { // iterate through the rows in that column
+				checkList.add(cells[row][col]);
+				if(checkList.size() == dimension)
+				{
+					if(hasDuplicate(checkList))
+					{
+						failedCol.add(col);
+						passed = false;
+					}
+				checkList.clear();
 				}
 			}
-			if (hasDuplicate(checkList)) {
-				//valid =  false; 
-				return false;		// break out as soon as a false value is found
-			}
-			checkList.clear(); // clears the list
 		}
-		return true;
+		return passed;
+		
 	}
 
 	// Sections Example:
@@ -90,7 +102,7 @@ public class Functions {
 	//		 8  9  10 11
 	//		 12 13 14 15
 	// Section 0 = 0 1 4 5
-	public static boolean checkBoxes(ArrayList<Integer> checkList, int dimension, ArrayList<Cell> puzzle, ArrayList<ArrayList<Integer>> sections)
+	/**public static boolean checkBoxes(ArrayList<Integer> checkList, int dimension, int[][] cells, ArrayList<ArrayList<Integer>> sections)
 	{
 		//Check all the sections		
 		for(ArrayList<Integer> section: sections)
@@ -98,7 +110,7 @@ public class Functions {
 			ArrayList<Integer> sectionValues = new ArrayList<>();		//Create a new List of values for each section.
 			for(Integer i: section)		//Iterate through all the indexes in each section.
 			{
-				sectionValues.add(puzzle.get(i).value);		//Get the value at the given index and add it to the section.
+				sectionValues.add(cells.get(i).value);		//Get the value at the given index and add it to the section.
 			}
 			if(hasDuplicate(sectionValues))		//Test the section values.
 			{
@@ -107,5 +119,5 @@ public class Functions {
 			}
 		}
 		return true;
-	}
+	}*/
 }
