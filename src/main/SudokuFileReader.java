@@ -18,7 +18,7 @@ public class SudokuFileReader {
 
 	// COLLECTIONS
 	protected ArrayList<String> comments; 	// all the comments in the text file
-	protected int[][] puzzle;	// all the values in the puzzle
+	protected Cell[][] puzzle;	// all the values in the puzzle
 
 	// Array list of missing numbers used to weight the values we add to the cells
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>();
@@ -55,7 +55,7 @@ public class SudokuFileReader {
 			for (int col = 0; col < dimension; col++) {
 
 				// set the value to the value in the cell at [row][column]
-				int index = puzzle[row][col];
+				Integer index = puzzle[row][col].value;
 
 				// set the index as the value and increment at that index by 1
 				valueCounter.set(index , valueCounter.get(index) + 1);
@@ -142,7 +142,7 @@ public class SudokuFileReader {
 						height = new Integer(nextLine.trim());
 						dimension = width * height;
 						maxCells = Math.pow((dimension), 2);
-						puzzle = new int[dimension][dimension];
+						puzzle = new Cell[dimension][dimension];
 					} 
 				}
 
@@ -174,7 +174,7 @@ public class SudokuFileReader {
 								throw new SudokuFileReadException("A value falls out of the"
 										+ " require range of this puzzle.", filePath);
 							} else { 
-								puzzle[rowCount][colCount] = value; 
+								puzzle[rowCount][colCount].value = value; 
 								colCount++;
 								if (colCount == dimension-1) {
 									colCount = 0;
@@ -288,11 +288,11 @@ public class SudokuFileReader {
 		this.height = height;
 	}
 
-	public int[][] getPuzzle() {
+	public Cell[][] getPuzzle() {
 		return puzzle;
 	}
 
-	public void setPuzzle(int[][] puzzle) {
+	public void setPuzzle(Cell[][] puzzle) {
 		this.puzzle = puzzle;
 	}
 }

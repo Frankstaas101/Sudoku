@@ -17,7 +17,7 @@ public class Puzzle
 
 	// 2D Array of cells, where the cells location is
 	// cells[row number][column number] (starting from 0)
-	protected int[][] cells;
+	protected Cell[][] cells;
 
 	// All of the unassigned cell locations
 	protected ArrayList<Dimension> unAssignedCells;	 
@@ -32,7 +32,7 @@ public class Puzzle
 	 * @param height the unit height of a Sudoku "box"
 	 * @param puzzle Map of all the raw values of the Puzzle read from the file.
 	 */
-	public Puzzle(int width, int height, int[][] puzzle) throws Exception
+	public Puzzle(int width, int height, Cell[][] puzzle) throws Exception
 	{
 		// Total amount of cells in the puzzle is dimension*dimension
 		this.cells = puzzle;
@@ -51,7 +51,7 @@ public class Puzzle
 			for (int col = 0; col < dimension; col++) {
 
 				// We found an unassigned cell, add it to the collection of unAssignedCells
-				if(cells[row][col] == 0) {
+				if(cells[row][col].value == 0) {
 
 					// Unassigned Cells row and column location stored
 					// in a Dimension(Row, Column) 
