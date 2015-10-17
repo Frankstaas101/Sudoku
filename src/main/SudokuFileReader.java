@@ -2,8 +2,8 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SudokuFileReader {
@@ -228,8 +228,11 @@ public class SudokuFileReader {
 				throw new SudokuFileReadException("Improper file format, "
 						+ "the value for height could not be determined.", filePath);
 			}
-
-		}   catch (IOException e) {
+			
+		} catch (FileNotFoundException e) {
+			throw new SudokuFileReadException("The file was not found! The program cannot continue,"
+					+ " please check the src directory.", filePath);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 	}
