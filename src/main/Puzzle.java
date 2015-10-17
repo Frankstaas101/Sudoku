@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * This class represents an instance of a Sudoku puzzle.
@@ -17,7 +18,7 @@ public class Puzzle
 
 	// 2D Array of cells, where the cells location is
 	// cells[row number][column number] (starting from 0)
-	protected Cell[][] cells;
+	protected Cell[][] cells = new Cell[dimension][dimension];
 
 	// All of the unassigned cell locations
 	protected ArrayList<Cell> unAssignedCells;	 
@@ -59,8 +60,9 @@ public class Puzzle
 				}
 			}
 		}
-		findPossibleValues();	//Find all the possible values for unassignedCells.
+		
 		findSections();  //find all the section indexes in the puzzle.
+		findPossibleValues();	//Find all the possible values for unassignedCells.
 	}
 
 	/*
@@ -70,17 +72,22 @@ public class Puzzle
 	{	
 		//A section is a list of 2D points.
 		ArrayList<Point> section;
+		int currentSection = -1;
 		for(int bigWidth = 0; bigWidth < dimension; bigWidth = bigWidth + width)
 		{
 			for(int bigHeight = 0; bigHeight < dimension; bigHeight = bigHeight + height)
 			{
+				currentSection++;
 				section = new ArrayList<Point>();		//Start a new section
 				for(int innerWidth = 0; innerWidth < width; innerWidth++)
 				{
 					for(int innerHeight = 0; innerHeight < height; innerHeight++)
 					{
 						//Might not be correct, gotta test...(Probably not correct at all...)
+						//DEPRECATED!
 						section.add(new Point(bigHeight+innerHeight, bigWidth+innerWidth));
+						//Assign the Cell to the section we are currently on.
+						cells[bigHeight+innerHeight][bigWidth+innerWidth].boxNum = currentSection;
 						//section.add((bigHeight+innerHeight) * dimension + (bigWidth+innerWidth));
 					}
 				}
@@ -159,17 +166,101 @@ public class Puzzle
 		}
 	}
 	/*
-	 * Find all the possible values for each unassignedCell.
+	 * Find and set all the possible values for each unassignedCell.
 	 */
 	private void findPossibleValues()
 	{
 		for(Cell c: unAssignedCells)
 		{
-			
+			//Each unAssignedCell has a set of (at max) dimension possible values.
+			HashSet<Integer> values = new HashSet<>(dimension);
+			//Find all the missing values in the cell's row:
+			values.addAll(findRowMissingValues(c.x));
+			//Find all the missing values in the cell's column:
+			values.addAll(findColumnMissingValues(c.y));
+			//Find all the missing values in the cell's box:
+			values.addAll(findBoxMissingValues(c.boxNum));
 		}
 	}
+	/*
+	 * Find all the missing values for a specified row.
+	 * 
+	 * Zero Cell values are ignored.
+	 */
 	private ArrayList<Integer> findRowMissingValues(int rowNum)
 	{
+		int[]  values = new int[dimension];
+		//ArrayList of all the missing values.
+		ArrayList<Integer> missingValues = new ArrayList<>();
 		
+		for(int i = 0; i < dimension; i++)
+		{
+			//Hold rowNum constant while we iterate through all the columns,
+			//add Cell value in the corresponding position in the array of values.
+			//If a Cell's value is 0, it is added but ignored in a later step.
+			values[cells[i][rowNum].value] += 1 ;
+		}
+		//Iterate through all the row's values.
+		for(int i = 1; i < cells.length; i++)
+		{
+			//If the number did not occur in the row, add it to the missing Values.
+			if(values[i] == 0)
+				missingValues.add(values[i]);				
+		}
+		return missingValues;
+	}
+	/*
+	 * Find all the missing values for a specified column.
+	 * 
+	 * Zero Cell values are ignored.
+	 */
+	private ArrayList<Integer> findColumnMissingValues(int colNum)
+	{
+		int[]  values = new int[dimension];
+		//ArrayList of all the missing values.
+		ArrayList<Integer> missingValues = new ArrayList<>();
+		
+		for(int i = 0; i < dimension; i++)
+		{
+			//Hold colNum constant while we iterate through all the rows,
+			//add Cell value in the corresponding position in the array of values.
+			//If a Cell's value is 0, it is added but ignored in a later step.
+			values[cells[colNum][i].value] += 1 ;
+		}
+		//Iterate through all the row's values.
+		for(int i = 1; i < cells.length; i++)
+		{
+			//If the number did not occur in the row, add it to the missing Values.
+			if(values[i] == 0)
+				missingValues.add(values[i]);				
+		}
+		return missingValues;
+	}
+	/*
+	 * Find all the missing values for a specified box.
+	 * 
+	 * Zero Cell values are ignored.
+	 */
+	private ArrayList<Integer> findBoxMissingValues(int boxNum)
+	{
+		int[]  values = new int[dimension];
+		//ArrayList of all the missing values.
+		ArrayList<Integer> missingValues = new ArrayList<>();
+		
+		for(int i = 0; i < dimension; i++)
+		{
+			//Iterate through points in the desired box
+			//add Cell value in the corresponding position in the array of values.
+			//If a Cell's value is 0, it is added but ignored in a later step.
+			values[cells[sections.get(boxNum).get(i).x][sections.get(boxNum).get(i).y].value] += 1 ;
+		}
+		//Iterate through all the row's values.
+		for(int i = 1; i < cells.length; i++)
+		{
+			//If the number did not occur in the row, add it to the missing Values.
+			if(values[i] == 0)
+				missingValues.add(values[i]);				
+		}
+		return missingValues;
 	}
 }
