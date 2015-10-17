@@ -37,6 +37,7 @@ public class Functions {
 	public static boolean validate(Cell[][] cells, ArrayList<ArrayList<Integer>> sections, int height, int width){
 
 		int dimension = height * width; // get dimension of the puzzle for calculations
+		
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
 		//boolean valid = true;
 		// Split the puzzle up into pieces and validate
@@ -54,6 +55,7 @@ public class Functions {
 	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
 	{
 		Boolean passed = true;
+		//What is the point of this variable? It will get garbage collected as soon as this method is done. -Sebastian
 		ArrayList<Integer> failedRow = new ArrayList<Integer>();
 		
 		for(int row = 0; row < dimension; row++) { // iterates though every row
@@ -74,6 +76,30 @@ public class Functions {
 		return passed;
 
 	}
+	
+	/*
+	 * Check the desired row of the puzzle.
+	 */
+	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, Cell[][] cells, int rowNum)
+	{
+		Boolean passed = true;	
+	
+			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
+				checkList.add(cells[rowNum][col].value);
+				if(checkList.size() == dimension)
+				{
+					if(hasDuplicate(checkList))
+					{
+						passed = false;
+					}
+				checkList.clear();
+				}
+			
+		}
+		
+		return passed;
+
+	}
 
 	/*
 	 * Check all the columns of the puzzle.
@@ -81,6 +107,7 @@ public class Functions {
 	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
 	{
 		Boolean passed = true;
+		//What is the point of this variable? It will get garbage collected as soon as this method is done. -Sebastian
 		ArrayList<Integer> failedCol = new ArrayList<Integer>();
 		// Column
 		for (int col = 0; col < dimension; col++) { // iterate through the columns
@@ -101,6 +128,26 @@ public class Functions {
 		
 	}
 
+	/*
+	 * Check the desired column of the puzzle.
+	 */
+	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, Cell[][] cells, int colNum)
+	{
+		Boolean passed = true;
+			for(int row = 0; row < dimension; row++) { // iterate through the rows in that column
+				checkList.add(cells[row][colNum].value);
+				if(checkList.size() == dimension)
+				{
+					if(hasDuplicate(checkList))
+					{						
+						passed = false;
+					}
+				checkList.clear();
+				}
+			}
+		return passed;
+		
+	}
 	// Sections Example:
 	//		 0  1  2  3
 	//		 4  5  6  7
@@ -126,6 +173,22 @@ public class Functions {
 				return false;
 			}
 		}
+		return true;
+	}
+	/*
+	 * Check the desired box of the puzzle.
+	 */
+	public static boolean checkBox(ArrayList<Integer> checkList, int dimension, Cell[][] cells, ArrayList<Point> section)
+	{		
+			ArrayList<Integer> sectionValues = new ArrayList<>();		//Create a new List of values for each section.
+			for(Point p: section)		//Iterate through all the indexes in the section.
+			{
+				sectionValues.add(cells[p.x][p.y].value);		//Get the value at the given index and add it to the section.
+			}
+			if(hasDuplicate(sectionValues))		//Test the section values.
+			{
+				return false;
+			}
 		return true;
 	}
 }
