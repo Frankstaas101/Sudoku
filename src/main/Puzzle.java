@@ -46,27 +46,34 @@ public class Puzzle
 		
 		// Variable array list of unassigned cells
 		this.unAssignedCells = new ArrayList<Cell>();
-
+		
+		findSections();  //Assign each cell a box of the puzzle.
+		
+		//Find all the unassignedCells in the puzzle:
 		// Iterate though each value in the puzzle
 		for (int row = 0; row < dimension; row++) {
 			for (int col = 0; col < dimension; col++) {
 
 				// We found an unassigned cell, add it to the collection of unAssignedCells
 				if(cells[row][col].value == 0) {
-
-					// Unassigned Cells row and column location stored
-					// in a Dimension(Row, Column) 
-					unAssignedCells.add(new Cell(row, col));
+					unAssignedCells.add(cells[row][col]);
 				}
 			}
 		}
-		
-		findSections();  //find all the section indexes in the puzzle.
 		findPossibleValues();	//Find all the possible values for unassignedCells.
 	}
 
 	/*
 	 * Find the indexes of the Sections.
+	 * 
+	 * Example Section layout for a 2x2:
+	 * 0 0 2 2
+	 * 0 0 2 2
+	 * 1 1 3 3 
+	 * 1 1 3 3
+	 * 
+	 * Somewhat counter-intuitive. This could be changed by swapping the two for loops below.
+	 * 
 	 */
 	public void findSections()
 	{	
@@ -180,6 +187,9 @@ public class Puzzle
 			values.addAll(findColumnMissingValues(c.y));
 			//Find all the missing values in the cell's box:
 			values.addAll(findBoxMissingValues(c.boxNum));
+			
+			c.possibleValues = values;
+			//System.out.println(c.possibleValues);
 		}
 	}
 	/*
@@ -189,7 +199,7 @@ public class Puzzle
 	 */
 	private ArrayList<Integer> findRowMissingValues(int rowNum)
 	{
-		int[]  values = new int[dimension];
+		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
 		
@@ -201,11 +211,11 @@ public class Puzzle
 			values[cells[i][rowNum].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i < cells.length; i++)
+		for(int i = 1; i <= cells.length; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)
-				missingValues.add(values[i]);				
+				missingValues.add(i);				
 		}
 		return missingValues;
 	}
@@ -216,7 +226,7 @@ public class Puzzle
 	 */
 	private ArrayList<Integer> findColumnMissingValues(int colNum)
 	{
-		int[]  values = new int[dimension];
+		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
 		
@@ -228,11 +238,11 @@ public class Puzzle
 			values[cells[colNum][i].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i < cells.length; i++)
+		for(int i = 1; i <= cells.length; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)
-				missingValues.add(values[i]);				
+				missingValues.add(i);				
 		}
 		return missingValues;
 	}
@@ -243,7 +253,8 @@ public class Puzzle
 	 */
 	private ArrayList<Integer> findBoxMissingValues(int boxNum)
 	{
-		int[]  values = new int[dimension];
+		//We need an array 1 size larger than dimension to hold the 0 too.
+		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
 		
@@ -255,11 +266,11 @@ public class Puzzle
 			values[cells[sections.get(boxNum).get(i).x][sections.get(boxNum).get(i).y].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i < cells.length; i++)
+		for(int i = 1; i <= cells.length; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)
-				missingValues.add(values[i]);				
+				missingValues.add(i);				
 		}
 		return missingValues;
 	}

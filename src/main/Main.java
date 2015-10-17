@@ -35,18 +35,10 @@ public class Main {
 			
 			// Start the time as it solves the puzzle
 			timer.start(); 
+			//Start solving the puzzle here.
 			
-			//We need to set the "0" place holders to "1"
-//			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
-//			
-//			// Print and show the user that the puzzle is being solved
-//			loadingDisplay(sfr.filePath);
-//			
-//			// Check whether or not the puzzle is valid and if not assign new values
-//			while(Functions.validate(puzzle.cells, puzzle.sections, sfr.height, sfr.width) == false)
-//			{
-//				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, sfr.dimension));
-//			}
+
+			
 			
 			//We are done - stop the timer.
 			timer.stop();

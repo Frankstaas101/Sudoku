@@ -22,6 +22,10 @@ public class SudokuFileReader {
 
 	// Array list of missing numbers used to weight the values we add to the cells
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>();
+	
+	//counter variables:
+	int rowCount = 0;
+	int colCount = 0;
 
 	/**
 	 * Called with a file name to establish a new SudokuFileReader object
@@ -111,6 +115,7 @@ public class SudokuFileReader {
 			// initialize height and width
 			this.width = 0;								
 			this.height = 0;
+			
 
 			// Initialize buffered reader and grab the first line in the file
 			BufferedReader in = new BufferedReader(new FileReader(new File(this.filePath)));
@@ -156,9 +161,10 @@ public class SudokuFileReader {
 				 *    the puzzle an exception is thrown.
 				 */
 				else if (nextLine.matches("^[\\d\\s]+$") || nextLine.matches("^[\\s\\d]+$")){
-
+					/*
 					int rowCount = 0;
 					int colCount = 0;
+					*/
 
 					String trimmedLine = nextLine.trim(); 
 					String[] arrayOfIntegers = trimmedLine.split("\\s+");
@@ -174,9 +180,9 @@ public class SudokuFileReader {
 								throw new SudokuFileReadException("A value falls out of the"
 										+ " require range of this puzzle.", filePath);
 							} else { 
-								puzzle[rowCount][colCount].value = value; 
+								puzzle[rowCount][colCount]= new Cell(rowCount, colCount, value);
 								colCount++;
-								if (colCount == dimension-1) {
+								if (colCount == dimension) {
 									colCount = 0;
 									rowCount++;
 								}
