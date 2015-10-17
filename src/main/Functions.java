@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -102,15 +103,15 @@ public class Functions {
 	//		 8  9  10 11
 	//		 12 13 14 15
 	// Section 0 = 0 1 4 5
-	/**public static boolean checkBoxes(ArrayList<Integer> checkList, int dimension, int[][] cells, ArrayList<ArrayList<Integer>> sections)
+	public static boolean checkBoxes(ArrayList<Integer> checkList, int dimension, int[][] cells, ArrayList<ArrayList<Point>> sections)
 	{
 		//Check all the sections		
-		for(ArrayList<Integer> section: sections)
+		for(ArrayList<Point> section: sections)
 		{
 			ArrayList<Integer> sectionValues = new ArrayList<>();		//Create a new List of values for each section.
-			for(Integer i: section)		//Iterate through all the indexes in each section.
+			for(Point p: section)		//Iterate through all the indexes in each section.
 			{
-				sectionValues.add(cells.get(i).value);		//Get the value at the given index and add it to the section.
+				sectionValues.add(cells[p.x][p.y]);		//Get the value at the given index and add it to the section.
 			}
 			if(hasDuplicate(sectionValues))		//Test the section values.
 			{
@@ -119,5 +120,5 @@ public class Functions {
 			}
 		}
 		return true;
-	}*/
+	}
 }

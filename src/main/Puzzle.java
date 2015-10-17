@@ -1,5 +1,6 @@
 package main;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,7 +23,7 @@ public class Puzzle
 	protected ArrayList<Dimension> unAssignedCells;	 
 
 	//List of all the indexes in each section.
-	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	
+	protected ArrayList<ArrayList<Point>> sections = new ArrayList<>();	
 
 	/*
 	 * An instance receives a width and a height.
@@ -66,18 +67,21 @@ public class Puzzle
 	 * Find the indexes of the Sections.
 	 */
 	public void findSections()
-	{		
-		ArrayList<Integer> section;
+	{	
+		//A section is a list of 2D points.
+		ArrayList<Point> section;
 		for(int bigWidth = 0; bigWidth < dimension; bigWidth = bigWidth + width)
 		{
 			for(int bigHeight = 0; bigHeight < dimension; bigHeight = bigHeight + height)
 			{
-				section = new ArrayList<Integer>();		//Start a new section
+				section = new ArrayList<Point>();		//Start a new section
 				for(int innerWidth = 0; innerWidth < width; innerWidth++)
 				{
 					for(int innerHeight = 0; innerHeight < height; innerHeight++)
 					{
-						section.add((bigHeight+innerHeight) * dimension + (bigWidth+innerWidth));		//Add the index in the section to the section
+						//Might not be correct, gotta test...(Probably not correct at all...)
+						section.add(new Point(bigHeight+innerHeight, bigWidth+innerWidth));
+						//section.add((bigHeight+innerHeight) * dimension + (bigWidth+innerWidth));
 					}
 				}
 				sections.add(section);		//Add the section to the list of sections.
