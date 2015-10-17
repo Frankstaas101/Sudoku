@@ -20,7 +20,7 @@ public class Puzzle
 	protected Cell[][] cells;
 
 	// All of the unassigned cell locations
-	protected ArrayList<Dimension> unAssignedCells;	 
+	protected ArrayList<Cell> unAssignedCells;	 
 
 	//List of all the indexes in each section.
 	protected ArrayList<ArrayList<Point>> sections = new ArrayList<>();	
@@ -37,14 +37,14 @@ public class Puzzle
 		// Total amount of cells in the puzzle is dimension*dimension
 		this.cells = puzzle;
 
-		// Variable array list of unassigned cells
-		this.unAssignedCells = new ArrayList<Dimension>();
-
 		// Store and calculate puzzle variables
 		this.height = height;
 		this.width = width;
 		this.dimension = width * height;
 		this.maxCells = dimension * dimension;
+		
+		// Variable array list of unassigned cells
+		this.unAssignedCells = new ArrayList<Cell>();
 
 		// Iterate though each value in the puzzle
 		for (int row = 0; row < dimension; row++) {
@@ -55,11 +55,11 @@ public class Puzzle
 
 					// Unassigned Cells row and column location stored
 					// in a Dimension(Row, Column) 
-					unAssignedCells.add(new Dimension(row,col));
+					unAssignedCells.add(new Cell(row, col));
 				}
 			}
 		}
-
+		findPossibleValues();	//Find all the possible values for unassignedCells.
 		findSections();  //find all the section indexes in the puzzle.
 	}
 
@@ -127,9 +127,9 @@ public class Puzzle
 
 			for (int c = 0; c < dimension; c++) { // column 0 - dimension
 				if (c % height == 0)
-					System.out.print("| " + cells[r][c] + " ");
+					System.out.print("| " + cells[r][c].value + " ");
 				else {
-					System.out.print(cells[r][c] + " ");
+					System.out.print(cells[r][c].value + " ");
 				}
 			}
 			System.out.print("|\n");
@@ -157,5 +157,19 @@ public class Puzzle
 				System.out.print("  -");
 			}
 		}
+	}
+	/*
+	 * Find all the possible values for each unassignedCell.
+	 */
+	private void findPossibleValues()
+	{
+		for(Cell c: unAssignedCells)
+		{
+			
+		}
+	}
+	private ArrayList<Integer> findRowMissingValues(int rowNum)
+	{
+		
 	}
 }
