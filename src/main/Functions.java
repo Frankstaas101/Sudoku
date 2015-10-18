@@ -34,7 +34,7 @@ public class Functions {
 
 
 	// enter in a completed puzzle
-	public static boolean validate(Cell[][] cells, ArrayList<ArrayList<Integer>> sections, int height, int width){
+	public static boolean validate(Cell[][] cells, ArrayList<ArrayList<Point>> sections, int height, int width){
 
 		int dimension = height * width; // get dimension of the puzzle for calculations
 		
@@ -42,9 +42,9 @@ public class Functions {
 		//boolean valid = true;
 		// Split the puzzle up into pieces and validate
 		//Check all the rows and all the columns.
-		if(checkRow(checkList, dimension, cells) &&
-				checkCol(checkList, dimension, cells)) // &&
-				//checkBoxes(checkList, dimension, cells, sections))
+		if(checkRows(checkList, dimension, cells) &&
+				checkCols(checkList, dimension, cells)  &&
+					checkBoxes(dimension, cells, sections))
 			return true;
 		return false;
 	}
@@ -52,7 +52,7 @@ public class Functions {
 	/*
 	 * Check all the rows of the puzzle.
 	 */
-	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
+	public static boolean checkRows(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
 	{
 		Boolean passed = true;
 		//What is the point of this variable? It will get garbage collected as soon as this method is done. -Sebastian
@@ -78,14 +78,15 @@ public class Functions {
 	}
 	
 	/*
-	 * Check the desired row of the puzzle.
+	 * Check the desired row of the puzzle, ignores any 0 Cell values.
 	 */
-	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, Cell[][] cells, int rowNum)
+	public static boolean checkRow(int dimension, Cell[][] cells, int rowNum)
 	{
 		Boolean passed = true;	
-	
+		ArrayList<Integer> checkList = new ArrayList<>();
 			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
-				checkList.add(cells[rowNum][col].value);
+				if(cells[rowNum][col].value != 0)
+					checkList.add(cells[rowNum][col].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))
@@ -104,7 +105,7 @@ public class Functions {
 	/*
 	 * Check all the columns of the puzzle.
 	 */
-	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
+	public static boolean checkCols(ArrayList<Integer> checkList, int dimension, Cell[][] cells)
 	{
 		Boolean passed = true;
 		//What is the point of this variable? It will get garbage collected as soon as this method is done. -Sebastian
@@ -129,13 +130,15 @@ public class Functions {
 	}
 
 	/*
-	 * Check the desired column of the puzzle.
+	 * Check the desired column of the puzzle, ignoring Cells with 0 values.
 	 */
-	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, Cell[][] cells, int colNum)
+	public static boolean checkCol(int dimension, Cell[][] cells, int colNum)
 	{
 		Boolean passed = true;
+		ArrayList<Integer> checkList = new ArrayList<>();
 			for(int row = 0; row < dimension; row++) { // iterate through the rows in that column
-				checkList.add(cells[row][colNum].value);
+				if(cells[row][colNum].value != 0)
+					checkList.add(cells[row][colNum].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))
@@ -157,7 +160,7 @@ public class Functions {
 	/*
 	 * Check all the boxes of the puzzle.
 	 */
-	public static boolean checkBoxes(ArrayList<Integer> checkList, int dimension, Cell[][] cells, ArrayList<ArrayList<Point>> sections)
+	public static boolean checkBoxes(int dimension, Cell[][] cells, ArrayList<ArrayList<Point>> sections)
 	{
 		//Check all the sections		
 		for(ArrayList<Point> section: sections)
@@ -176,13 +179,14 @@ public class Functions {
 		return true;
 	}
 	/*
-	 * Check the desired box of the puzzle.
+	 * Check the desired box of the puzzle, ingoring Cells with 0 values.
 	 */
-	public static boolean checkBox(ArrayList<Integer> checkList, int dimension, Cell[][] cells, ArrayList<Point> section)
+	public static boolean checkBox(int dimension, Cell[][] cells, ArrayList<Point> section)
 	{		
 			ArrayList<Integer> sectionValues = new ArrayList<>();		//Create a new List of values for each section.
 			for(Point p: section)		//Iterate through all the indexes in the section.
 			{
+				if(cells[p.x][p.y].value != 0)
 				sectionValues.add(cells[p.x][p.y].value);		//Get the value at the given index and add it to the section.
 			}
 			if(hasDuplicate(sectionValues))		//Test the section values.

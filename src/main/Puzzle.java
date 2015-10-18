@@ -2,6 +2,7 @@ package main;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * This class represents an instance of a Sudoku puzzle.
@@ -177,6 +178,7 @@ public class Puzzle
 	{
 		for(Cell c: unAssignedCells)
 		{
+			ArrayList<Integer> possibleValues = new ArrayList<>();
 			//Each unAssignedCell has a set of (at max) dimension possible values.
 			HashSet<Integer> values = new HashSet<>(dimension);
 			//Find all the missing values in the cell's row:
@@ -186,7 +188,12 @@ public class Puzzle
 			//Find all the missing values in the cell's box:
 			values.addAll(findBoxMissingValues(c.boxNum));
 			
-			c.possibleValues = values;
+			Iterator<Integer> it = values.iterator();
+			while(it.hasNext())
+			{
+				possibleValues.add(it.next());
+			}
+			c.possibleValues = possibleValues;
 			//System.out.println(c.possibleValues);
 		}
 	}

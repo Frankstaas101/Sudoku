@@ -1,6 +1,6 @@
 package main;
 
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * A cell has a value, and a list of possible values.
@@ -15,7 +15,7 @@ public class Cell {
 	protected int y;
 	protected int boxNum;
 	
-	protected HashSet<Integer> possibleValues = new HashSet<>();
+	protected ArrayList<Integer> possibleValues = new ArrayList<>();
 	
 	/**
 	 * Create a new Cell based on ( x , y ) positions
