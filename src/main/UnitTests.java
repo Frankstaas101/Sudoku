@@ -15,10 +15,9 @@ public class UnitTests {
     public void testRowCheckingSuccess() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
-		fd.readFile();
+	
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -26,7 +25,9 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //assertEquals(true, Functions.checkRow(checkList, dimension, puzzle.cells ));
+		for(int i=0;i<dimension; i++){
+       		assertEquals(true, Functions.checkRow(dimension, puzzle.cells, i ));
+		}
     }
 	
 	/*
@@ -36,10 +37,10 @@ public class UnitTests {
     public void testRowCheckingFailure() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/RowsFail.txt");
-		fd.readFile();
+		
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
+		
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -47,7 +48,14 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //assertEquals(false, Functions.checkRow(checkList, dimension, puzzle.cells ));
+		boolean flag = true;
+		
+		for(int i=0;i<dimension; i++){
+			if(!(Functions.checkRow(dimension, puzzle.cells, i )))
+				flag = false;
+		}
+		
+		assertEquals(false, flag);
     }
 	
 	/*
@@ -57,10 +65,10 @@ public class UnitTests {
     public void testColCheckingFailure() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/ColFail.txt");
-		fd.readFile();
+		
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
+		
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -69,9 +77,9 @@ public class UnitTests {
 			e.printStackTrace();
 		}
 		
-
-        //assertEquals(false, Functions.checkCol(checkList, dimension, puzzle.cells ));
-
+		for(int i=0;i<dimension; i++){
+        assertEquals(false, Functions.checkCol(dimension, puzzle.cells, i ));
+		}
     }
 	/*
 	 * Assert that correct columns are accepted.
@@ -80,10 +88,9 @@ public class UnitTests {
     public void testColCheckingSuccess() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
-		fd.readFile();
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
+		
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -92,9 +99,9 @@ public class UnitTests {
 			e.printStackTrace();
 		}
 		
-
-        //assertEquals(true, Functions.checkCol(checkList, dimension, puzzle.cells ));
-
+		for(int i=0;i<dimension; i++){
+	        assertEquals(true, Functions.checkCol(dimension, puzzle.cells, i ));
+			}
     }
 	/*
 	 * Assert that boxes with duplicates are rejected properly.
@@ -103,10 +110,10 @@ public class UnitTests {
     public void testBoxCheckingFailure() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/boxesFail.txt");
-		fd.readFile();
+		
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
+		
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -115,11 +122,14 @@ public class UnitTests {
 			e.printStackTrace();
 		}
 		
-		//happens in constructor
-		//puzzle.findSections();
+		Cell[][] cells = puzzle.cells;
 		
-
-        //assertEquals(false, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
+		for(int i=0;i<dimension; i++){
+			for(int j=0;j<dimension;j++) {
+			assertEquals(false, Functions.checkBox(dimension, cells, puzzle.sections.get(cells[i][j].boxNum)));
+			}
+		}
+        
 
     }
 	
@@ -130,10 +140,10 @@ public class UnitTests {
     public void testBoxCheckingSuccess() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
-		fd.readFile();
+		
 		
 		int dimension = fd.dimension;
-		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
+		
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
@@ -142,12 +152,13 @@ public class UnitTests {
 			e.printStackTrace();
 		}
 		
-		//happens in constructor
-		//puzzle.findSections();
+		Cell[][] cells = puzzle.cells;
 		
-
-        //assertEquals(true, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
-
+		for(int i=0;i<dimension; i++){
+			for(int j=0;j<dimension;j++) {
+			assertEquals(true, Functions.checkBox(dimension, cells, puzzle.sections.get(cells[i][j].boxNum)));
+			}
+		}
     }
 	
 	/*
@@ -157,12 +168,11 @@ public class UnitTests {
 	public void testPuzzleSuccess() throws Exception
 	{
 		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleSuccess.txt");
-		fd.readFile();
 		
-		int height = fd.height;
-		int width = fd.width;
-		
+		int dimension = fd.dimension;
 		Puzzle puzzle = null;
+		
+		
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
 		} catch (Exception e) {
@@ -170,7 +180,11 @@ public class UnitTests {
 			e.printStackTrace();
 		}
 
-        //assertEquals(true, Functions.validate(puzzle.cells, puzzle.sections, height, width ));
+		Cell[][] cells = puzzle.cells;
+		
+		for(int i=0;i<dimension; i++) //all the rows
+			for(int j=0;j<dimension; j++) //all the columns
+				assertEquals(false, Functions.validateCell(puzzle, cells[i][j]));
 	
 	}
 	/*
@@ -180,20 +194,26 @@ public class UnitTests {
 	public void testPuzzleFailure() throws Exception
 	{
 		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleFail.txt");
-		fd.readFile();
 		
-		int height = fd.height;
-		int width = fd.width;
-		
+		int dimension = fd.dimension;
 		Puzzle puzzle = null;
+		
+		
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 
 		}
+		
+		Cell[][] cells = puzzle.cells;
+		boolean flag = true;
 
-        //assertEquals(false, Functions.validate(puzzle.cells, puzzle.sections, height, width ));
+		for(int i=0;i<dimension; i++) //all the rows
+			for(int j=0;j<dimension; j++) //all the columns
+				if(!(Functions.validateCell(puzzle, cells[i][j])))
+					flag = false;
+		assertEquals(false, flag);
 	
 	}
 	/*
