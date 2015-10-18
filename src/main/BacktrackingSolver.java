@@ -21,6 +21,7 @@ public class BacktrackingSolver {
 		{
 			unAssignedCells.add(it.next());
 		}
+		//System.out.println(unAssignedCells);
 	}
 	
 	public boolean solve(int nextCell)
@@ -40,11 +41,19 @@ public class BacktrackingSolver {
 				puzzle.cells[selectedCell.x][selectedCell.y].value = selectedCell.value;
 
 				//Check if the assignment is valid.
-				if(Functions.checkBox(puzzle.dimension, puzzle.cells, puzzle.sections.get(selectedCell.boxNum)) 
+				if((Functions.checkBox(puzzle.dimension, puzzle.cells, puzzle.sections.get(selectedCell.boxNum)) 
 						&& Functions.checkRow(puzzle.dimension, puzzle.cells, selectedCell.y)
-							&& Functions.checkCol(puzzle.dimension, puzzle.cells, selectedCell.x)== true)
+							&& Functions.checkCol(puzzle.dimension, puzzle.cells, selectedCell.x) )== true)
 				{
-
+					/*
+					try {
+						puzzle.printPuzzle(false);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					*/
+					
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...
 					if(solve(nextCell + 1))
@@ -52,6 +61,9 @@ public class BacktrackingSolver {
 				}
 				//If we get here, the assignment was not successful:
 				//Repeat loop and try the next randomly selected value.
+				
+				//reset the cell
+				puzzle.cells[selectedCell.x][selectedCell.y].value = 0;
 			}
 			//When we get here, we have tried all possible values for this cell...
 			return false;

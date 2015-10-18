@@ -52,4 +52,9 @@ public class Cell {
 	{
 		this.boxNum = -1;
 	}
+	
+	public String toString()
+	{
+		return "Cell with value " + value + " at location " + x + " " +  y + " "; 
+	}
 }

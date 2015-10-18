@@ -67,12 +67,6 @@ public class Main {
 				System.out.println("Failed to solve the puzzle.");
 				System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
 			}
-			
-			// If the puzzle was solved, display that it was solved
-			System.out.println("\n- SOLVED PUZZLE -");
-			puzzle.printPuzzle(false);
-			System.out.println("Time taken to solve the puzzle: " 
-			+ timer.getDuration() + " milliseconds!");
 
 		} catch (NullPointerException e) { 
 			// if there is no solution

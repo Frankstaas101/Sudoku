@@ -85,8 +85,8 @@ public class Functions {
 		Boolean passed = true;	
 		ArrayList<Integer> checkList = new ArrayList<>();
 			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
-				if(cells[rowNum][col].value != 0)
-					checkList.add(cells[rowNum][col].value);
+				if(cells[col][rowNum].value != 0)
+					checkList.add(cells[col][rowNum].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))
@@ -137,8 +137,8 @@ public class Functions {
 		Boolean passed = true;
 		ArrayList<Integer> checkList = new ArrayList<>();
 			for(int row = 0; row < dimension; row++) { // iterate through the rows in that column
-				if(cells[row][colNum].value != 0)
-					checkList.add(cells[row][colNum].value);
+				if(cells[colNum][row].value != 0)
+					checkList.add(cells[colNum][row].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))
