@@ -45,7 +45,28 @@ public class Main {
 			
 			// START SOLVING THE PUZZLE HERE
 			
-			timer.stop();
+			BacktrackingSolver solver = new BacktrackingSolver(puzzle);
+			
+			if(solver.solve())
+			{			
+				//We are done - stop the timer.
+				timer.stop();
+				
+				// If the puzzle was solved display that it was solved
+				System.out.println("\n- SOLVED PUZZLE -");
+				
+				// Print the solved version of the puzzle
+				puzzle.printPuzzle(false);
+				
+				// Retrieve and print the time that it took to solve the puzzle.
+				System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
+			}
+			else
+			{
+				timer.stop();
+				System.out.println("Failed to solve the puzzle.");
+				System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
+			}
 			
 			// If the puzzle was solved, display that it was solved
 			System.out.println("\n- SOLVED PUZZLE -");
