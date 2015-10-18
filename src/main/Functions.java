@@ -10,9 +10,6 @@ import java.util.Set;
  */
 public class Functions {
 
-	protected static int[][] cells;
-	protected static int dimension;
-	
 	/**
 	 * Returns whether or not there is a duplicate in the list
 	 * @param list to be checked for duplicates
@@ -36,30 +33,27 @@ public class Functions {
 
 
 	// enter in a completed puzzle
-	public static boolean validate(int[][] cellsIn, ArrayList<ArrayList<Integer>> sections, int height, int width){
+	public static boolean validate(int[][] cells, ArrayList<ArrayList<Integer>> sections, int height, int width){
 
-		cells = cellsIn;
-		dimension = height * width; // get dimension of the puzzle for calculations
+		int dimension = height * width; // get dimension of the puzzle for calculations
 		ArrayList<Integer> checkList = new ArrayList<Integer>(); // Initialize
 		//boolean valid = true;
 		// Split the puzzle up into pieces and validate
 
-		
-		
-		if(checkRows(checkList, dimension, cells) &&
-				checkColumns(checkList, dimension, cells)) // &&
+		if(checkRow(checkList, dimension, cells) &&
+				checkCol(checkList, dimension, cells)) // &&
 				//checkBoxes(checkList, dimension, cells, sections))
 			return true;
 		return false;
 	}
 
 
-	public static boolean checkRows(ArrayList<Integer> checkList, int dimension, int[][] cells)
+	public static boolean checkRow(ArrayList<Integer> checkList, int dimension, int[][] cells)
 	{
-		boolean passed = false; 
+		Boolean passed = true;
 		ArrayList<Integer> failedRow = new ArrayList<Integer>();
 		
-		for(int row = 0; row <dimension; row++) { //iterate through every row in the puzzle
+		for(int row = 0; row < dimension; row++) { // iterates though every row
 			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
 				checkList.add(cells[row][col]);
 				if(checkList.size() == dimension)
@@ -73,12 +67,13 @@ public class Functions {
 				}
 			}
 		}
-		return passed;
-}
 		
+		return passed;
+
+	}
 
 
-	public static boolean checkColumns(ArrayList<Integer> checkList, int dimension, int[][] cells)
+	public static boolean checkCol(ArrayList<Integer> checkList, int dimension, int[][] cells)
 	{
 		Boolean passed = true;
 		ArrayList<Integer> failedCol = new ArrayList<Integer>();

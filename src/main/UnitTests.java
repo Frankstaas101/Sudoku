@@ -119,7 +119,7 @@ public class UnitTests {
 		//puzzle.findSections();
 		
 
-       // assertEquals(false, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
+        assertEquals(false, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
 
     }
 	
@@ -146,7 +146,7 @@ public class UnitTests {
 		//puzzle.findSections();
 		
 
-       // assertEquals(true, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
+        assertEquals(true, Functions.checkBoxes(checkList, dimension, puzzle.cells, puzzle.sections ));
 
     }
 	
@@ -220,8 +220,8 @@ public class UnitTests {
 	 * Assert that BruteSolver actually increments through all numbers
 	 * and handles the end of incrementing properly.
 	 */
-//	@Test
-/**	public void testAllPossibleAssignments() {
+	@Test
+	public void testAllPossibleAssignments() {
 		ArrayList<Cell> testCells = new ArrayList<Cell>();		
 		testCells.add(new Cell(0, 0));		//Make some test cells.
 		testCells.add(new Cell(0, 0));
@@ -274,6 +274,6 @@ public class UnitTests {
 			assertTrue((testCells = BruteSolver.assignValues(testCells, 1)) == null);		
 	
 	}
-*/
+
 	
 }

@@ -63,7 +63,6 @@ public class Main {
 		} catch (NullPointerException e) { 
 			// if there is no solution
 			System.out.println("The puzzle has no solution.");
-			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
 			timer.stop();
 		}  catch (SudokuFileReadException e)  { 
 			// if there is a problem with the format of the file
