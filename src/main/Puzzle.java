@@ -20,7 +20,7 @@ public class Puzzle
 
 	// All of the unassigned cell locations
 	protected ArrayList<Dimension> unAssignedCells;	 
-
+	
 	//List of all the indexes in each section.
 	protected ArrayList<ArrayList<Integer>> sections = new ArrayList<>();	
 
@@ -38,7 +38,8 @@ public class Puzzle
 
 		// Variable array list of unassigned cells
 		this.unAssignedCells = new ArrayList<Dimension>();
-
+		
+		
 		// Store and calculate puzzle variables
 		this.height = height;
 		this.width = width;
