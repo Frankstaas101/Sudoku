@@ -2,8 +2,8 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SudokuFileReader {
@@ -18,10 +18,14 @@ public class SudokuFileReader {
 
 	// COLLECTIONS
 	protected ArrayList<String> comments; 	// all the comments in the text file
-	protected int[][] puzzle;	// all the values in the puzzle
+	protected Cell[][] puzzle;	// all the values in the puzzle
 
 	// Array list of missing numbers used to weight the values we add to the cells
 	protected ArrayList<Integer> missingNumbers = new  ArrayList<Integer>();
+	
+	//counter variables:
+	int rowCount = 0;
+	int colCount = 0;
 
 	/**
 	 * Called with a file name to establish a new SudokuFileReader object
@@ -55,7 +59,7 @@ public class SudokuFileReader {
 			for (int col = 0; col < dimension; col++) {
 
 				// set the value to the value in the cell at [row][column]
-				int index = puzzle[row][col];
+				Integer index = puzzle[row][col].value;
 
 				// set the index as the value and increment at that index by 1
 				valueCounter.set(index , valueCounter.get(index) + 1);
@@ -111,6 +115,7 @@ public class SudokuFileReader {
 			// initialize height and width
 			this.width = 0;								
 			this.height = 0;
+			
 
 			// Initialize buffered reader and grab the first line in the file
 			BufferedReader in = new BufferedReader(new FileReader(new File(this.filePath)));
@@ -142,7 +147,7 @@ public class SudokuFileReader {
 						height = new Integer(nextLine.trim());
 						dimension = width * height;
 						maxCells = Math.pow((dimension), 2);
-						puzzle = new int[dimension][dimension];
+						puzzle = new Cell[dimension][dimension];
 					} 
 				}
 
@@ -156,9 +161,10 @@ public class SudokuFileReader {
 				 *    the puzzle an exception is thrown.
 				 */
 				else if (nextLine.matches("^[\\d\\s]+$") || nextLine.matches("^[\\s\\d]+$")){
-
+					/*
 					int rowCount = 0;
 					int colCount = 0;
+					*/
 
 					String trimmedLine = nextLine.trim(); 
 					String[] arrayOfIntegers = trimmedLine.split("\\s+");
@@ -174,9 +180,9 @@ public class SudokuFileReader {
 								throw new SudokuFileReadException("A value falls out of the"
 										+ " require range of this puzzle.", filePath);
 							} else { 
-								puzzle[rowCount][colCount] = value; 
+								puzzle[rowCount][colCount]= new Cell(rowCount, colCount, value);
 								colCount++;
-								if (colCount == dimension-1) {
+								if (colCount == dimension) {
 									colCount = 0;
 									rowCount++;
 								}
@@ -222,8 +228,11 @@ public class SudokuFileReader {
 				throw new SudokuFileReadException("Improper file format, "
 						+ "the value for height could not be determined.", filePath);
 			}
-
-		}   catch (IOException e) {
+			
+		} catch (FileNotFoundException e) {
+			throw new SudokuFileReadException("The file was not found! The program cannot continue,"
+					+ " please check the src directory.", filePath);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 	}
@@ -288,11 +297,11 @@ public class SudokuFileReader {
 		this.height = height;
 	}
 
-	public int[][] getPuzzle() {
+	public Cell[][] getPuzzle() {
 		return puzzle;
 	}
 
-	public void setPuzzle(int[][] puzzle) {
+	public void setPuzzle(Cell[][] puzzle) {
 		this.puzzle = puzzle;
 	}
 }

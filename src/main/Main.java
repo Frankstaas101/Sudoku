@@ -1,64 +1,78 @@
 package main;
 
-import java.io.File;
-
 public class Main {
 	
-	/*
-	 * Execute this method to read a puzzle from file and attempt to solve it. 
-	 * Note that the program requires a properly formatted file called "test.txt" in the source directory of this package.
+	/**
+	 * Executing this method will attempt to read a sudoku puzzle from 
+	 * file and solve it.<br><br>
 	 * 
-	 * This method will read the file, print the puzzle, and then attempt to solve it.
+	 * This method will:<br>
+	 *  a. Initialize a timer.<br>
+	 *  b. Set the file path of the file being read.<br>
+	 *  c. Try to read a Sudoku puzzle data file from the file path.<br><br>
+	 *  
+	 * If it is successful then it will:<br>
+	 *  a. Print all the comments in that file.<br>
+	 *  b. Print all the calculated missing values from that puzzle.<br>
+	 *  c. Initialize a new Puzzle object with the puzzle data.<br>
+	 *  d. Print the new puzzle object to the console.<br>
+	 *  e. Start the timer, Solve the puzzle, then stop the timer.<br>
+	 *  f. If the puzzle was solved it will then print the solved version.<br>
+	 *  g. The time it took is then printed last.<br>
+	 *  
+	 * @note This program requires a properly formatted file in 
+	 * 	the source directory of this package. The file path must 
+	 * 	be named SudokuPuzzle.txt<br><br>
 	 */
 	public static void main(String[] args) {
 		 
-		// Initialize a new timer
 		Timer timer = new Timer();
 		
 		try {
-			
-			// set the file path of the file being read
-			String filePath = "src/tests/p4.txt";
+			// File Reading and data printing
+			String filePath = "src/tests/SudokuPuzzle.txt";
 			SudokuFileReader sfr = new SudokuFileReader(filePath);
-			
-			//Print the comments of the file.
-			sfr.printComments();			
+			sfr.printComments();	
 			sfr.printMissingNumbers();
 			
-			// Extract all of the data from the SudukoFileReader and build a puzzle
+			// Puzzle object creation and printing
 			Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
-			
-			// Print Puzzle data for clarity
 			puzzle.printPuzzle(true);
 			puzzle.printDimensions();
 			
-			
-			// Start the time as it solves the puzzle
+			// Solve and time how long it takes to solve the puzzle
 			timer.start(); 
 			
-			//We need to set the "0" place holders to "1"
-//			puzzle.unAssignedCells = BruteSolver.initializeValues(puzzle.unAssignedCells);
-//			
-//			// Print and show the user that the puzzle is being solved
-//			loadingDisplay(sfr.filePath);
-//			
-//			// Check whether or not the puzzle is valid and if not assign new values
-//			while(Functions.validate(puzzle.cells, puzzle.sections, sfr.height, sfr.width) == false)
-//			{
-//				puzzle.setValues(BruteSolver.assignValues(puzzle.unAssignedCells, sfr.dimension));
-//			}
+			// START SOLVING THE PUZZLE HERE
 			
-			//We are done - stop the timer.
-			timer.stop();
+			BacktrackingSolver solver = new BacktrackingSolver(puzzle);
 			
-			// If the puzzle was solved display that it was solved
+			if(solver.solve())
+			{			
+				//We are done - stop the timer.
+				timer.stop();
+				
+				// If the puzzle was solved display that it was solved
+				System.out.println("\n- SOLVED PUZZLE -");
+				
+				// Print the solved version of the puzzle
+				puzzle.printPuzzle(false);
+				
+				// Retrieve and print the time that it took to solve the puzzle.
+				System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
+			}
+			else
+			{
+				timer.stop();
+				System.out.println("Failed to solve the puzzle.");
+				System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
+			}
+			
+			// If the puzzle was solved, display that it was solved
 			System.out.println("\n- SOLVED PUZZLE -");
-			
-			// Print the solved version of the puzzle
 			puzzle.printPuzzle(false);
-			
-			// Retrieve and print the time that it took to solve the puzzle.
-			System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
+			System.out.println("Time taken to solve the puzzle: " 
+			+ timer.getDuration() + " milliseconds!");
 
 		} catch (NullPointerException e) { 
 			// if there is no solution
@@ -73,9 +87,12 @@ public class Main {
 		}
 	}
 	
-	// The display that is shown when the puzzle is being solved and loaded
+	/**
+	 * The display that is shown when the puzzle is being solved and loaded
+	 * @param filePath file path to show the user which file is being solved
+	 */
 	public static void loadingDisplay(String filePath) {
-		System.out.println("---------------------------------------------------");
+		System.out.println("-------------------");
 		System.out.println("Attempting to solve: " + filePath + "\n");
 		System.out.println("Solving...");
 	}
