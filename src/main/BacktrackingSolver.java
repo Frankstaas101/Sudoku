@@ -4,20 +4,66 @@ import java.util.*;
 
 public class BacktrackingSolver {
 	Puzzle puzzle;
-	TreeSet<Cell> prioritizedCells = new TreeSet<Cell>(new Compare());
+	ArrayList<Cell> unAssignedCells = new ArrayList<>();
 	
 	public BacktrackingSolver(Puzzle puzzle)
 	{
 		this.puzzle = puzzle;
-		
+		TreeSet<Cell> prioritizedCells = new TreeSet<Cell>(new Compare());
 		//Put all of the Cells into a TreeSet sorted by the number of possible values they have available.
 		for(Cell c: puzzle.unAssignedCells)
 		{
 			prioritizedCells.add(c);
 		}
+		//Put the sorted cells into an ArrayList
+		Iterator<Cell> it = prioritizedCells.iterator();
+		while(it.hasNext())
+		{
+			unAssignedCells.add(it.next());
+		}
 	}
 	
-	public boolean solve()
+	public boolean solve(int nextCell)
+	{
+		if(nextCell >= unAssignedCells.size())
+			//No more things to try, we either have a successful assignment or no solution.
+			//return Functions.validate(puzzle.cells, puzzle.sections, puzzle.height, puzzle.width);
+			return true;
+		else
+		{
+			Cell selectedCell = unAssignedCells.get(nextCell);
+			
+			for(int i = 0; i < selectedCell.possibleValues.size(); i++)
+			{
+				selectedCell.value = selectedCell.possibleValues.get(i);
+				//Set the cell to the value above in the puzzle.
+				puzzle.cells[selectedCell.x][selectedCell.y].value = selectedCell.value;
+
+				//Check if the assignment is valid.
+				if(Functions.checkBox(puzzle.dimension, puzzle.cells, puzzle.sections.get(selectedCell.boxNum)) 
+						&& Functions.checkRow(puzzle.dimension, puzzle.cells, selectedCell.y)
+							&& Functions.checkCol(puzzle.dimension, puzzle.cells, selectedCell.x)== true)
+				{
+
+					//At this point we have a seemingly valid assignment for currentCell				
+					//recursive call to try the next cell over...
+					if(solve(nextCell + 1))
+						return true;
+				}
+				//If we get here, the assignment was not successful:
+				//Repeat loop and try the next randomly selected value.
+			}
+			//When we get here, we have tried all possible values for this cell...
+			return false;
+			
+		}
+
+	}
+}
+
+	
+	/*
+	 * public boolean solve()
 	{
 		Random rand = new Random();
 		if(!prioritizedCells.isEmpty())
@@ -86,4 +132,5 @@ public class BacktrackingSolver {
 		System.err.println("We fell through in solve()!");
 		return false;
 	}
-}
+	 */
+

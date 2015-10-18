@@ -47,7 +47,7 @@ public class Main {
 			
 			BacktrackingSolver solver = new BacktrackingSolver(puzzle);
 			
-			if(solver.solve())
+			if(solver.solve(0))
 			{			
 				//We are done - stop the timer.
 				timer.stop();
