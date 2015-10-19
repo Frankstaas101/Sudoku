@@ -1,7 +1,7 @@
 package main;
 
 public class Main {
-	
+
 	/**
 	 * Executing this method will attempt to read a sudoku puzzle from 
 	 * file and solve it.<br><br>
@@ -25,62 +25,62 @@ public class Main {
 	 * 	be named SudokuPuzzle.txt<br><br>
 	 */
 	public static void main(String[] args) {
-		 
-		Timer timer = new Timer();
-		
-		try {
-			// File Reading and data printing
-			String filePath = "src/tests/SudokuPuzzle.txt";
-			SudokuFileReader sfr = new SudokuFileReader(filePath);
-			sfr.printComments();	
-			sfr.printMissingNumbers();
-			
-			// Puzzle object creation and printing
-			Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
-			puzzle.printPuzzle(true);
-			puzzle.printDimensions();
-			
-			// Solve and time how long it takes to solve the puzzle
-			timer.start(); 
-			
-			// START SOLVING THE PUZZLE HERE
-			
-			BacktrackingSolver solver = new BacktrackingSolver(puzzle);
-			
-			if(solver.solve(0))
-			{			
-				//We are done - stop the timer.
-				timer.stop();
-				
-				// If the puzzle was solved display that it was solved
-				System.out.println("\n- SOLVED PUZZLE -");
-				
-				// Print the solved version of the puzzle
-				puzzle.printPuzzle(false);
-				
-				// Retrieve and print the time that it took to solve the puzzle.
-				System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
-			}
-			else
-			{
-				timer.stop();
-				System.out.println("Failed to solve the puzzle.");
-				System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
-			}
 
-		} catch (NullPointerException e) { 
-			// if there is no solution
-			System.out.println("The puzzle has no solution.");
-			timer.stop();
-		}  catch (SudokuFileReadException e)  { 
-			// if there is a problem with the format of the file
-			System.err.println(e.getLocalizedMessage());
-		} catch (Exception e) {
-			// if some other exceptions occur
-			e.printStackTrace();
+		Timer timer = new Timer();
+		for(String s: args) {
+			try {
+				// File Reading and data printing
+				SudokuFileReader sfr = new SudokuFileReader(s);
+				sfr.printComments();	
+				sfr.printMissingNumbers();
+
+				// Puzzle object creation and printing
+				Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
+				puzzle.printPuzzle(true);
+				puzzle.printDimensions();
+
+				// Solve and time how long it takes to solve the puzzle
+				timer.start(); 
+
+				// START SOLVING THE PUZZLE HERE
+
+				BacktrackingSolver solver = new BacktrackingSolver(puzzle);
+
+				if(solver.solve(0))
+				{			
+					//We are done - stop the timer.
+					timer.stop();
+
+					// If the puzzle was solved display that it was solved
+					System.out.println("\n- SOLVED PUZZLE -");
+
+					// Print the solved version of the puzzle
+					puzzle.printPuzzle(false);
+
+					// Retrieve and print the time that it took to solve the puzzle.
+					System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
+				}
+				else
+				{
+					timer.stop();
+					System.out.println("Failed to solve the puzzle.");
+					System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
+				}
+
+			} catch (NullPointerException e) { 
+				// if there is no solution
+				System.out.println("The puzzle has no solution.");
+				timer.stop();
+			}  catch (SudokuFileReadException e)  { 
+				// if there is a problem with the format of the file
+				System.err.println(e.getLocalizedMessage());
+			} catch (Exception e) {
+				// if some other exceptions occur
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
 	/**
 	 * The display that is shown when the puzzle is being solved and loaded
 	 * @param filePath file path to show the user which file is being solved

@@ -79,9 +79,7 @@ public class BacktrackingSolver {
 			}
 			//When we get here, we have tried all possible values for this cell...
 			return false;
-			
 		}
-
 	}
 	
 	/**
