@@ -43,8 +43,8 @@ public class Functions {
 	 */
 	public static boolean validateCell(Puzzle puzzle, Cell selectedCell){
 		return Functions.checkBox(puzzle.dimension, puzzle.cells, puzzle.sections.get(selectedCell.boxNum)) 
-		    && Functions.checkRow(puzzle.dimension, puzzle.cells, selectedCell.y)
-		    && Functions.checkCol(puzzle.dimension, puzzle.cells, selectedCell.x)== true ? true : false;
+		    && Functions.checkRow(puzzle.dimension, puzzle.cells, selectedCell.x)
+		    && Functions.checkCol(puzzle.dimension, puzzle.cells, selectedCell.y)== true ? true : false;
 	}
 	
 	/**
@@ -54,13 +54,13 @@ public class Functions {
 	 * @param rowNum the specific row being checked
 	 * @return if the row is a valid row return true
 	 */
-	public static boolean checkRow(int dimension, Cell[][] cells, int rowNum)
+	public static boolean checkCol(int dimension, Cell[][] cells, int colNum)
 	{
 		Boolean passed = true;	
 		ArrayList<Integer> checkList = new ArrayList<>();
-			for(int col = 0; col < dimension; col++) { //iterates through every column in that row
-				if(cells[col][rowNum].value != 0)
-					checkList.add(cells[col][rowNum].value);
+			for(int row = 0; row < dimension; row++) { //iterates through every column in that row
+				if(cells[row][colNum].value != 0)
+					checkList.add(cells[row][colNum].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))
@@ -80,13 +80,13 @@ public class Functions {
 	 * @param colNum the specific column being checked
 	 * @return if the row is a valid row return true
 	 */
-	public static boolean checkCol(int dimension, Cell[][] cells, int colNum)
+	public static boolean checkRow(int dimension, Cell[][] cells, int rowNum)
 	{
 		Boolean passed = true;
 		ArrayList<Integer> checkList = new ArrayList<>();
-			for(int row = 0; row < dimension; row++) { // iterate through the rows in that column
-				if(cells[colNum][row].value != 0)
-					checkList.add(cells[colNum][row].value);
+			for(int col = 0; col < dimension; col++) { // iterate through the rows in that column
+				if(cells[rowNum][col].value != 0)
+					checkList.add(cells[rowNum][col].value);
 				if(checkList.size() == dimension)
 				{
 					if(hasDuplicate(checkList))

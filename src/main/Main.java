@@ -30,7 +30,7 @@ public class Main {
 		
 		try {
 			// File Reading and data printing
-			String filePath = "src/tests/SudokuPuzzle.txt";
+			String filePath = "src/tests/p3.txt";
 			SudokuFileReader sfr = new SudokuFileReader(filePath);
 			sfr.printComments();	
 			sfr.printMissingNumbers();
