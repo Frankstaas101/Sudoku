@@ -9,6 +9,11 @@ public class BacktrackingSolver {
 	public BacktrackingSolver(Puzzle puzzle)
 	{
 		this.puzzle = puzzle;
+		sortUnassignedCells();
+	}
+	
+	public void sortUnassignedCells(){
+		
 		TreeSet<Cell> prioritizedCells = new TreeSet<Cell>(new Compare());
 		
 		//Put all of the Cells into a TreeSet sorted by the number of possible values they have available.
@@ -29,12 +34,15 @@ public class BacktrackingSolver {
 	 */
 	public boolean solve(int nextCell)
 	{
-		if(nextCell >= prioritizedCellsAL.size()) {
+		//if(nextCell >= prioritizedCellsAL.size()) {
+		if(prioritizedCellsAL.size() == 0) {
 			//No more things to try, we either have a successful assignment or no solution.
 			//return Functions.validate(puzzle.cells, puzzle.sections, puzzle.height, puzzle.width);
 			return true;
 		} else {
+				
 			Cell selectedCell = prioritizedCellsAL.get(nextCell);
+			puzzle.findPossibleValues(selectedCell);
 			
 			for(int i = 0; i < selectedCell.possibleValues.size(); i++) {
 				selectedCell.value = selectedCell.possibleValues.get(i);
@@ -50,11 +58,17 @@ public class BacktrackingSolver {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
+					prioritizedCellsAL.remove(selectedCell);
+					//sortUnassignedCells();
 					
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...
-					if(solve(nextCell + 1)) {
+					if(solve(0)) {
 						return true;
+					}
+					else {
+						prioritizedCellsAL.add(selectedCell);
+	//					sortUnassignedCells();
 					}
 				}
 				//If we get here, the assignment was not successful:

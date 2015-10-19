@@ -197,6 +197,33 @@ public class Puzzle
 			//System.out.println(c.possibleValues);
 		}
 	}
+	
+	/*
+	 * Find and set all the possible values for each unassignedCell.
+	 */
+	public void findPossibleValues(Cell c)
+	{
+		
+			ArrayList<Integer> possibleValues = new ArrayList<>();
+			//Each unAssignedCell has a set of (at max) dimension possible values.
+			HashSet<Integer> values = new HashSet<>(dimension);
+			//Find all the missing values in the cell's row:
+			values.addAll(findRowMissingValues(c.x));
+			//Find all the missing values in the cell's column:
+			values.addAll(findColumnMissingValues(c.y));
+			//Find all the missing values in the cell's box:
+			values.addAll(findBoxMissingValues(c.boxNum));
+			
+			Iterator<Integer> it = values.iterator();
+			while(it.hasNext())
+			{
+				possibleValues.add(it.next());
+			}
+			c.possibleValues = possibleValues;
+			//System.out.println(c.possibleValues);
+		
+	}
+	
 	/*
 	 * Find all the missing values for a specified row.
 	 * 
