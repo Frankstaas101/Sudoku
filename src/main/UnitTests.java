@@ -15,8 +15,6 @@ public class UnitTests {
     public void testRowCheckingSuccess() throws Exception {
         
 		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
-	
-		
 		int dimension = fd.dimension;
 		Puzzle puzzle = null;
 		try {
@@ -72,14 +70,17 @@ public class UnitTests {
 		Puzzle puzzle = null;
 		try {
 			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
+			puzzle.printPuzzle(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		for(int i=0;i<dimension; i++){
-        assertEquals(false, Functions.checkCol(dimension, puzzle.cells, i ));
+		boolean flag = true;
+		for(int i=0;i<dimension; i++){ 
+        if(!(Functions.checkCol(dimension, puzzle.cells, i )))
+        		flag = false;
 		}
+		assertEquals(false, flag);
     }
 	/*
 	 * Assert that correct columns are accepted.
@@ -184,7 +185,7 @@ public class UnitTests {
 		
 		for(int i=0;i<dimension; i++) //all the rows
 			for(int j=0;j<dimension; j++) //all the columns
-				assertEquals(false, Functions.validateCell(puzzle, cells[i][j]));
+				assertEquals(true, Functions.validateCell(puzzle, cells[i][j]));
 	
 	}
 	/*
@@ -222,8 +223,8 @@ public class UnitTests {
 	@Test
 	public void testFileReader() throws Exception
 	{
-		SudokuFileReader fd = new SudokuFileReader("src/tests/test.txt");
-		fd.readFile();
+		SudokuFileReader fd = new SudokuFileReader("src/tests/SudokuPuzzle.txt");
+		
 		
 		assertEquals(3, fd.width);
 		assertEquals(3, fd.height);

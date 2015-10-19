@@ -91,9 +91,9 @@ public class Puzzle
 					{
 						//Might not be correct, gotta test...(Probably not correct at all...)
 						//DEPRECATED!
-						section.add(new Point(bigHeight+innerHeight, bigWidth+innerWidth));
+						section.add(new Point(bigWidth+innerWidth, bigHeight+innerHeight));
 						//Assign the Cell to the section we are currently on.
-						cells[bigHeight+innerHeight][bigWidth+innerWidth].boxNum = currentSection;
+						cells[bigWidth+innerWidth][bigHeight+innerHeight].boxNum = currentSection;
 						//section.add((bigHeight+innerHeight) * dimension + (bigWidth+innerWidth));
 					}
 				}

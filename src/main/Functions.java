@@ -36,7 +36,8 @@ public class Functions {
 	
 	/**
 	 * Validates a single cell in the selected puzzle
-	 * @param puzzle the puzzle the cell is contained in
+	 * @param puzzle the puzzle the ce
+	 * ll is contained in
 	 * @param selectedCell the specific cell being validated
 	 * @return true if the cell is a valid choice and false otherwise.
 	 */
@@ -76,7 +77,7 @@ public class Functions {
 	 * Check the desired row of the puzzle, ignores any 0 Cell values.
 	 * @param dimension the dimension of the puzzle
 	 * @param cells all the cells in the puzzle
-	 * @param rowNum the specific row being checked
+	 * @param colNum the specific column being checked
 	 * @return if the row is a valid row return true
 	 */
 	public static boolean checkCol(int dimension, Cell[][] cells, int colNum)
