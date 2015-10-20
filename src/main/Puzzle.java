@@ -42,12 +42,12 @@ public class Puzzle
 		this.width = width;
 		this.dimension = width * height;
 		this.maxCells = dimension * dimension;
-		
+
 		// Variable array list of unassigned cells
 		this.unAssignedCells = new ArrayList<Cell>();
-		
+
 		findSections();  //Assign each cell a box of the puzzle.
-		
+
 		//Find all the unassignedCells in the puzzle:
 		// Iterate though each value in the puzzle
 		for (int row = 0; row < dimension; row++) {
@@ -60,6 +60,20 @@ public class Puzzle
 			}
 		}
 		findPossibleValues();	//Find all the possible values for unassignedCells.
+
+		// initial validation of the cells
+		for (int i = 0; i < dimension; i++){
+			for (int j = 0; j < dimension; j++){
+				if (!Functions.validateCell(this, this.cells[i][j]))
+				{
+					throw new SudokuFileReadException("The reader was not given a valid puzzle to start off with.");
+				}
+			}
+		}
+
+
+		// Validates that the puzzle is correct
+
 	}
 
 	/*
@@ -187,7 +201,7 @@ public class Puzzle
 			values.addAll(findColumnMissingValues(c.y));
 			//Find all the missing values in the cell's box:
 			values.addAll(findBoxMissingValues(c.boxNum));
-			
+
 			Iterator<Integer> it = values.iterator();
 			while(it.hasNext())
 			{
@@ -197,33 +211,33 @@ public class Puzzle
 			//System.out.println(c.possibleValues);
 		}
 	}
-	
+
 	/*
 	 * Find and set all the possible values for each unassignedCell.
 	 */
 	public void findPossibleValues(Cell c)
 	{
-		
-			ArrayList<Integer> possibleValues = new ArrayList<>();
-			//Each unAssignedCell has a set of (at max) dimension possible values.
-			HashSet<Integer> values = new HashSet<>(dimension);
-			//Find all the missing values in the cell's row:
-			values.addAll(findRowMissingValues(c.x));
-			//Find all the missing values in the cell's column:
-			values.addAll(findColumnMissingValues(c.y));
-			//Find all the missing values in the cell's box:
-			values.addAll(findBoxMissingValues(c.boxNum));
-			
-			Iterator<Integer> it = values.iterator();
-			while(it.hasNext())
-			{
-				possibleValues.add(it.next());
-			}
-			c.possibleValues = possibleValues;
-			//System.out.println(c.possibleValues);
-		
+
+		ArrayList<Integer> possibleValues = new ArrayList<>();
+		//Each unAssignedCell has a set of (at max) dimension possible values.
+		HashSet<Integer> values = new HashSet<>(dimension);
+		//Find all the missing values in the cell's row:
+		values.addAll(findRowMissingValues(c.x));
+		//Find all the missing values in the cell's column:
+		values.addAll(findColumnMissingValues(c.y));
+		//Find all the missing values in the cell's box:
+		values.addAll(findBoxMissingValues(c.boxNum));
+
+		Iterator<Integer> it = values.iterator();
+		while(it.hasNext())
+		{
+			possibleValues.add(it.next());
+		}
+		c.possibleValues = possibleValues;
+		//System.out.println(c.possibleValues);
+
 	}
-	
+
 	/*
 	 * Find all the missing values for a specified row.
 	 * 
@@ -234,7 +248,7 @@ public class Puzzle
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
-		
+
 		for(int i = 0; i < dimension; i++)
 		{
 			//Hold rowNum constant while we iterate through all the columns,
@@ -261,7 +275,7 @@ public class Puzzle
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
-		
+
 		for(int i = 0; i < dimension; i++)
 		{
 			//Hold colNum constant while we iterate through all the rows,
@@ -289,7 +303,7 @@ public class Puzzle
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
 		ArrayList<Integer> missingValues = new ArrayList<>();
-		
+
 		for(int i = 0; i < dimension; i++)
 		{
 			//Iterate through points in the desired box

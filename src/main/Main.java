@@ -28,25 +28,27 @@ public class Main {
 
 		Timer timer = new Timer();
 		for(String s: args) {
+			
+			// Start the timer
+			timer.start();
+
 			try {
+				
 				// File Reading and data printing
 				SudokuFileReader sfr = new SudokuFileReader(s);
-				sfr.printComments();	
-				sfr.printMissingNumbers();
-
+				
 				// Puzzle object creation and printing
 				Puzzle puzzle = new Puzzle(sfr.width, sfr.height, sfr.puzzle);
+				
+				sfr.printComments();	
+				sfr.printMissingNumbers();
 				puzzle.printPuzzle(true);
 				puzzle.printDimensions();
-
+				
 				// Solve and time how long it takes to solve the puzzle
-				timer.start(); 
-
-				// START SOLVING THE PUZZLE HERE
-
 				BacktrackingSolver solver = new BacktrackingSolver(puzzle);
 
-				if(solver.solve(0))
+				if(solver.solve(solver.prioritizedCells.first()))
 				{			
 					//We are done - stop the timer.
 					timer.stop();
@@ -77,6 +79,9 @@ public class Main {
 			} catch (Exception e) {
 				// if some other exceptions occur
 				e.printStackTrace();
+			} finally {
+				timer.stop();
+				//System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
 			}
 		}
 	}

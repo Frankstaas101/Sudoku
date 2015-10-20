@@ -11,4 +11,8 @@ public class SudokuFileReadException extends Exception {
 	public SudokuFileReadException(String message, String filePath) {
 		super(filePath + ": " + message);
 	}
+	
+	public SudokuFileReadException(String message) {
+		super(message);
+	}
 }
