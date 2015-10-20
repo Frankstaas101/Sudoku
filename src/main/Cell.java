@@ -57,4 +57,16 @@ public class Cell {
 	{
 		return "Cell with value " + value + " at location " + x + " " +  y + " "; 
 	}
+	
+	public boolean equals(Object value)
+	{
+		if(!(value instanceof Cell))
+			return false;
+		else
+		{
+			Cell other = (Cell) value; 
+			return (other.x == x && other.y == y && other.boxNum == boxNum);
+		}
+	}
+	
 }

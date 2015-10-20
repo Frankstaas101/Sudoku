@@ -45,10 +45,19 @@ public class BacktrackingSolver {
 
 				//Check if the assignment is valid.
 				
+<<<<<<< HEAD
 				if(Functions.validateCell(puzzle, nextCell)) {
 					System.out.println(prioritizedCells.remove(nextCell));
 					//sortUnassignedCells();
 					//System.out.println(prioritizedCells);
+=======
+				if(Functions.validateCell(puzzle, selectedCell)) {
+
+					prioritizedCellsAL.remove(selectedCell);
+					puzzle.findPossibleValues();
+					sortUnassignedCells();
+					
+>>>>>>> refs/remotes/origin/master
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...
 					if(solve(prioritizedCells.first())) {
