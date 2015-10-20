@@ -52,14 +52,10 @@ public class BacktrackingSolver {
 				//Check if the assignment is valid.
 				
 				if(Functions.validateCell(puzzle, selectedCell)) {
-//					try {
-//						puzzle.printPuzzle(false);
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+
 					prioritizedCellsAL.remove(selectedCell);
-					//sortUnassignedCells();
+					puzzle.findPossibleValues();
+					sortUnassignedCells();
 					
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...

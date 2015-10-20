@@ -174,7 +174,7 @@ public class Puzzle
 	/*
 	 * Find and set all the possible values for each unassignedCell.
 	 */
-	private void findPossibleValues()
+	public void findPossibleValues()
 	{
 		for(Cell c: unAssignedCells)
 		{
