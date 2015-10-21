@@ -9,10 +9,24 @@ public class BacktrackingSolver {
 	public BacktrackingSolver(Puzzle puzzle)
 	{
 		this.puzzle = puzzle;
-		sortUnassignedCells();
+		sortAllUnassignedCells();
 	}
 	
 	public void sortUnassignedCells(){
+		
+		TreeSet<Cell> prioritizedCells = new TreeSet<Cell>(new Compare());
+		
+		//Put all of the Cells into a TreeSet sorted by the number of possible values they have available.
+		for(Cell c: prioritizedCellsAL)
+		{
+			prioritizedCells.add(c);
+		}
+		
+		// Put the sorted cells into an ArrayList
+		// ArrayList's Constructor can take any collection as a parameter
+		prioritizedCellsAL = new ArrayList<Cell>(prioritizedCells);
+	}
+	public void sortAllUnassignedCells(){
 		
 		TreeSet<Cell> prioritizedCells = new TreeSet<Cell>(new Compare());
 		
@@ -53,15 +67,22 @@ public class BacktrackingSolver {
 				
 				if(Functions.validateCell(puzzle, selectedCell)) {
 
+					//find possible values for all unAssignedCells
+					
 					prioritizedCellsAL.remove(selectedCell);
-					puzzle.findPossibleValues();
+					for(Cell c: prioritizedCellsAL)
+					{
+						puzzle.findPossibleValues(c);
+					}
+					
 					sortUnassignedCells();
+					//System.out.println(prioritizedCellsAL.size());
 					
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...
 					if(solve(0)) {
 						return true;
-					}
+					}  
 					else {
 						prioritizedCellsAL.add(selectedCell);
 	//					sortUnassignedCells();

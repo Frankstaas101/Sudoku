@@ -243,7 +243,7 @@ public class Puzzle
 			values[cells[i][rowNum].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i <= cells.length; i++)
+		for(int i = 1; i <= dimension; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)
@@ -270,7 +270,7 @@ public class Puzzle
 			values[cells[colNum][i].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i <= cells.length; i++)
+		for(int i = 1; i <= dimension; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)
@@ -298,7 +298,7 @@ public class Puzzle
 			values[cells[sections.get(boxNum).get(i).x][sections.get(boxNum).get(i).y].value] += 1 ;
 		}
 		//Iterate through all the row's values.
-		for(int i = 1; i <= cells.length; i++)
+		for(int i = 1; i <= dimension; i++)
 		{
 			//If the number did not occur in the row, add it to the missing Values.
 			if(values[i] == 0)

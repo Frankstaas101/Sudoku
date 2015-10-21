@@ -57,16 +57,23 @@ public class Cell {
 	{
 		return "Cell with value " + value + " at location " + x + " " +  y + " "; 
 	}
-	
-	public boolean equals(Object value)
-	{
-		if(!(value instanceof Cell))
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		else
-		{
-			Cell other = (Cell) value; 
-			return (other.x == x && other.y == y && other.boxNum == boxNum);
-		}
+		if (getClass() != obj.getClass())
+			return false;
+		Cell other = (Cell) obj;
+		if (boxNum != other.boxNum)
+			return false;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 	
 }

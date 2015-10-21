@@ -24,6 +24,7 @@ public class Functions {
 		boolean hasDuplicate = false; 
 
 		// store all values of the array in the hash set
+		//System.out.println(list.size());
 		Set<Integer> checkingSet = new HashSet<Integer>(list);
 
 		// if the set contains less values then the array then
