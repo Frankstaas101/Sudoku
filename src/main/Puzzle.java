@@ -66,10 +66,10 @@ public class Puzzle
 	 * Find the indexes of the Sections.
 	 * 
 	 * Example Section layout for a 2x2:
-	 * 0 0 2 2
-	 * 0 0 2 2
-	 * 1 1 3 3 
-	 * 1 1 3 3
+	 * 0 0 1 1
+	 * 0 0 1 1
+	 * 2 2 3 3 
+	 * 2 2 3 3
 	 * 
 	 * Somewhat counter-intuitive. This could be changed by swapping the two for loops below.
 	 * 
@@ -184,9 +184,9 @@ public class Puzzle
 			//Find all the missing values in the cell's row:
 			values.addAll(findRowMissingValues(c.x));
 			//Find all the missing values in the cell's column:
-			values.addAll(findColumnMissingValues(c.y));
+			values.retainAll(findColumnMissingValues(c.y));
 			//Find all the missing values in the cell's box:
-			values.addAll(findBoxMissingValues(c.boxNum));
+			values.retainAll(findBoxMissingValues(c.boxNum));
 			
 			Iterator<Integer> it = values.iterator();
 			while(it.hasNext())
@@ -210,9 +210,9 @@ public class Puzzle
 			//Find all the missing values in the cell's row:
 			values.addAll(findRowMissingValues(c.x));
 			//Find all the missing values in the cell's column:
-			values.addAll(findColumnMissingValues(c.y));
+			values.retainAll(findColumnMissingValues(c.y));
 			//Find all the missing values in the cell's box:
-			values.addAll(findBoxMissingValues(c.boxNum));
+			values.retainAll(findBoxMissingValues(c.boxNum));
 			
 			Iterator<Integer> it = values.iterator();
 			while(it.hasNext())
@@ -240,7 +240,8 @@ public class Puzzle
 			//Hold rowNum constant while we iterate through all the columns,
 			//add Cell value in the corresponding position in the array of values.
 			//If a Cell's value is 0, it is added but ignored in a later step.
-			values[cells[i][rowNum].value] += 1 ;
+			//System.out.println("Got position: " + i + " " + rowNum);
+			values[cells[rowNum][i].value] += 1 ;
 		}
 		//Iterate through all the row's values.
 		for(int i = 1; i <= dimension; i++)
@@ -267,7 +268,7 @@ public class Puzzle
 			//Hold colNum constant while we iterate through all the rows,
 			//add Cell value in the corresponding position in the array of values.
 			//If a Cell's value is 0, it is added but ignored in a later step.
-			values[cells[colNum][i].value] += 1 ;
+			values[cells[i][colNum].value] += 1 ;
 		}
 		//Iterate through all the row's values.
 		for(int i = 1; i <= dimension; i++)
@@ -280,6 +281,11 @@ public class Puzzle
 	}
 	/*
 	 * Find all the missing values for a specified box.
+	 * 
+	 * 0 0 2 2 
+	 * 0 0 2 2
+	 * 1 1 3 3
+	 * 1 1 3 3
 	 * 
 	 * Zero Cell values are ignored.
 	 */

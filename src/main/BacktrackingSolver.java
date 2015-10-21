@@ -23,8 +23,13 @@ public class BacktrackingSolver {
 		}
 		
 		// Put the sorted cells into an ArrayList
-		// ArrayList's Constructor can take any collection as a parameter
-		prioritizedCellsAL = new ArrayList<Cell>(prioritizedCells);
+		prioritizedCellsAL = new ArrayList<Cell>();
+		Iterator<Cell> it = prioritizedCells.iterator();
+		while(it.hasNext())
+		{
+			prioritizedCellsAL.add(it.next());	
+		}
+		//System.out.println(prioritizedCellsAL);
 	}
 	public void sortAllUnassignedCells(){
 		
@@ -37,8 +42,14 @@ public class BacktrackingSolver {
 		}
 		
 		// Put the sorted cells into an ArrayList
-		// ArrayList's Constructor can take any collection as a parameter
-		prioritizedCellsAL = new ArrayList<Cell>(prioritizedCells);
+		prioritizedCellsAL = new ArrayList<Cell>();
+		Iterator<Cell> it = prioritizedCells.iterator();
+		while(it.hasNext())
+		{
+			prioritizedCellsAL.add(it.next());
+		}
+		//System.out.println(prioritizedCellsAL);
+		
 	}
 	
 	/**
@@ -49,12 +60,62 @@ public class BacktrackingSolver {
 	public boolean solve(int nextCell)
 	{
 		//if(nextCell >= prioritizedCellsAL.size()) {
+		if(nextCell >= prioritizedCellsAL.size()) {
+			//No more things to try, we either have a successful assignment or no solution.
+			//return Functions.validate(puzzle.cells, puzzle.sections, puzzle.height, puzzle.width);
+			return true;
+		} else {
+			//System.out.println(prioritizedCellsAL);	
+			Cell selectedCell = prioritizedCellsAL.get(nextCell);
+			puzzle.findPossibleValues(selectedCell);
+			
+			for(int i = 0; i < selectedCell.possibleValues.size(); i++) {
+				selectedCell.value = selectedCell.possibleValues.get(i);
+				//Set the cell to the value above in the puzzle.
+				puzzle.cells[selectedCell.x][selectedCell.y].value = selectedCell.value;
+
+				//Check if the assignment is valid.
+				
+				if(Functions.validateCell(puzzle, selectedCell)) {				
+					//At this point we have a seemingly valid assignment for currentCell				
+					//recursive call to try the next cell over...
+					if(solve(nextCell + 1)) {
+						return true;
+					}  
+						
+					
+				}
+				//If we get here, the assignment was not successful:
+				//Repeat loop and try the next randomly selected value.
+				puzzle.cells[selectedCell.x][selectedCell.y].value = 0;
+				selectedCell.value = 0;
+
+				
+			}
+			//When we get here, we have tried all possible values for this cell...
+			//selectedCell.value = 0;
+			
+			//puzzle.findPossibleValues(selectedCell);
+			//prioritizedCellsAL.add(0,selectedCell);
+			//sortUnassignedCells();
+			return false;
+		}
+	}
+
+	/**
+	 * Recursive method used to solve the puzzle cell by cell.
+	 * @param nextCell the next cell in the puzzle to validate
+	 * @return if the puzzle has been solved
+	 
+	public boolean solve(int nextCell)
+	{
+		//if(nextCell >= prioritizedCellsAL.size()) {
 		if(prioritizedCellsAL.size() == 0) {
 			//No more things to try, we either have a successful assignment or no solution.
 			//return Functions.validate(puzzle.cells, puzzle.sections, puzzle.height, puzzle.width);
 			return true;
 		} else {
-				
+			//System.out.println(prioritizedCellsAL);	
 			Cell selectedCell = prioritizedCellsAL.get(nextCell);
 			puzzle.findPossibleValues(selectedCell);
 			
@@ -69,6 +130,7 @@ public class BacktrackingSolver {
 
 					//find possible values for all unAssignedCells
 					
+					System.out.println("Cell: " + selectedCell.x + " " + selectedCell.y);
 					prioritizedCellsAL.remove(selectedCell);
 					for(Cell c: prioritizedCellsAL)
 					{
@@ -76,28 +138,33 @@ public class BacktrackingSolver {
 					}
 					
 					sortUnassignedCells();
-					//System.out.println(prioritizedCellsAL.size());
+					System.out.println(prioritizedCellsAL.size());
 					
 					//At this point we have a seemingly valid assignment for currentCell				
 					//recursive call to try the next cell over...
 					if(solve(0)) {
 						return true;
 					}  
-					else {
-						prioritizedCellsAL.add(selectedCell);
-	//					sortUnassignedCells();
-					}
+						
+					
 				}
 				//If we get here, the assignment was not successful:
 				//Repeat loop and try the next randomly selected value.
-				
-				//reset the cell
 				puzzle.cells[selectedCell.x][selectedCell.y].value = 0;
+				selectedCell.value = 0;
+
+				
 			}
 			//When we get here, we have tried all possible values for this cell...
+			//selectedCell.value = 0;
+			
+			//puzzle.findPossibleValues(selectedCell);
+			prioritizedCellsAL.add(0,selectedCell);
+			sortUnassignedCells();
 			return false;
 		}
 	}
+	*/
 	
 	/**
 	 * This function is now deprecated and uses the old 

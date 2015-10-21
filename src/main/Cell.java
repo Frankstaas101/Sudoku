@@ -55,7 +55,8 @@ public class Cell {
 	
 	public String toString()
 	{
-		return "Cell with value " + value + " at location " + x + " " +  y + " "; 
+		//return "Cell with value " + value + " at location " + x + " " +  y + " " + "with box no: " + boxNum;
+		return "" + possibleValues.size();
 	}
 
 	@Override
