@@ -50,7 +50,7 @@ public class Main {
 				{			
 					//We are done - stop the timer.
 					timer.stop();
-
+					System.out.println("True double check b/c I dont trust this POS: " + Functions.validate(puzzle.cells, puzzle.sections, puzzle.height, puzzle.width));;
 					// If the puzzle was solved display that it was solved
 					System.out.println("\n- SOLVED PUZZLE -");
 
