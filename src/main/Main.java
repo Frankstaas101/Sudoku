@@ -31,6 +31,7 @@ public class Main {
 			try {
 				// File Reading and data printing
 				SudokuFileReader sfr = new SudokuFileReader(s);
+				System.out.println("Reading file: " + s);
 				sfr.printComments();	
 				sfr.printMissingNumbers();
 
@@ -59,24 +60,29 @@ public class Main {
 
 					// Retrieve and print the time that it took to solve the puzzle.
 					System.out.println("Time taken to solve the puzzle: " + timer.getDuration() + " milliseconds!");
+					System.out.println();
 				}
 				else
 				{
 					timer.stop();
 					System.out.println("Failed to solve the puzzle.");
 					System.out.println("Time elapsed "  + timer.getDuration() + " milliseconds!");
+					System.out.println();
 				}
 
 			} catch (NullPointerException e) { 
 				// if there is no solution
 				System.out.println("The puzzle has no solution.");
+				System.out.println();
 				timer.stop();
 			}  catch (SudokuFileReadException e)  { 
 				// if there is a problem with the format of the file
 				System.err.println(e.getLocalizedMessage());
+				System.out.println();
 			} catch (Exception e) {
 				// if some other exceptions occur
 				e.printStackTrace();
+				System.out.println();
 			}
 		}
 	}

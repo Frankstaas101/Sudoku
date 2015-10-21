@@ -17,7 +17,7 @@ public class UnitTests {
 	@Test
     public void testRowCheckingSuccess() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		SudokuFileReader fd = new SudokuFileReader("PerfectSudoku.txt");
 		int dimension = fd.dimension;
 		Puzzle puzzle = null;
 		try {
@@ -29,6 +29,8 @@ public class UnitTests {
 		for(int i=0;i<dimension; i++){
        		assertEquals(true, Functions.checkRow(dimension, puzzle.cells, i ));
 		}
+		
+		
     }
 	
 	/*
@@ -37,7 +39,7 @@ public class UnitTests {
 	@Test
     public void testRowCheckingFailure() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/RowsFail.txt");
+		SudokuFileReader fd = new SudokuFileReader("RowsFail.txt");
 		
 		
 		int dimension = fd.dimension;
@@ -49,14 +51,18 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean flag = true;
 		
-		for(int i=0;i<dimension; i++){
+		
+	/**	for(int i=0;i<dimension; i++){
 			if(!(Functions.checkRow(dimension, puzzle.cells, i )))
 				flag = false;
-		}
+		}*/
 		
-		assertEquals(false, flag);
+		assertEquals(true, Functions.checkRow(dimension, puzzle.cells, 0 ));
+		assertEquals(false, Functions.checkRow(dimension, puzzle.cells, 1 ));
+		assertEquals(false, Functions.checkRow(dimension, puzzle.cells, 2 ));
+		assertEquals(true, Functions.checkRow(dimension, puzzle.cells, 3 ));
+		
     }
 	
 	/*
@@ -65,7 +71,7 @@ public class UnitTests {
 	@Test
     public void testColCheckingFailure() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/ColFail.txt");
+		SudokuFileReader fd = new SudokuFileReader("ColFail.txt");
 		
 		
 		int dimension = fd.dimension;
@@ -78,12 +84,15 @@ public class UnitTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean flag = true;
+		/**boolean flag = true;
 		for(int i=0;i<dimension; i++){ 
         if(!(Functions.checkCol(dimension, puzzle.cells, i )))
         		flag = false;
-		}
-		assertEquals(false, flag);
+		}*/
+		assertEquals(false, Functions.checkCol(dimension, puzzle.cells, 0 ));
+		assertEquals(false, Functions.checkCol(dimension, puzzle.cells, 1 ));
+		assertEquals(true, Functions.checkCol(dimension, puzzle.cells, 2 ));
+		assertEquals(true, Functions.checkCol(dimension, puzzle.cells, 3 ));
     }
 	/*
 	 * Assert that correct columns are accepted.
@@ -91,7 +100,7 @@ public class UnitTests {
 	@Test
     public void testColCheckingSuccess() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		SudokuFileReader fd = new SudokuFileReader("PerfectSudoku.txt");
 		
 		int dimension = fd.dimension;
 		
@@ -113,7 +122,7 @@ public class UnitTests {
 	@Test
     public void testBoxCheckingFailure() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/boxesFail.txt");
+		SudokuFileReader fd = new SudokuFileReader("boxesFail.txt");
 		
 		
 		int dimension = fd.dimension;
@@ -143,7 +152,7 @@ public class UnitTests {
 	@Test
     public void testBoxCheckingSuccess() throws Exception {
         
-		SudokuFileReader fd = new SudokuFileReader("src/tests/PerfectSudoku.txt");
+		SudokuFileReader fd = new SudokuFileReader("PerfectSudoku.txt");
 		
 		
 		int dimension = fd.dimension;
@@ -171,7 +180,7 @@ public class UnitTests {
 	@Test
 	public void testPuzzleSuccess() throws Exception
 	{
-		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleSuccess.txt");
+		SudokuFileReader fd = new SudokuFileReader("puzzleSuccess.txt");
 		
 		int dimension = fd.dimension;
 		Puzzle puzzle = null;
@@ -197,7 +206,7 @@ public class UnitTests {
 	@Test
 	public void testPuzzleFailure() throws Exception
 	{
-		SudokuFileReader fd = new SudokuFileReader("src/tests/puzzleFail.txt");
+		SudokuFileReader fd = new SudokuFileReader("puzzleFail.txt");
 		
 		int dimension = fd.dimension;
 		Puzzle puzzle = null;
@@ -246,32 +255,14 @@ public class UnitTests {
 	 */
 	@Test
 	public void testHasDuplicates() throws Exception
-	{
-		SudokuFileReader fd = new SudokuFileReader("SudokuPuzzle.txt");
-		
-		
-		int dimension = fd.dimension;
-		Puzzle puzzle = null;
-		
-		
-		try {
-			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace(); 
-		}
-		
+	{		
 		List<Integer> temp = new ArrayList<Integer>();
 		int[] ints = {0,0,1,2,3};
 		for(Integer i: ints){
 			temp.add(i);
 		}
 		
-		assertEquals(true,Functions.hasDuplicate(temp));
-		
-		
-		
-		
+		assertEquals(true,Functions.hasDuplicate(temp));	
 		
 	}
 	
