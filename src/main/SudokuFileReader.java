@@ -140,11 +140,11 @@ public class SudokuFileReader {
 				 * 	value after that is considered to be puzzle data.
 				 */
 				else if (nextLine.matches("^[1-9][0-9]*\\s*$")){
-					if (width == 0) {
-						width = new Integer(nextLine.trim());
-					}
-					else if (height == 0 && width != 0) {
+					if (height == 0) {
 						height = new Integer(nextLine.trim());
+					}
+					else if (width == 0 && height != 0) {
+						width = new Integer(nextLine.trim());
 						dimension = width * height;
 						maxCells = Math.pow((dimension), 2);
 						puzzle = new Cell[dimension][dimension];
