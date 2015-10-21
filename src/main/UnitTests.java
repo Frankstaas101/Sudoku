@@ -3,8 +3,11 @@ package main;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
+
+
 
 public class UnitTests {
 	
@@ -223,7 +226,7 @@ public class UnitTests {
 	@Test
 	public void testFileReader() throws Exception
 	{
-		SudokuFileReader fd = new SudokuFileReader("src/tests/SudokuPuzzle.txt");
+		SudokuFileReader fd = new SudokuFileReader("SudokuPuzzle.txt");
 		
 		
 		assertEquals(3, fd.width);
@@ -235,6 +238,40 @@ public class UnitTests {
 		//comments are the same
 		//height is equal
 		//width is equal
+		
+	}
+
+	/*
+	 * Test that the file reader handles the puzzle, dimension, and comments properly.
+	 */
+	@Test
+	public void testHasDuplicates() throws Exception
+	{
+		SudokuFileReader fd = new SudokuFileReader("SudokuPuzzle.txt");
+		
+		
+		int dimension = fd.dimension;
+		Puzzle puzzle = null;
+		
+		
+		try {
+			puzzle = new Puzzle(fd.width, fd.height, fd.puzzle);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); 
+		}
+		
+		List<Integer> temp = new ArrayList<Integer>();
+		int[] ints = {0,0,1,2,3};
+		for(Integer i: ints){
+			temp.add(i);
+		}
+		
+		assertEquals(true,Functions.hasDuplicate(temp));
+		
+		
+		
+		
 		
 	}
 	
