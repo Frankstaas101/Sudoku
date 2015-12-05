@@ -23,7 +23,9 @@ public class Puzzle
 	protected ArrayList<Cell> unAssignedCells;	 
 
 	//List of all the indexes in each section.
-	protected ArrayList<ArrayList<Point>> sections = new ArrayList<>();	
+	protected ArrayList<ArrayList<Point>> sections = new ArrayList<>();
+        
+        protected ArrayList<Integer> missingValues = new ArrayList<>();
 
 	/*
 	 * An instance receives a width and a height.
@@ -233,7 +235,7 @@ public class Puzzle
 	{
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
-		ArrayList<Integer> missingValues = new ArrayList<>();
+		missingValues.clear();
 		
 		for(int i = 0; i < dimension; i++)
 		{
@@ -261,7 +263,7 @@ public class Puzzle
 	{
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
-		ArrayList<Integer> missingValues = new ArrayList<>();
+		missingValues.clear();
 		
 		for(int i = 0; i < dimension; i++)
 		{
@@ -294,7 +296,8 @@ public class Puzzle
 		//We need an array 1 size larger than dimension to hold the 0 too.
 		int[]  values = new int[dimension+1];
 		//ArrayList of all the missing values.
-		ArrayList<Integer> missingValues = new ArrayList<>();
+		missingValues.clear();
+                
 		
 		for(int i = 0; i < dimension; i++)
 		{
